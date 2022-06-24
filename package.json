@@ -1,0 +1,26 @@
+{
+  "name": "bf_hr_proj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "develop": "concurrently \"cd server && npm run start\" \"cd client && npm start\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "build": "cd client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danlingsun/BF_HR_PROJ.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danlingsun/BF_HR_PROJ/issues"
+  },
+  "homepage": "https://github.com/danlingsun/BF_HR_PROJ#readme",
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  }
+}
