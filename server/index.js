@@ -1,5 +1,8 @@
 const app = require("./app")
 const db = require("./db_conn/db_conn")
+
+require('dotenv').config()
+
 const port = process.env.PORT;
 
 db.once('open',()=>{

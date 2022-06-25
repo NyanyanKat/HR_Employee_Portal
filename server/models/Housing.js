@@ -53,3 +53,5 @@ const housingSchema = new Schema({
 });
 
 const Housing = model('Housing',housingSchema);
+
+module.exports = Housing;

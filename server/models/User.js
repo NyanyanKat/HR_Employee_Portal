@@ -31,7 +31,7 @@ const userSchema = new Schema({
         default: 'employee'
     },
     userID: {
-        type: Schema.types.ObjectId, ref: 'UserInfo'
+        type: Schema.Types.ObjectId, ref: 'UserInfo'
     },
 
 });

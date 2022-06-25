@@ -22,6 +22,18 @@ const userInfoSchema = new Schema({
         type: Date,
         required: true
     },
+
+    license: {
+        number: {
+            type: String,
+        },
+        expiration: {
+            type: Date,
+        },
+        photo: {
+            type: String,
+        },
+    },
     address: {
         houseNumber: {
             type: Number,
@@ -55,7 +67,7 @@ const userInfoSchema = new Schema({
             required: true
         },
         last: {
-            type: String, 
+            type: String,
             required: true
         },
         tel: {
@@ -73,8 +85,9 @@ const userInfoSchema = new Schema({
             required: true
         }
     }],
+    // Profile picture
+    // Work Authorization
     workAuthTitle: {
-
     }
 })
 
