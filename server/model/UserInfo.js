@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const User = require('./User')
 const bcrypt = require('bcrypt');
 
 const emailValidate = function validateEmail(email) {
@@ -7,6 +8,10 @@ const emailValidate = function validateEmail(email) {
 };
 
 const userInfoSchema = new Schema({
+    userID: {
+        type: Schema.Types.ObjectId, 
+        ref: User
+    },
     name: {
         first: {
             type: String,

@@ -30,10 +30,6 @@ const userSchema = new Schema({
         enum: ['hr','empoyee'],
         default: 'employee'
     },
-    userID: {
-        type: Schema.Types.ObjectId, ref: 'UserInfo'
-    },
-
 });
 
 //middleware to encrypt password
@@ -47,5 +43,18 @@ userSchema.pre("save", async function (next) {
 });
 
 const User = model("User", userSchema);
+
+
+// User.create({
+//     username:'admin',
+//     email:'admin@gmail.com',
+//     password:'admin',
+//     role:'hr',
+// }).then(()=>{
+//     console.log('Successfully create a user')
+// }).catch(()=>{
+//     console.log('Failed to create a user')
+// })
+
 
 module.exports = User;

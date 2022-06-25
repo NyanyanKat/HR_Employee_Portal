@@ -1,12 +1,8 @@
 const mongoose = require("mongoose")
-// const { MONGO_URI } = process.env;
+const { MONGO_URI } = process.env;
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/hr'),
-{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}
-// .then(()=> console.log("Successfully connect to MongoDB  - HR Group Project"))
-// .catch((err)=> console.log("Failed to connect to MongoDB", err.message))
+mongoose.connect(MONGO_URI)
+.then(()=> console.log("Successfully connect to MongoDB  - HR Project"))
+.catch(()=> console.log("Failed to connect to MongoDB"))
 
 module.exports = mongoose.connection
