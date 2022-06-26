@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const RegisterRouter = require("./registerRouter");
 
-router.use(RegisterRouter);
+router.use('/api', RegisterRouter);
 
 module.exports = router;
 

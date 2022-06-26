@@ -8,7 +8,7 @@ const {body, validationResult} = require("express-validator");
 // TODO: auth_session with register and login route??
 
 
-router.post("/api/register", body('email').isEmail(), async (req, resp) => {
+router.post("/register", body('email').isEmail(), async (req, resp) => {
     const errors = validationResult(req);
 
    // username and email should be case insensitive when checking
@@ -32,7 +32,7 @@ router.post("/api/register", body('email').isEmail(), async (req, resp) => {
             await User.create(req.body);
             console.log("Successfully registered. Please log in.");
             resp.status(201);
-            resp.redirect("/api/login");
+            resp.redirect("/login");
         }
     } catch(e) {
         console.log(e);
