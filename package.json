@@ -22,5 +22,8 @@
   "homepage": "https://github.com/danlingsun/BF_HR_PROJ#readme",
   "devDependencies": {
     "concurrently": "^7.2.2"
+  },
+  "dependencies": {
+    "express-validator": "^6.14.2"
   }
 }
