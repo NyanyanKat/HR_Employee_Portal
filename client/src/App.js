@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{ useState } from "react"
+import Sidebar from "./components/Sidebar/Sidebar";
+import TopNavigation from "./components/TopNav/TopNavigation";
+import styled from "styled-components";
+import "./App.css";
 
-function App() {
+const Main = styled.main`
+  position: relative;
+  transition: all 0.15s;
+  margin-left: ${(props) => (props.expanded ? 240 : 64)}px;
+`;
+
+function App(props) {
+  const [expanded, setExpanded] = useState(false)
+  const handleExpaned = (expanded) => {
+    setExpanded(expanded)
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Sidebar handleExpaned={handleExpaned} expanded={expanded} />
+      <Main expanded={expanded}>
+        <TopNavigation />
+      </Main>
     </div>
   );
 }
