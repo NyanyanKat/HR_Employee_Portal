@@ -39,9 +39,7 @@ router.post("/register", body('email').isEmail(), async (req, resp) => {
         }
         else {
             await User.create(req.body);
-            // console.log("Successfully registered. Please log in.");
             resp.status(201).send('Successfully registered. Please log in.');
-            // resp.redirect("/login");
         }
     } catch(e) {
         console.log(e);
