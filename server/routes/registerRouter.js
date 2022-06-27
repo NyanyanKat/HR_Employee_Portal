@@ -1,13 +1,22 @@
 const router = require("express").Router();
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const User = require ("../model/User");
+const jwt = require('jsonwebtoken')
+
 
 const {body, validationResult} = require("express-validator");
 
-// TODO: HR token
-// TODO: auth_session with register and login route??
+// Danling - Registration Token
+router.get('/register', async(req,resp)=>{
+    try {
+        const hr_token = await jwt.sign({}, process.env.JWT_KEY)
+        resp.status(200).send({token:hr_token})        
+    } catch (error) {
+        resp.status(500).send("Failed to generate token",error)
+    }
+})
 
-
+// Jimmy - Registration 
 router.post("/register", body('email').isEmail(), async (req, resp) => {
     const errors = validationResult(req);
 
@@ -30,9 +39,9 @@ router.post("/register", body('email').isEmail(), async (req, resp) => {
         }
         else {
             await User.create(req.body);
-            console.log("Successfully registered. Please log in.");
-            resp.status(201);
-            resp.redirect("/login");
+            // console.log("Successfully registered. Please log in.");
+            resp.status(201).send('Successfully registered. Please log in.');
+            // resp.redirect("/login");
         }
     } catch(e) {
         console.log(e);

@@ -1,9 +1,9 @@
 const express = require('express')
 const app = express()
 
-
-require('dotenv').config()
+//Insert a initial user for testing
 // require('./model/User')
+require('dotenv').config()
 
 
 //access-control-allow-origin
@@ -17,7 +17,7 @@ app.use(express.json())
 const routes = require('./routes')
 app.use(routes)
 
-app.post("/", (res,resp)=>{
+app.get("/", (res,resp)=>{
     resp.send("OK")
 })
 

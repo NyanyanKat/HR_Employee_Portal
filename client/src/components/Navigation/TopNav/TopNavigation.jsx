@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function TopNavigation() {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+    <Navbar collapseOnSelect expand="lg" bg="light" variant="light" className='topNav'>
       <Container>
         <Navbar.Brand href="">HR PROJECT</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

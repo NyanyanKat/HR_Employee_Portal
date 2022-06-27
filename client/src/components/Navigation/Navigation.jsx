@@ -1,20 +1,33 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, useRouteMatch } from 'react-router-dom';
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import Avatar from 'react-avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRegistered, faBuildingUser, faAddressBook, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
+import TopNavigation from "./TopNav/TopNavigation";
+import styled from "styled-components";
+import RegistrationToken from '../Hire/RegistrationToken';
+import Registration from '../Authentication/Registration';
+
+
+const Main = styled.main`
+  position: relative;
+  transition: all 0.15s;
+  margin-left: ${(props) => (props.expanded ? 240 : 64)}px;
+`;
+
 
 export default function Sidebar(props) {
-  const [toggle, setToggle] = useState(true)
+  const [expanded, setExpanded] = useState(false)
+  const { path } = useRouteMatch();
+
   return (
-    <Router>
       <Route render={({ location, history }) => (
         <React.Fragment>
           <SideNav
-            onToggle={() => { props.handleExpaned(toggle); setToggle(!toggle) }}
+            onToggle={() => { setExpanded(!expanded) }}
             onSelect={(selected) => {
               const to = '/' + selected;
               if (location.pathname !== to) {
@@ -34,10 +47,10 @@ export default function Sidebar(props) {
               <NavItem eventKey="hire">
                 <NavIcon><FontAwesomeIcon icon={faRegistered} style={{ fontSize: "1.8em" }} /></NavIcon>
                 <NavText>Hiring Management</NavText>
-                <NavItem eventKey="register">
+                <NavItem eventKey="hire/register">
                   <NavText>Registration Token</NavText>
                 </NavItem>
-                <NavItem eventKey="onboarding">
+                <NavItem eventKey="hire/onboarding">
                   <NavText>Onboarding Application</NavText>
                 </NavItem>
               </NavItem>
@@ -72,9 +85,16 @@ export default function Sidebar(props) {
               </NavItem>
             </SideNav.Nav>
           </SideNav>
+
+          <Main expanded={expanded}>
+            <TopNavigation />
+            <div className="main-content-container">
+              <Route path="/hire/register"  component={props => <RegistrationToken />} />
+              <Route path={`/register${path}`} component={props => <Registration />} />
+            </div>
+          </Main>
         </React.Fragment>
       )}
       />
-    </Router>
   );
 }
