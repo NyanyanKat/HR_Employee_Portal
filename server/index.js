@@ -1,7 +1,6 @@
 const app = require("./app")
 const db = require("./db_conn/db_conn")
 
-
 const {PORT} = process.env;
 
 db.once('open',()=>{
