@@ -6,7 +6,8 @@ const base = {
     baseUrl: "http://127.0.0.1:3001/api",
     register_token: "/register",
     register: "/register",
-    login: "/login"
+    login: "/login",
+    employee: "/employee",
 }
 
 
@@ -17,10 +18,13 @@ const api = {
     register(params) {
         return axios.post(base.baseUrl + base.register, params)
     },
-    login(params){
+    login(params) {
         return axios.post(base.baseUrl + base.login, params)
-    }
-    }
+    },
 
+    getEmployee(params) {
+        return axios.get(base.baseUrl + base.employee, params)
+    }
+}
 
 export default api

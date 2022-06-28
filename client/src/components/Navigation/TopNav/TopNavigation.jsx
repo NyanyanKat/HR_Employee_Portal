@@ -42,6 +42,7 @@ export default function TopNavigation() {
       <Switch>
         <Route path={'/login'} component={props => <Login />} />
         <Route path={`/register${path}`} component={props => <Registration />} />
+       
         {/* for home */}
       </Switch>
     </>
