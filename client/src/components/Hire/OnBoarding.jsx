@@ -24,6 +24,16 @@ export default function Onboarding() {
     console.log("SUBMIT", e);
     console.log(formData);
     console.log("eContact: ", formData.eContact.first);
+    api
+      .onboarding(formData)
+      .then((res) => {
+        // console.log('Response',res.data)
+        updateErrMsg({});
+      })
+      .catch((error) => {
+        // console.log('Error',error.response.data)
+        updateErrMsg(error.response.data);
+      });
   };
 
   const initialFormData = Object.freeze({
