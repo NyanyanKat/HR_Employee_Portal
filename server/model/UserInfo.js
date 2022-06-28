@@ -10,7 +10,8 @@ const emailValidate = function validateEmail(email) {
 const userInfoSchema = new Schema({
     userID: {
         type: Schema.Types.ObjectId,
-        ref: User
+        ref: User,
+        required: true
     },
     name: {
         first: {
@@ -31,46 +32,6 @@ const userInfoSchema = new Schema({
     profile: {
         data: Buffer,
         contentType: String
-    },
-    ssn: {
-        type: Number,
-        required: true
-    },
-    dob: {
-        type: Date,
-        required: true
-    },
-    gender: {
-        type: String,
-        enum: ['male', 'female', 'others', 'I do not wish to answer'],
-        default: 'I do not wish to answer'
-    },
-    citizenship: {
-        status: {
-            type: String,
-            enum: ['Green Card', 'Citizen', 'Work Authorization'],
-            default: 'Work Authorization',
-            required: true
-        },
-        visa: {
-            type: String,
-        },
-        file: {
-            data: Buffer,
-            contentType: String
-        }
-    },
-    license: {
-        number: {
-            type: String,
-        },
-        expiration: {
-            type: Date,
-        },
-        photo: {
-            data: Buffer,
-            contentType: String
-        },
     },
     address: {
         houseNumber: {
@@ -94,9 +55,13 @@ const userInfoSchema = new Schema({
             required: true
         }
     },
-    tel: {
+    cellphone: {
         type: Number,
         required: true,
+        min: 10
+    },
+    workphone: {
+        type: Number,
         min: 10
     },
     car: {
@@ -108,6 +73,51 @@ const userInfoSchema = new Schema({
         },
         color: {
             type: String,
+        },
+    },
+    ssn: {
+        type: Number,
+        required: true
+    },
+    dob: {
+        type: Date,
+        required: true
+    },
+    gender: {
+        type: String,
+        enum: ['male', 'female', 'other', 'I do not wish to answer'],
+        default: 'I do not wish to answer'
+    },
+    citizenship: {
+        citizen: {
+            type: Boolean,
+            required: true
+        },
+        status: {
+            type: String,
+            required: true
+        },
+        optReceipt: {
+            data: Buffer,
+            contentType: String
+        },
+        start: {
+            type: Date
+        },
+        end: {
+            type: Date
+        },
+    },
+    license: {
+        number: {
+            type: Number,
+        },
+        expiration: {
+            type: Date,
+        },
+        photo: {
+            data: Buffer,
+            contentType: String
         },
     },
     reference: {
@@ -171,10 +181,6 @@ const userInfoSchema = new Schema({
         default: 'never submitted',
         required: true
     },
-    // Profile picture
-    // Work Authorization
-    workAuthTitle: {
-    }
 })
 
 const UserInfo = model('UserInfo', userInfoSchema);
