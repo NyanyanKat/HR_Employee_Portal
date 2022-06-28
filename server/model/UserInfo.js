@@ -9,25 +9,57 @@ const emailValidate = function validateEmail(email) {
 
 const userInfoSchema = new Schema({
     userID: {
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         ref: User
     },
     name: {
         first: {
             type: String,
+            required: true
         },
         last: {
-            type: String
+            type: String,
+            required: true
+        },
+        middle: {
+            type: String,
+        },
+        perferred: {
+            type: String,
         }
     },
+    profile: {
+        data: Buffer,
+        contentType: String
+    },
     ssn: {
-        type: Number
+        type: Number,
+        required: true
     },
     dob: {
         type: Date,
         required: true
     },
-
+    gender: {
+        type: String,
+        enum: ['male', 'female', 'others', 'I do not wish to answer'],
+        default: 'I do not wish to answer'
+    },
+    citizenship: {
+        status: {
+            type: String,
+            enum: ['Green Card', 'Citizen', 'Work Authorization'],
+            default: 'Work Authorization',
+            required: true
+        },
+        visa: {
+            type: String,
+        },
+        file: {
+            data: Buffer,
+            contentType: String
+        }
+    },
     license: {
         number: {
             type: String,
@@ -36,7 +68,8 @@ const userInfoSchema = new Schema({
             type: Date,
         },
         photo: {
-            type: String,
+            data: Buffer,
+            contentType: String
         },
     },
     address: {
@@ -66,6 +99,45 @@ const userInfoSchema = new Schema({
         required: true,
         min: 10
     },
+    car: {
+        make: {
+            type: String,
+        },
+        model: {
+            type: String,
+        },
+        color: {
+            type: String,
+        },
+    },
+    reference: {
+        first: {
+            type: String,
+            required: true
+        },
+        last: {
+            type: String,
+            required: true
+        },
+        middle: {
+            type: String,
+        },
+        tel: {
+            type: Number,
+            required: true,
+            min: 10
+        },
+        email: {
+            type: String,
+            required: true,
+            trim: true,
+            validate: [emailValidate, "invalid email"]
+        },
+        relationship: {
+            type: String,
+            required: true
+        }
+    },
     eContact: [{
         first: {
             type: String,
@@ -74,6 +146,9 @@ const userInfoSchema = new Schema({
         last: {
             type: String,
             required: true
+        },
+        middle: {
+            type: String,
         },
         tel: {
             type: Number,
@@ -93,7 +168,8 @@ const userInfoSchema = new Schema({
     status: {
         type: String,
         enum: ['never submitted', 'pending', 'approved', 'rejected'],
-        default: 'never submitted'
+        default: 'never submitted',
+        required: true
     },
     // Profile picture
     // Work Authorization
