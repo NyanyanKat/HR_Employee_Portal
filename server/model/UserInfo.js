@@ -16,7 +16,13 @@ const userInfoSchema = new Schema({
         first: {
             type: String,
         },
+        middle:{
+            type:String,
+        },
         last: {
+            type: String
+        },
+        preferred:{
             type: String
         }
     },
@@ -27,7 +33,6 @@ const userInfoSchema = new Schema({
         type: Date,
         required: true
     },
-
     license: {
         number: {
             type: String,
@@ -40,12 +45,12 @@ const userInfoSchema = new Schema({
         },
     },
     address: {
-        houseNumber: {
-            type: Number,
-            required: true
-        },
         streetName: {
             type: String,
+            required: true
+        },
+        houseNumber: {
+            type: Number,
             required: true
         },
         city: {
@@ -65,6 +70,17 @@ const userInfoSchema = new Schema({
         type: Number,
         required: true,
         min: 10
+    },
+    carInfo:{
+        make:{
+            type:String
+        },
+        model:{
+            type:String
+        },
+        color:{
+            type:String
+        }
     },
     eContact: [{
         first: {
@@ -96,8 +112,9 @@ const userInfoSchema = new Schema({
         default: 'never submitted'
     },
     // Profile picture
-    // Work Authorization
-    workAuthTitle: {
+    profile_pic:{
+        type:String,
+        default: null
     }
 })
 
