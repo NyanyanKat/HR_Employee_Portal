@@ -90,6 +90,11 @@ const userInfoSchema = new Schema({
             required: true
         }
     }],
+    status: {
+        type: String,
+        enum: ['never submitted', 'pending', 'approved', 'rejected'],
+        default: 'never submitted'
+    },
     // Profile picture
     // Work Authorization
     workAuthTitle: {

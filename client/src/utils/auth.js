@@ -1,14 +1,14 @@
 const decode = require ("jwt-decode");
-class AuthService {
+const Auth = {
   getProfile() {
     return decode(this.getToken());
-  }
+  },
 
   loggedIn() {
     // Checks if there is a saved token and it's still valid
     const token = this.getToken();
     return !!token && !this.isTokenExpired(token);
-  }
+  },
 
   isTokenExpired(token) {
     try {
@@ -19,21 +19,17 @@ class AuthService {
     } catch (err) {
       return false;
     }
-  }
-
-  isAuth(){
-    return localStorage.getItem("auth") ? true : false
-  }
+  },
 
   getToken() {
     // Retrieves the user token from localStorage
     return localStorage.getItem("id_token");
-  }
+  },
 
   getUser() {
     // Retrieves the user token from localStorage
     return JSON.parse(localStorage.getItem("user"));
-  }
+  },
 
   login(idToken, user) {
     // Saves user token to localStorage
@@ -41,7 +37,7 @@ class AuthService {
     localStorage.setItem("user", JSON.stringify(user));
 
     window.location.assign("/");
-  }
+  },
 
   logout() {
     // Clear user token and profile data from localStorage
@@ -52,4 +48,4 @@ class AuthService {
   }
 }
 
-module.exports =  new AuthService();
+export default Auth;
