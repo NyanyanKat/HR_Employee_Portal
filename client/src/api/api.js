@@ -8,8 +8,8 @@ const base = {
     register: "/register",
     login: "/login",
     employee: "/employee",
+    onboard: "/hire/onboarding",
 }
-
 
 const api = {
     registerToken() {
@@ -21,7 +21,9 @@ const api = {
     login(params) {
         return axios.post(base.baseUrl + base.login, params)
     },
-
+    onboarding(params) {
+        return axios.post(base.baseUrl + base.onboard, params)
+    },
     getEmployee(params) {
         return axios.get(base.baseUrl + base.employee, params)
     }

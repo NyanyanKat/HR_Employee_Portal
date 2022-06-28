@@ -11,7 +11,7 @@ import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
 import Employee from '../../hrPages/Employee';
-// import Login from '../Authentication/Login';
+import OnBoarding from "../Hire/OnBoarding"
 
 
 const Main = styled.main`
@@ -91,12 +91,11 @@ export default function Sidebar(props) {
             </NavItem>
           </SideNav.Nav>
         </SideNav>
-
         <Main expanded={expanded}>
           <TopNavigation />
           <div className="main-content-container">
             <Route path="/hire/register" component={props => <RegistrationToken />} />
-            {/* onboarding routes */}
+            <Route path={`/hire/onboarding`} component={props => <OnBoarding />} />
             <Route path={'/employee'} component={props => <Employee />} />
           </div>
         </Main>
