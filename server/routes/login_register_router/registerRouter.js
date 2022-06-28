@@ -8,7 +8,7 @@ const { body, validationResult } = require("express-validator");
 // Danling - Registration Token
 router.get('/register', async (req, resp) => {
     try {
-        const hr_token = await jwt.sign({}, process.env.JWT_KEY)
+        const hr_token = await jwt.sign({}, process.env.JWT_KEY,{expiresIn: '3h'})
         resp.status(200).send({ token: hr_token })
     } catch (error) {
         resp.status(500).send("Failed to generate token", error)
@@ -56,24 +56,24 @@ router.post("/register", body('email').isEmail(), async (req, resp) => {
     }
 });
 
-router.post('/login', async(req,resp)=>{
-    try {
-        const {username, password} = req.body;
-        const user = await User.findOne({username});
-        if (!user) {
-            resp.send("User does not exist");
-        }
-        else if (!bcrypt.compareSync(password, user.password)) {
-            resp.send("Incorrect password");
-        }
-        else {
-            const token = await jwt.sign({id:user._id}, process.env.JWT_KEY)
-            resp.status(200).send({token})
-        }
-    } catch (error) {
-        resp.status(500).send("Failed to generate token",error)
-    }
-})
+// router.post('/login', async(req,resp)=>{
+//     try {
+//         const {username, password} = req.body;
+//         const user = await User.findOne({username});
+//         if (!user) {
+//             resp.send("User does not exist");
+//         }
+//         else if (!bcrypt.compareSync(password, user.password)) {
+//             resp.send("Incorrect password");
+//         }
+//         else {
+//             const token = await jwt.sign({id:user._id}, process.env.JWT_KEY)
+//             resp.status(200).send({token})
+//         }
+//     } catch (error) {
+//         resp.status(500).send("Failed to generate token",error)
+//     }
+// })
 
 
 // router.get("/delete", async (req, resp) => {

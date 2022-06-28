@@ -29,7 +29,7 @@ const userSchema = new Schema({
         type: String,
         enum: ['hr','employee'],
         default: 'employee'
-    },
+    }
 });
 
 //middleware to encrypt password
@@ -46,10 +46,10 @@ const User = model("User", userSchema);
 
 
 // User.create({
-//     username:'admin',
-//     email:'admin@gmail.com',
-//     password:'admin',
-//     role:'hr',
+//     username:'user',
+//     email:'user@gmail.com',
+//     password:'user',
+//     role:'employee',
 // }).then(()=>{
 //     console.log('Successfully create a user')
 // }).catch(()=>{
