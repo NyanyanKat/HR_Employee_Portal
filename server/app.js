@@ -15,8 +15,8 @@ app.use(cors())
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
-const routes = require('./routes/index')
-app.use('/api',routes)
+const routes = require('./routes')
+app.use(routes)
 
 app.get("/", (res,resp)=>{
     resp.send("OK")
