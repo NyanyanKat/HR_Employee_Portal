@@ -10,6 +10,7 @@ import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
+import OnBoarding from "../Hire/OnBoarding"
 // import Login from '../Authentication/Login';
 
 
@@ -95,6 +96,7 @@ export default function Sidebar(props) {
           <TopNavigation />
           <div className="main-content-container">
             <Route path="/hire/register" component={props => <RegistrationToken />} />
+            <Route path={`/hire/onboarding`} component={props => <OnBoarding />} />
             {/* onboarding routes */}
           </div>
         </Main>
