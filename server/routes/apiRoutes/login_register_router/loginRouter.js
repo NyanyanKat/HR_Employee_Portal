@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const db = require("../../db_conn/db_conn");
+const db = require("../../../db_conn/db_conn");
 const userCollection = db.collection("users");
 const jwt = require("jsonwebtoken");
 const { JWT_KEY } = process.env;

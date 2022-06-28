@@ -9,20 +9,20 @@ const emailValidate = function validateEmail(email) {
 
 const userInfoSchema = new Schema({
     userID: {
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         ref: User
     },
     name: {
         first: {
             type: String,
         },
-        middle:{
-            type:String,
+        middle: {
+            type: String,
         },
         last: {
             type: String
         },
-        preferred:{
+        preferred: {
             type: String
         }
     },
@@ -71,15 +71,15 @@ const userInfoSchema = new Schema({
         required: true,
         min: 10
     },
-    carInfo:{
-        make:{
-            type:String
+    carInfo: {
+        make: {
+            type: String
         },
-        model:{
-            type:String
+        model: {
+            type: String
         },
-        color:{
-            type:String
+        color: {
+            type: String
         }
     },
     eContact: [{
@@ -108,16 +108,38 @@ const userInfoSchema = new Schema({
     }],
     status: {
         type: String,
-        enum: ['never submitted', 'pending', 'approved', 'rejected'],
-        default: 'never submitted'
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
     },
     // Profile picture
-    profile_pic:{
-        type:String,
+    profile_pic: {
+        type: String,
         default: null
     }
 })
 
 const UserInfo = model('UserInfo', userInfoSchema);
+
+// UserInfo.create({
+//     userID: '62bb871a6a5422feca047b23',
+//     name: { first: 'test4', last: 'test4', preferred: 'test4' },
+//     ssn: 1234567890,
+//     dob: 01 / 01 / 2022,
+//     license: { number: 123456789, expiration: 01 / 01 / 2022, photo: '' },
+//     address: { streetName: '123 St', houseNumber: 45, city: 'Piscataway', state: 'NJ', zip: 08901 },
+//     tel: 9292572388,
+//     carInfo: { make: "Jeep", model: 'Wrangler', color: 'red' },
+//     eContact: [
+//         { first: 'danling', last: 'sun', tel: 8483133830, email: 'danlingsun@gmail.com', relationship: "friend" },
+//         { first: 'dd', last: 'ss', tel: 8483133830, email: 'ds@gmail.com', relationship: "parent" }
+//     ],
+//     status: 'pending',
+//     profile_pic: ""
+// }).then(() => {
+//     console.log('Successfully create a user info')
+// }).catch((e) => {
+//     console.log(e)
+//     console.log('Failed to create a user info')
+// })
 
 module.exports = UserInfo;

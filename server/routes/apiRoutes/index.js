@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-const registerRoutes = require('./registerRouter');
-const loginRoutes = require('./loginRouter');
+const registerRoutes = require('./login_register_router/registerRouter');
+const loginRoutes = require('./login_register_router/loginRouter');
 // const housingRoutes = require('./housing');
 // const onboardingRoutes = require('./onboarding');
 // const visaRoutes = require('./visa');
