@@ -1,7 +1,7 @@
 import React from 'react'
 import { Navbar, Nav, NavDropdown, Container,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import api from '../../../api/api';
 
 
 export default function TopNavigation() {
@@ -15,12 +15,19 @@ export default function TopNavigation() {
             {/* <Nav.Link href="#"></Nav.Link> */}
           </Nav>
           <Nav>
-          <Button variant="outline-success">Login</Button>
+
+          {/* conditional rendering */}
+          {!api.loggedIn() ? (
+            <Button variant="outline-success" href="/login">Login</Button>
+          ) : (
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="/profile">Personal Profile</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="/logout">Log Out</NavDropdown.Item>
             </NavDropdown>
+          )}
+          
+            
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-const User = require("../model/User");
+const User = require ("../../model/User");
 const jwt = require('jsonwebtoken')
 const { body, validationResult } = require("express-validator");
 
@@ -56,4 +56,30 @@ router.post("/register", body('email').isEmail(), async (req, resp) => {
     }
 });
 
-module.exports = router
+router.post('/login', async(req,resp)=>{
+    try {
+        const {username, password} = req.body;
+        const user = await User.findOne({username});
+        if (!user) {
+            resp.send("User does not exist");
+        }
+        else if (!bcrypt.compareSync(password, user.password)) {
+            resp.send("Incorrect password");
+        }
+        else {
+            const token = await jwt.sign({id:user._id}, process.env.JWT_KEY)
+            resp.status(200).send({token})
+        }
+    } catch (error) {
+        resp.status(500).send("Failed to generate token",error)
+    }
+})
+
+
+// router.get("/delete", async (req, resp) => {
+//     await User.deleteMany();
+//     resp.send("Database deleted");
+// })
+
+
+module.exports = router;
