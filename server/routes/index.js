@@ -9,5 +9,6 @@ router.use(loginRoutes);
 =======
 router.use('/api', apiRoutes);
 // router.use('/', homeRoutes);
+>>>>>>> Stashed changes
 
 module.exports = router;
