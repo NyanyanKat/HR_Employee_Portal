@@ -21,6 +21,10 @@ class AuthService {
     }
   }
 
+  isAuth(){
+    return localStorage.getItem("auth") ? true : false
+  }
+
   getToken() {
     // Retrieves the user token from localStorage
     return localStorage.getItem("id_token");

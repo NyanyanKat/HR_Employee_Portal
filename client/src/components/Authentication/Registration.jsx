@@ -16,7 +16,7 @@ import {
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 
 export default function Registration() {
-  //handle Data Validation
+  //handle Input Validation
   const [errMsg, updateErrMsg] = useState({
     email: "",
     password: "",
