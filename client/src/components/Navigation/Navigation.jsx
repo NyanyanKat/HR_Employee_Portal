@@ -10,6 +10,7 @@ import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
 import Registration from '../Authentication/Registration';
+import OnBoarding from "../Hire/OnBoarding"
 
 
 const Main = styled.main`
@@ -91,6 +92,7 @@ export default function Sidebar(props) {
             <div className="main-content-container">
               <Route path="/hire/register"  component={props => <RegistrationToken />} />
               <Route path={`/register${path}`} component={props => <Registration />} />
+              <Route path={`/hire/onboarding`} component={props => <OnBoarding />} />
             </div>
           </Main>
         </React.Fragment>
