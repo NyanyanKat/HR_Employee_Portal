@@ -6,7 +6,8 @@ const base = {
     baseUrl: "http://127.0.0.1:3001/api",
     register_token: "/register",
     register: "/register",
-    login: "/login"
+    login: "/login",
+    onboard: "/hire/onboarding",
 }
 
 
@@ -19,7 +20,10 @@ const api = {
     },
     login(params){
         return axios.post(base.baseUrl + base.login, params)
-    }
+    },
+    onboarding(params) {
+        return axios.post(base.baseUrl + base.onboard, params)
+    },
     }
 
 
