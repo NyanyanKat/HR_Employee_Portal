@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_KEY } = process.env;
 
 //Winston  - Login
-router.post("/login", async function (req, resp) {
+router.post("/", async function (req, resp) {
   let user = req.body;
   let errMsg = {};
   user.username = user.username.toLowerCase();

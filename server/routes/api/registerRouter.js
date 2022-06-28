@@ -6,7 +6,7 @@ const { body, validationResult } = require("express-validator");
 
 
 // Danling - Registration Token
-router.get('/register', async (req, resp) => {
+router.get('/', async (req, resp) => {
     try {
         const hr_token = await jwt.sign({}, process.env.JWT_KEY,{expiresIn: '3h'})
         resp.status(200).send({ token: hr_token })
@@ -16,7 +16,7 @@ router.get('/register', async (req, resp) => {
 })
 
 // Jimmy - Registration 
-router.post("/register", body('email').isEmail(), async (req, resp) => {
+router.post("/", body('email').isEmail(), async (req, resp) => {
     // console.log(req.body)
     const errors = validationResult(req);
 

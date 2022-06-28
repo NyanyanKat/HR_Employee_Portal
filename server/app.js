@@ -28,4 +28,4 @@ app.get("/", (res,resp)=>{
 //     .send('404 not found')
 // });
 
-module.exports=app
+module.exports = app
