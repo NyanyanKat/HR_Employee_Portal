@@ -1,57 +1,82 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import queryString from 'query-string'
-import api from '../../api/api';
-import { TextField, OutlinedInput, Button, InputAdornment, IconButton, FormControl, InputLabel, Box } from "@mui/material";
-import { VisibilityOff, Visibility } from '@mui/icons-material'
+import { useState } from "react";
+import api from "../../api/api";
+import {
+  TextField,
+  OutlinedInput,
+  Button,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Box,
+  FormHelperText
+} from "@mui/material";
+import { VisibilityOff, Visibility } from "@mui/icons-material";
+import auth from '../../utils/auth'
 
 export default function Login() {
 
-  const [attr, setAttr] = useState(false);
+  const [showPwd, updateShowPwd] = useState(false);
   const handleClickShowPassword = () => {
-    setAttr(!attr);
+    updateShowPwd(!showPwd);
   };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-
-  const { search } = useLocation();
-  // console.log('search:', search);  //?token=xxx&email=xxx
-  const queries = queryString.parse(search) //{token:'xxx', email: 'xxx'}
-  // console.log('values',values);  //
-
   const initialFormData = Object.freeze({
     username: "",
-    password: ""
+    password: "",
   });
+
+  //handle Input Validation
+  const [errMsg, updateErrMsg] = useState(initialFormData);
 
   const [formData, updateFormData] = useState(initialFormData);
   const handleChange = (e) => {
     updateFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(formData);
-    localStorage.setItem('id_token', queries.token);
-    api.register(formData).then(res => console.log(res.data)).catch(error => console.log(error))
-  }
+    e.preventDefault();
+    // console.log(formData);
+    api
+      .login(formData)
+      .then((res) => {
+        auth.login(res.data.token,res.data.user)
+        updateErrMsg({username:"",password:""});
+      })
+      .catch((error) => {
+        // console.log(error)
+        if(error.response.status === 400){
+          updateErrMsg(error.response.data);
+        }
+      });
+  };
 
   return (
     <form>
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '45ch' }}>
-
-        <TextField  label="Username" variant="outlined"  sx={{ m: 1}} onChange={handleChange} name="username" />
-        <FormControl variant="outlined"  sx={{ m: 1}} >
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+      <Box sx={{ display: "flex", flexDirection: "column", width: "45ch" }}>
+        <TextField
+          label="Username"
+          variant="outlined"
+          sx={{ m: 1 }}
+          onChange={handleChange}
+          name="username"
+          error={errMsg.username ? true : false}
+          helperText={errMsg.username}
+        />
+        <FormControl variant="outlined" sx={{ m: 1 }}>
+          <InputLabel htmlFor="outlined-adornment-password" error={errMsg.password ? true : false}>
+            Password
+          </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
-            type={attr ? 'text' : 'password'}
+            type={showPwd ? "text" : "password"}
             onChange={handleChange}
             endAdornment={
               <InputAdornment position="end">
@@ -60,17 +85,29 @@ export default function Login() {
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
+                  error={errMsg.password ? true : false}
                 >
-                  {attr ? <Visibility /> : <VisibilityOff />}
+                  {showPwd ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             }
             label="Password"
             name="password"
+            error={errMsg.password ? true : false}
           />
+          {errMsg.password && (
+            <FormHelperText error> {errMsg.password} </FormHelperText>
+          )}
         </FormControl>
-        <Button variant="outlined" onClick={handleSubmit}  sx={{ m: 1}} size="large">Sign Up</Button>
+        <Button
+          variant="outlined"
+          onClick={handleSubmit}
+          sx={{ m: 1 }}
+          size="large"
+        >
+          Log In
+        </Button>
       </Box>
     </form>
-  )
+  );
 }

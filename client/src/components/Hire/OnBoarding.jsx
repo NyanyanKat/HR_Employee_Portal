@@ -10,16 +10,30 @@ import {
   InputLabel,
   Box,
   Grid,
+  SliderValueLabel,
 } from "@mui/material";
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import FormHelperText from "@mui/material/FormHelperText";
+//import Button from '@mui/material/Button';
+//import IconButton from '@mui/material/IconButton';
 
 export default function Onboarding() {
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("SUBMIT", e);
     console.log(formData);
+    console.log("eContact: ", formData.eContact.first);
+    api
+      .onboarding(formData)
+      .then((res) => {
+        // console.log('Response',res.data)
+        updateErrMsg({});
+      })
+      .catch((error) => {
+        // console.log('Error',error.response.data)
+        updateErrMsg(error.response.data);
+      });
   };
 
   const initialFormData = Object.freeze({
@@ -27,7 +41,7 @@ export default function Onboarding() {
     middlename: "",
     lastname: "",
     preferredname: "",
-    pic: "",
+    profilepic: "",
     building: "",
     street: "",
     city: "",
@@ -43,27 +57,60 @@ export default function Onboarding() {
     dob: "",
     gender: "",
     citizen: "",
+    citizenship: "",
+    citizenshipfile: "",
+    citizenshipstart: "",
+    citizenshipend: "",
+    visatitle: "",
+    license: "",
+    licensenumber: "",
+    expirationdate: "",
+    licensecopy: "",
+    eContactfirst: "",
+    eContactmiddle: "",
+    eContactlast: "",
+    eContacttel: "",
+    eContactemail: "",
+    eContactrelationship: "",
   });
 
   const [formData, updateFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
     updateFormData({
-        ...formData,
-        [e.target.name]: e.target.value
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
-  return (
+  const [inputFields, setInputFields] = useState([{ name: "", age: "" }]);
 
+  const handleFormChange = (index, event) => {
+    let data = [...inputFields];
+    data[index][event.target.name] = event.target.value;
+    setInputFields(data);
+  };
+
+  const addFields = (event) => {
+    event.preventDefault();
+    let newfield = { name: "", age: "" };
+    setInputFields([...inputFields, newfield]);
+  };
+
+  const requiredText = "This field is required";
+
+  return (
     <form>
       <Box sx={{ flexWrap: "wrap" }}>
-      <h1 >New Employee Onboarding Form</h1>
-        <h5>Hello! We are excited for your first day. Please fill in
-        the questions below.</h5>
+        <h1>New Employee Onboarding Form</h1>
+        <h5>
+          Hello! We are excited for your first day. Please fill in the questions
+          below.
+        </h5>
         <br></br>
-        <span>* denotes required field</span> 
-        <br></br><hr></hr>
+        <span>* denotes required field</span>
+        <br></br>
+        <hr></hr>
 
         <p> Name </p>
         <TextField
@@ -72,6 +119,8 @@ export default function Onboarding() {
           sx={{ m: 1 }}
           onChange={handleChange}
           name="firstname"
+          error={!formData.firstname}
+          helperText={!formData.firstname ? requiredText : ""}
           required
         />
 
@@ -88,6 +137,8 @@ export default function Onboarding() {
           sx={{ m: 1 }}
           onChange={handleChange}
           name="lastname"
+          error={!formData.lastname}
+          helperText={!formData.lastname ? requiredText : ""}
           required
         />
         <br></br>
@@ -105,14 +156,18 @@ export default function Onboarding() {
         <br></br>
 
         <p>Profile Picture</p>
-        <TextField
-          label="Profile Picture"
-          placeholder="profile"
-          variant="outlined"
-          sx={{ m: 1 }}
-          onChange={handleChange}
-          name="pic"
-        />
+        <Button variant="contained" component="label">
+          Upload File
+          <TextField
+            //label="Profile Picture"
+            name="profilepic"
+            onChange={handleChange}
+            type="file"
+            required
+            error={!formData.profilepic}
+            helperText={!formData.profilepic ? requiredText : ""}
+          />
+        </Button>
         <br></br>
         <br></br>
 
@@ -123,6 +178,8 @@ export default function Onboarding() {
           sx={{ m: 1 }}
           onChange={handleChange}
           name="building"
+          error={!formData.building}
+          helperText={!formData.building ? requiredText : ""}
           required
         />
         <TextField
@@ -132,6 +189,8 @@ export default function Onboarding() {
           onChange={handleChange}
           name="street"
           style={{ width: 600 }}
+          error={!formData.street}
+          helperText={!formData.street ? requiredText : ""}
           required
         />
         <TextField
@@ -140,6 +199,8 @@ export default function Onboarding() {
           sx={{ m: 1 }}
           onChange={handleChange}
           name="city"
+          error={!formData.city}
+          helperText={!formData.city ? requiredText : ""}
           required
         />
         <TextField
@@ -148,6 +209,8 @@ export default function Onboarding() {
           sx={{ m: 1 }}
           onChange={handleChange}
           name="state"
+          error={!formData.state}
+          helperText={!formData.state ? requiredText : ""}
           required
         />
         <TextField
@@ -156,6 +219,8 @@ export default function Onboarding() {
           sx={{ m: 1 }}
           onChange={handleChange}
           name="zip"
+          error={!formData.zip}
+          helperText={!formData.zip ? requiredText : ""}
           required
         />
         <br></br>
@@ -174,6 +239,8 @@ edited) */}
           sx={{ m: 1 }}
           onChange={handleChange}
           name="cellphone"
+          error={!formData.cellphone}
+          helperText={!formData.cellphone ? requiredText : ""}
           required
         />
 
@@ -219,7 +286,7 @@ edited) */}
           label="TODO"
           variant="outlined"
           sx={{ m: 1 }}
-        //   onChange={handleChange}
+          //   onChange={handleChange}
           name="email"
           disabled
         />
@@ -233,103 +300,348 @@ edited) */}
           sx={{ m: 1 }}
           onChange={handleChange}
           name="ssn"
+          error={!formData.ssn}
+          helperText={!formData.ssn ? requiredText : ""}
           required
         />
         <br></br>
         <br></br>
 
         <p>Date of Birth</p>
-          <TextField
-            name="dob"
-            label="Birthday"
-            type="date"
-            defaultValue=""
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleChange}
-            required
-          />
-        <br></br>
-        <br></br>
-        
-        <p>Gender</p>
-        <FormControl style={{width: 250}}>
-        <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          name="gender"
-          value={formData.gender}
-          label="Gender"
+        <TextField
+          name="dob"
+          label="Birthday"
+          type="date"
+          defaultValue=""
+          InputLabelProps={{
+            shrink: true,
+          }}
           onChange={handleChange}
-        >
-          <MenuItem value={'Male'}>Male</MenuItem>
-          <MenuItem value={'Female'}>Female</MenuItem>
-          <MenuItem value={'I do not wish to answer'}>I do not wish to answer</MenuItem>
-        </Select>
-      </FormControl>
-      <br></br><br></br>
+          error={!formData.dob}
+          helperText={!formData.dob ? requiredText : ""}
+          required
+        />
+        <br></br>
+        <br></br>
+
+        <p>Gender</p>
+        <FormControl style={{ width: 250 }}>
+          <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            name="gender"
+            value={formData.gender}
+            label="Gender"
+            onChange={handleChange}
+          >
+            <MenuItem value={"Male"}>Male</MenuItem>
+            <MenuItem value={"Female"}>Female</MenuItem>
+            <MenuItem value={"I do not wish to answer"}>
+              I do not wish to answer
+            </MenuItem>
+          </Select>
+        </FormControl>
+        <br></br>
+        <br></br>
 
         <p>Are you a citizen or permanent resident of the U.S?</p>
-        <FormControl style={{width: 250}}>
-        <InputLabel id="yescitizen">Yes?</InputLabel>
-        <Select
-          labelId="yescitizen"
-          name="citizen"
-          value={formData.citizen}
-          label="yescitizen"
-          onChange={handleChange}
-        >
-          <MenuItem value={'Green Card'}>Green Card</MenuItem>
-          <MenuItem value={'Citizen'}>Citizen</MenuItem>
-        </Select>
-      </FormControl>
+        <FormControl style={{ width: 200 }}>
+          <InputLabel id="grouped-native-select">Select Yes or No</InputLabel>
+          <Select
+            native
+            labelId="grouped-native-select"
+            // defaultValue={formData.citizen}
+            value={formData.citizen}
+            name="citizen"
+            onChange={handleChange}
+            label="citizen"
+            error={!formData.citizen}
+            required
+          >
+            <option value=""></option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </Select>
+          <FormHelperText error>
+            {!formData.citizen ? requiredText : ""}
+          </FormHelperText>
+        </FormControl>
+        {formData.citizen === "Yes" ? (
+          <FormControl style={{ width: 250 }}>
+            <InputLabel htmlFor="grouped-select">
+              Select Your Citizenship
+            </InputLabel>
+            <Select
+              defaultValue=""
+              value={formData.citizenship}
+              name="citizenship"
+              onChange={handleChange}
+              error={!formData.citizenship}
+              required
+            >
+              <MenuItem value=""></MenuItem>
+              <MenuItem value={"Green Card"}>Green Card</MenuItem>
+              <MenuItem value={"Citizen"}>Citizen</MenuItem>
+            </Select>
+            <FormHelperText error>
+              {!formData.citizenship ? requiredText : ""}
+            </FormHelperText>
+          </FormControl>
+        ) : (
+          ""
+        )}
+        {formData.citizen === "No" ? (
+          <FormControl style={{ width: 300 }}>
+            <InputLabel htmlFor="grouped-select">
+              What is your work authorization?
+            </InputLabel>
+            <Select
+              defaultValue=""
+              value={formData.citizenship}
+              name="citizenship"
+              onChange={handleChange}
+              error={!formData.citizenship}
+              required
+            >
+              <MenuItem value=""></MenuItem>
+              <MenuItem value={"H1-B,L2,F1(CPT/OPT),H4,Other"}>
+                H1-B, L2, F1(CPT/OPT), H4, Other
+              </MenuItem>
+              <MenuItem value={"F1(CPT/OPT)"}>F1(CPT/OPT)</MenuItem>
+              <MenuItem value={"Other"}>Other</MenuItem>
+            </Select>
+            <FormHelperText error>
+              {!formData.citizenship ? requiredText : ""}
+            </FormHelperText>
 
-      <FormControl style={{width: 250}}>
-        <InputLabel id="nocitizen">No?</InputLabel>
-        <Select
-          labelId="nocitizen"
-          name="citizen"
-          value={formData.citizen}
-          label="nocitizen"
-          onChange={handleChange}
-        >
-          <MenuItem value={'Green Card'}>Green Card</MenuItem>
-          <MenuItem value={'Citizen'}>Citizen</MenuItem>
-        </Select>
-      </FormControl>
-        <br></br><br></br>
-        
+            <br></br>
+            <Box sx={{ flexDirection: "row" }}>
+              <TextField
+                style={{ width: 150 }}
+                name="citizenshipstart"
+                label="Start Date"
+                type="date"
+                defaultValue=""
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleChange}
+                error={!formData.citizenshipstart}
+                helperText={!formData.citizenshipstart ? requiredText : ""}
+                required
+              />
+
+              <TextField
+                style={{ width: 150 }}
+                name="citizenshipend"
+                label="End Date"
+                type="date"
+                defaultValue=""
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleChange}
+                error={!formData.citizenshipend}
+                helperText={!formData.citizenshipend ? requiredText : ""}
+                required
+              />
+            </Box>
+          </FormControl>
+        ) : (
+          ""
+        )}
+        {formData.citizenship === "F1(CPT/OPT)" ? (
+          <Button variant="contained" component="label">
+            Upload OPT Receipt
+            <TextField
+              //label="Profile Picture"
+              style={{ flexWrap: "wrap" }}
+              name="citizenshipfile"
+              onChange={handleChange}
+              type="file"
+              required
+              error={!formData.citizenshipfile}
+              helperText={!formData.citizenshipfile ? requiredText : ""}
+            />
+          </Button>
+        ) : (
+          ""
+        )}
+
+        {formData.citizenship === "Other" ? (
+          <TextField
+            style={{display:"flex", justifyContent:"flex-end"}}
+            label="Visa Title"
+            variant="outlined"
+            sx={{ m: 1 }}
+            onChange={handleChange}
+            name="visatitle"
+            error={!formData.visatitle}
+            helperText={!formData.visatitle ? requiredText : ""}
+            required
+          />
+        ) : (
+          ""
+        )}
+        <br></br>
+        <br></br>
+
         <p>Do you have a driver’s license?</p>
-            
-        <br></br><br></br>
+        <FormControl style={{ width: 200 }}>
+          <InputLabel id="grouped-native-select">Select Yes or No</InputLabel>
+          <Select
+            native
+            labelId="grouped-native-select"
+            // defaultValue={formData.citizen}
+            value={formData.license}
+            name="license"
+            onChange={handleChange}
+            label="license"
+            error={!formData.license}
+            required
+          >
+            <option value=""></option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </Select>
+          <FormHelperText error>
+            {!formData.license ? requiredText : ""}
+          </FormHelperText>
+        </FormControl>
+        {formData.license === "Yes" ? (
+          <Box sx={{ flexWrap: "wrap" }}>
+            <TextField
+              label="License Number"
+              variant="outlined"
+              sx={{ m: 1 }}
+              onChange={handleChange}
+              name="licensenumber"
+              error={!formData.licensenumber}
+              helperText={!formData.licensenumber ? requiredText : ""}
+              required
+            />
+            <TextField
+              name="expirationdate"
+              label="Expiration Date"
+              sx={{ m: 1 }}
+              type="date"
+              defaultValue=""
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={handleChange}
+              error={!formData.expirationdate}
+              helperText={!formData.expirationdate ? requiredText : ""}
+              required
+            />
+            <br></br>
+            <br></br>
+            <p>Upload Copy of License Here</p>
+            <Button variant="contained" component="label">
+              Upload File
+              <TextField
+                //label="License Copy"
+                name="licensecopy"
+                onChange={handleChange}
+                type="file"
+                required
+                error={!formData.licensecopy}
+                helperText={!formData.licensecopy ? requiredText : ""}
+              />
+            </Button>
+          </Box>
+        ) : (
+          ""
+        )}
+
+        <br></br>
+        <br></br>
 
         <p>Reference (who referred you to this company? There can only be 1)</p>
+        <TextField
+          label="First name"
+          variant="outlined"
+          sx={{ m: 1 }}
+          onChange={handleChange}
+          name="eContactfirst"
+          error={!formData.eContactfirst}
+          helperText={!formData.eContactfirst ? requiredText : ""}
+          required
+        />
 
-        <br></br><br></br>
+        <TextField
+          label="Middle name"
+          variant="outlined"
+          sx={{ m: 1 }}
+          onChange={handleChange}
+          name="eContactmiddle"
+        />
+        <TextField
+          label="Last name"
+          variant="outlined"
+          sx={{ m: 1 }}
+          onChange={handleChange}
+          name="eContactlast"
+          error={!formData.eContactlast}
+          helperText={!formData.eContactlast ? requiredText : ""}
+          required
+        />
+        <TextField
+          label="Phone"
+          variant="outlined"
+          sx={{ m: 1 }}
+          onChange={handleChange}
+          name="eContacttel"
+          error={!formData.eContacttel}
+          helperText={!formData.eContacttel ? requiredText : ""}
+          required
+        />
+        <TextField
+          label="Email"
+          variant="outlined"
+          sx={{ m: 1 }}
+          onChange={handleChange}
+          name="eContactemail"
+          error={!formData.eContactemail}
+          helperText={!formData.eContactemail ? requiredText : ""}
+          required
+        />
+
+        <TextField
+          label="Relationship"
+          variant="outlined"
+          sx={{ m: 1 }}
+          onChange={handleChange}
+          name="eContactrelationship"
+          error={!formData.eContactrelationship}
+          helperText={!formData.eContactrelationship ? requiredText : ""}
+          required
+        />
+        <br></br>
+        <br></br>
 
         <p>Emergency contact(s) (1+)</p>
-
-
-
-
-        {/* vii. SSN, date of birth, gender (male, female, i do not wish to answer)
-viii. “Are you a citizen or permanent resident of the U.S?”
-1. Yes: choose “Green Card” or “Citizen”
-2. No: “What is your work authorization?” (require them to upload
-files, you can test it with blank pdfs)
-a. H1-B, L2, F1(CPT/OPT), H4, Other
-b. If F1(CPT/OPT): show an input field for uploading their
-OPT Receipt. See Employee #Visa Status Management.
-c. If other: show an input box to specify the visa title
-d. Start and end date
-ix. “Do you have a driver’s license?”
-1. Yes: driver’s license number, expiration date, and an uploaded
-copy of the license
-x. Reference (who referred you to this company? There can only be 1)
-1. First name, last name, middle name, phone, email, relationship
-xi. Emergency contact(s) (1+)
-1. First name, last name, middle name, phone, email, relationship */}
+        <form>
+          {inputFields.map((input, index) => {
+            return (
+              <div key={index}>
+                <input
+                  name="name"
+                  placeholder="Name"
+                  value={input.name}
+                  onChange={(event) => handleFormChange(index, event)}
+                />
+                <input
+                  name="age"
+                  placeholder="Age"
+                  value={input.age}
+                  onChange={(event) => handleFormChange(index, event)}
+                />
+                <button onClick={addFields}>Add More..</button>
+              </div>
+            );
+          })}
+        </form>
 
         <Button
           variant="outlined"
