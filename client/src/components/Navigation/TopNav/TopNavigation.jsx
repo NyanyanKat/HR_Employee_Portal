@@ -1,14 +1,17 @@
 import React from 'react'
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import auth from '../../../utils/auth';
 import Login from '../../Authentication/Login';
+import Registration from '../../Authentication/Registration';
 
 export default function TopNavigation() {
   const handleLogout = () => {
     auth.logout()
   }
+  const { path } = useRouteMatch();
+
 
   return (
     <>
@@ -38,6 +41,8 @@ export default function TopNavigation() {
       </Navbar>
       <Switch>
         <Route path={'/login'} component={props => <Login />} />
+        <Route path={`/register${path}`} component={props => <Registration />} />
+        {/* for home */}
       </Switch>
     </>
   )

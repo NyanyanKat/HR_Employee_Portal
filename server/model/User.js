@@ -29,7 +29,7 @@ const userSchema = new Schema({
         type: String,
         enum: ['hr','employee'],
         default: 'employee'
-    },
+    }
 });
 
 //middleware to encrypt password
