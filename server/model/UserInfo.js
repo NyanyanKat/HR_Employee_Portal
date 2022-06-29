@@ -110,6 +110,7 @@ const userInfoSchema = new Schema({
         type: String,
         enum: ['pending', 'approved', 'rejected'],
         default: 'pending'
+        required: true
     },
     // Profile picture
     profile_pic: {
