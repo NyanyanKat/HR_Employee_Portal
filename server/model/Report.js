@@ -2,10 +2,14 @@ const { Schema, model } = require("mongoose");
 
 const reportSchema = new Schema({
     createdBy: {
-        type: Schema.Types.ObjectId, ref: 'User'
+        type: Schema.Types.ObjectId, 
+        ref: 'User',
+        required: true
     },
     housingID: {
-        type: Schema.Types.ObjectId, ref: 'Housing'
+        type: Schema.Types.ObjectId, 
+        ref: 'Housing',
+        required: true
     },
     title: {
         type: String,
@@ -21,9 +25,24 @@ const reportSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['open', 'closed','in progress'],
-        default: 'open'
-    }
+        enum: ['Open', 'Closed','In Progress'],
+        default: 'Open'
+    },
+    comments: [{
+        desc: {
+            type: String,
+            required: true
+        },
+        creatorID: {
+            type: Schema.Types.ObjectId, 
+            ref: 'User',
+            required: true
+        },
+        timestamp: {
+            type: Date,
+            required: true
+        },
+    }]
 
 });
 
