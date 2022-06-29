@@ -20,7 +20,7 @@ const api = {
     login(params){
         return axios.post(base.baseUrl + base.login, params)
     }
-    }
+}
 
 
 export default api
