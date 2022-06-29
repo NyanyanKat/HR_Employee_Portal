@@ -46,9 +46,9 @@ const User = model("User", userSchema);
 
 
 // User.create({
-//     username:'user',
-//     email:'user@gmail.com',
-//     password:'user',
+//     username:'test5',
+//     email:'test5@gmail.com',
+//     password:'test5',
 //     role:'employee',
 // }).then(()=>{
 //     console.log('Successfully create a user')

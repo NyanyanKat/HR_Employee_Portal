@@ -11,7 +11,7 @@ import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
 import Employee from '../../hrPages/Employee';
-import OnBoarding from "../Hire/OnBoarding"
+import OnboardingReview from "../Hire/OnBoarding"
 
 
 const Main = styled.main`
@@ -95,7 +95,7 @@ export default function Sidebar(props) {
           <TopNavigation />
           <div className="main-content-container">
             <Route path="/hire/register" component={props => <RegistrationToken />} />
-            <Route path={`/hire/onboarding`} component={props => <OnBoarding />} />
+            <Route path="/hire/onboarding" component={props => <OnboardingReview />} />
             <Route path={'/employee'} component={props => <Employee />} />
           </div>
         </Main>

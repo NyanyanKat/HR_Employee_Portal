@@ -18,6 +18,9 @@ const userInfoSchema = new Schema({
             type: String,
             required: true
         },
+        middle: {
+            type: String,
+        },
         last: {
             type: String,
             required: true
@@ -34,12 +37,12 @@ const userInfoSchema = new Schema({
         contentType: String
     },
     address: {
-        houseNumber: {
-            type: Number,
-            required: true
-        },
         streetName: {
             type: String,
+            required: true
+        },
+        houseNumber: {
+            type: Number,
             required: true
         },
         city: {
@@ -177,12 +180,34 @@ const userInfoSchema = new Schema({
     }],
     status: {
         type: String,
-        enum: ['never submitted', 'pending', 'approved', 'rejected'],
-        default: 'never submitted',
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending',
         required: true
     },
 })
 
 const UserInfo = model('UserInfo', userInfoSchema);
+
+// UserInfo.create({
+//     userID: '62bb871a6a5422feca047b23',
+//     name: { first: 'test4', last: 'test4', preferred: 'test4' },
+//     ssn: 1234567890,
+//     dob: 01 / 01 / 2022,
+//     license: { number: 123456789, expiration: 01 / 01 / 2022, photo: '' },
+//     address: { streetName: '123 St', houseNumber: 45, city: 'Piscataway', state: 'NJ', zip: 08901 },
+//     tel: 9292572388,
+//     carInfo: { make: "Jeep", model: 'Wrangler', color: 'red' },
+//     eContact: [
+//         { first: 'danling', last: 'sun', tel: 8483133830, email: 'danlingsun@gmail.com', relationship: "friend" },
+//         { first: 'dd', last: 'ss', tel: 8483133830, email: 'ds@gmail.com', relationship: "parent" }
+//     ],
+//     status: 'pending',
+//     profile_pic: ""
+// }).then(() => {
+//     console.log('Successfully create a user info')
+// }).catch((e) => {
+//     console.log(e)
+//     console.log('Failed to create a user info')
+// })
 
 module.exports = UserInfo;

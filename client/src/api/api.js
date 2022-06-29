@@ -21,12 +21,11 @@ const api = {
     login(params) {
         return axios.post(base.baseUrl + base.login, params)
     },
-    onboarding(params) {
-        return axios.post(base.baseUrl + base.onboard, params)
-    },
+//     onboarding(params) {
+//         return axios.post(base.baseUrl + base.onboard, params)
+//     },
     getEmployee(params) {
         return axios.get(base.baseUrl + base.employee, params)
     }
 }
-
 export default api
