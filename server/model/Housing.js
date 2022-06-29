@@ -64,7 +64,11 @@ const housingSchema = new Schema({
             min: 10
         },
     }],
-    report: [Report]
+    // report: [{reportID: {
+    //     type: Schema.Types.ObjectId, 
+    //     ref: 'Report',
+    //     required: true
+    // }}]
 });
 
 const Housing = model('Housing',housingSchema);
