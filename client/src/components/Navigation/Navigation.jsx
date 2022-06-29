@@ -10,7 +10,8 @@ import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
-import OnboardingReview from '../Onboarding/OnboardingReview';
+import Employee from '../../hrPages/Employee';
+import OnboardingReview from "../Hire/OnBoarding"
 
 
 const Main = styled.main`
@@ -90,13 +91,12 @@ export default function Sidebar(props) {
             </NavItem>
           </SideNav.Nav>
         </SideNav>
-
         <Main expanded={expanded}>
           <TopNavigation />
           <div className="main-content-container">
             <Route path="/hire/register" component={props => <RegistrationToken />} />
             <Route path="/hire/onboarding" component={props => <OnboardingReview />} />
-            {/* onboarding routes */}
+            <Route path={'/employee'} component={props => <Employee />} />
           </div>
         </Main>
       </React.Fragment>

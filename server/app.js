@@ -15,7 +15,6 @@ app.use(cors())
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
-const routes = require('./routes/index')
 app.use(routes)
 
 app.get("/", (res,resp)=>{
@@ -28,4 +27,4 @@ app.get("/", (res,resp)=>{
 //     .send('404 not found')
 // });
 
-module.exports=app
+module.exports = app
