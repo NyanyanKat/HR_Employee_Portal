@@ -34,7 +34,12 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'UserInfo',
         required: true
-    }
+    },
+    housingID: {
+        type: Schema.Types.ObjectId, 
+        ref: 'Housing',
+        required: true
+    },
 });
 
 //middleware to encrypt password
