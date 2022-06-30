@@ -11,6 +11,8 @@ const base = {
     employee: "/employee",
     allOnboardingReview: "/hire/onboarding",
     oneOnboardReview: "/hire/onboarding/", //:eid
+    empHousingDetail: "/housing/get-detail",
+    empHousingReports: "/housing/get-reports"
 }
 
 const api = {
@@ -34,6 +36,12 @@ const api = {
     },
     getOneOnboarding(){
         return axios.get(base.baseUrl + base.oneOnboardReview)
-    }
+    },
+    getEmpHousingDetail(){
+        return axios.get(base.baseUrl + base.empHousingDetail)
+    },
+    getEmpHousingReports(){
+        return axios.get(base.baseUrl + base.empHousingReports)
+    },
 }
 export default api

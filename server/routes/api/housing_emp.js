@@ -4,7 +4,7 @@ const User = require("../../model/User");
 const Report = require("../../model/Report");
 const Comment = require("../../model/Comment");
 
-router.get("/housing-detail", async function (req, resp) {
+router.get("/get-detail", async function (req, resp) {
   try {
     const userID = '';
     let user = await User.findOne({ _id: userID });

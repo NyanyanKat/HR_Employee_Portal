@@ -13,10 +13,10 @@ export default function Onboarding() {
   const [housingDetail, updateHousingDetail] = useState({});
   const [housingReports, updateHousingReports] = useState([]);
 
-  api.getHousingDetail().then(res => {
+  api.getEmpHousingDetail().then(res => {
     updateHousingDetail(JSON.parse(res.data))
   });
-  api.getHousingReports().then(res => {
+  api.getEmpHousingReports().then(res => {
     updateHousingReports(JSON.parse(res.data))
   });
 
