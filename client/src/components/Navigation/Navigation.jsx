@@ -11,7 +11,8 @@ import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
 import Employee from '../../hrPages/Employee';
-import OnboardingReview from "../Hire/OnBoarding"
+import OnboardingReview from "../Hire/OnBoarding";
+import Housing from "../../employeePages/Housing/Housing";
 
 
 const Main = styled.main`
@@ -59,6 +60,9 @@ export default function Sidebar(props) {
               <NavItem eventKey="hire/onboarding">
                 <NavText>Onboarding Application</NavText>
               </NavItem>
+              <NavItem eventKey="hire/housing">
+                <NavText>Onboarding Application</NavText>
+              </NavItem>
             </NavItem>
 
             <NavItem eventKey="employee">
@@ -96,6 +100,7 @@ export default function Sidebar(props) {
           <div className="main-content-container">
             <Route path="/hire/register" component={props => <RegistrationToken />} />
             <Route path="/hire/onboarding" component={props => <OnboardingReview />} />
+            <Route path="/hire/housing" component={props => <Housing />} />
             <Route path={'/employee'} component={props => <Employee />} />
           </div>
         </Main>
