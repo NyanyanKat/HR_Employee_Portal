@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const reportSchema = new Schema({
+const commentSchema = new Schema({
     reportID: {
         type: Schema.Types.ObjectId, 
         ref: 'Report',
@@ -22,5 +22,5 @@ const reportSchema = new Schema({
 
 });
 
-const Report = model("Report", reportSchema);
-module.exports = Report;
+const Comment = model("Comment", commentSchema);
+module.exports = Comment;
