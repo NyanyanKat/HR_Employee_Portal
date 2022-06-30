@@ -14,8 +14,7 @@ import Employee from '../../hrPages/Employee';
 import OnboardingReview from "../Hire/OnboardingReview"
 import ViewOnboarding from '../Hire/ViewOnboarding';
 import OnBoardingApp from '../../empPages/OnBoardingApp'
-
-
+import Housing from "../../empPages/Housing";
 
 
 const Main = styled.main`
@@ -63,6 +62,9 @@ export default function Sidebar(props) {
               <NavItem eventKey="hire/onboarding">
                 <NavText>Onboarding Application</NavText>
               </NavItem>
+              <NavItem eventKey="hire/housing">
+                <NavText>Onboarding Application</NavText>
+              </NavItem>
             </NavItem>
 
             <NavItem eventKey="employee">
@@ -102,6 +104,7 @@ export default function Sidebar(props) {
             <Route path="/hire/register" component={props => <RegistrationToken />} />
             <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
             <Route path={`/hire/onboarding/view${path}`}  component={props => <ViewOnboarding />} />
+            <Route path="/housing" component={props => <Housing />} />
             <Route path={'/employee'} component={props => <Employee />} />
             <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
             </Switch>

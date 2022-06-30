@@ -1,6 +1,7 @@
 // import axios from '../utils/axios'
 import axios from 'axios'
 // const decode = require("jwt-decode");
+import auth from '../utils/auth'
 
 const base = {
     baseUrl: "http://127.0.0.1:3001/api",
@@ -11,6 +12,8 @@ const base = {
     employee: "/employee",
     allOnboardingReview: "/hire/onboarding",
     oneOnboardReview: "/hire/onboarding/", //:eid
+    empHousingDetail: "/housing/get-detail",
+    empHousingReports: "/housing/get-reports"
 }
 
 const api = {
@@ -34,6 +37,12 @@ const api = {
     },
     getOneOnboarding(){
         return axios.get(base.baseUrl + base.oneOnboardReview)
-    }
+    },
+    getEmpHousingDetail(){
+        return axios.get(base.baseUrl + base.empHousingDetail, {headers: { "userID": auth.getUser().id}})
+    },
+    getEmpHousingReports(){
+        return axios.get(base.baseUrl + base.empHousingReports, {headers: { "userID": auth.getUser().id}})
+    },
 }
 export default api
