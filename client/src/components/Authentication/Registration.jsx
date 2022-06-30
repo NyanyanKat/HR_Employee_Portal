@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useHistory } from "react-router-dom";
 import queryString from "query-string";
 import api from "../../api/api";
 import {
@@ -37,6 +37,7 @@ export default function Registration() {
   // console.log('search:', search);  //?token=xxx&email=xxx
   const queries = queryString.parse(search); //{token:'xxx', email: 'xxx'}
   // console.log('values',values);
+  const history = useHistory()
 
   const initialFormData = Object.freeze({
     email: `${queries.email}`,
@@ -60,6 +61,7 @@ export default function Registration() {
       .then((res) => {
         // console.log('Response',res.data)
         updateErrMsg({});
+        history.push('/login')
       })
       .catch((error) => {
         // console.log('Error',error.response.data)

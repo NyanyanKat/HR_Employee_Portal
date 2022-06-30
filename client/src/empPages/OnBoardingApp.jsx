@@ -1,38 +1,84 @@
 import { useState } from "react";
-import api from "../../api/api";
+import { useHistory } from 'react-router-dom'
+
+import api from "../api/api";
 import {
   TextField,
-  OutlinedInput,
   Button,
-  InputAdornment,
-  IconButton,
   FormControl,
   InputLabel,
   Box,
-  Grid,
-  SliderValueLabel,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import FormHelperText from "@mui/material/FormHelperText";
-//import Button from '@mui/material/Button';
-//import IconButton from '@mui/material/IconButton';
+import auth from '../utils/auth';
 
 export default function Onboarding() {
+  const history = useHistory()
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("SUBMIT", e);
-    console.log(formData);
-    console.log("eContact: ", formData.eContact.first);
+    let formattedFormData = {
+      name: {
+        first: formData.firstname,
+        last: formData.lastname,
+        middle: formData.middlename,
+        preferred: formData.preferredname,
+      },
+      profilePic: formData.profilePic,
+      address: {
+        houseNumber: formData.building,
+        streetName: formData.street,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip
+      },
+      cellphone: formData.cellphone,
+      workphone: formData.workphone,
+      car: {
+        make: formData.carmake,
+        model: formData.carmodel,
+        color: formData.carcolor
+      },
+      ssn: formData.ssn,
+      dob: formData.dob,
+      gender: formData.gender,
+      citizenship: {
+        citizen: (formData.citizen == 'Yes') ? true : false,
+        status: formData.citizenship,
+        optReceipt: formData.optReceipt,
+        start: formData.citizenshipstart,
+        end: formData.citizenshipend
+      },
+      license: {
+        //license?
+        number: formData.licensenumber,
+        expiration: formData.expirationdate,
+        licenseCopy: formData.licenseCopy
+      },
+      reference: {
+        first: formData.referencefirst,
+        last: formData.referencelast,
+        middle: formData.referencemiddle,
+        tel: formData.referencetel,
+        email: formData.referenceemail,
+        relationship: formData.referencerelationship
+      },
+      eContact: inputFields,
+      userID: auth.getUser().id
+    };
+    console.log(formattedFormData);
+
     api
-      .onboarding(formData)
+      .onboarding(formattedFormData)
       .then((res) => {
-        // console.log('Response',res.data)
-        updateErrMsg({});
+        console.log('ResponseMsg',res.data)
+        history.push('/')
+        // updateErrMsg({});
       })
       .catch((error) => {
-        // console.log('Error',error.response.data)
-        updateErrMsg(error.response.data);
+        console.log('Error',error.response.data)
+        // updateErrMsg(error.response.data);
       });
   };
 
@@ -41,7 +87,7 @@ export default function Onboarding() {
     middlename: "",
     lastname: "",
     preferredname: "",
-    profilepic: "",
+    profilePic: "",
     building: "",
     street: "",
     city: "",
@@ -52,26 +98,25 @@ export default function Onboarding() {
     carmake: "",
     carmodel: "",
     carcolor: "",
-    // email grab from store??
     ssn: "",
     dob: "",
-    gender: "",
+    gender: "I do not wish to answer",
     citizen: "",
     citizenship: "",
-    citizenshipfile: "",
-    citizenshipstart: "",
-    citizenshipend: "",
+    optReceipt: "",
+    citizenshipStart: "",
+    citizenshipEnd: "",
     visatitle: "",
     license: "",
     licensenumber: "",
     expirationdate: "",
-    licensecopy: "",
-    eContactfirst: "",
-    eContactmiddle: "",
-    eContactlast: "",
-    eContacttel: "",
-    eContactemail: "",
-    eContactrelationship: "",
+    licenseCopy: "",
+    referencefirst: "",
+    referencemiddle: "",
+    referencelast: "",
+    referencetel: "",
+    referenceemail: "",
+    referencerelationship: "",
   });
 
   const [formData, updateFormData] = useState(initialFormData);
@@ -83,9 +128,23 @@ export default function Onboarding() {
     });
   };
 
-  const [inputFields, setInputFields] = useState([{ name: "", age: "" }]);
+  const handleFile = (e) => {
+    updateFormData({
+      ...formData,
+      [e.target.name]: e.target.files[0],
+    });
+  };
 
-  const handleFormChange = (index, event) => {
+  const [inputFields, setInputFields] = useState([{ 
+    first: "", 
+    last: "",
+    middle: "",
+    tel: "",
+    email: "",
+    relationship: "" 
+  }]);
+
+  const handleEContactsChange = (index, event) => {
     let data = [...inputFields];
     data[index][event.target.name] = event.target.value;
     setInputFields(data);
@@ -93,7 +152,14 @@ export default function Onboarding() {
 
   const addFields = (event) => {
     event.preventDefault();
-    let newfield = { name: "", age: "" };
+    let newfield = {
+      first: "", 
+      last: "",
+      middle: "",
+      tel: "",
+      email: "",
+      relationship: "" 
+    };
     setInputFields([...inputFields, newfield]);
   };
 
@@ -160,12 +226,9 @@ export default function Onboarding() {
           Upload File
           <TextField
             //label="Profile Picture"
-            name="profilepic"
-            onChange={handleChange}
+            name="profilePic"
+            onChange={handleFile}
             type="file"
-            required
-            error={!formData.profilepic}
-            helperText={!formData.profilepic ? requiredText : ""}
           />
         </Button>
         <br></br>
@@ -226,12 +289,6 @@ export default function Onboarding() {
         <br></br>
         <br></br>
 
-        {/* iii. Current address (building/apt #, street name, city, state, zip)
-iv. Cell phone number, work phone number
-v. Car information (make, model, color)
-vi. Email (pre-filled based on email that received registration token, cannot be
-edited) */}
-
         <p>Contact Number</p>
         <TextField
           label="Cell Phone"
@@ -283,10 +340,9 @@ edited) */}
 
         <p>Email</p>
         <TextField
-          label="TODO"
+          label={auth.getUser().email}
           variant="outlined"
           sx={{ m: 1 }}
-          //   onChange={handleChange}
           name="email"
           disabled
         />
@@ -336,6 +392,7 @@ edited) */}
           >
             <MenuItem value={"Male"}>Male</MenuItem>
             <MenuItem value={"Female"}>Female</MenuItem>
+            <MenuItem value={"Other"}>Other</MenuItem>
             <MenuItem value={"I do not wish to answer"}>
               I do not wish to answer
             </MenuItem>
@@ -456,12 +513,12 @@ edited) */}
             <TextField
               //label="Profile Picture"
               style={{ flexWrap: "wrap" }}
-              name="citizenshipfile"
-              onChange={handleChange}
+              name="optReceipt"
+              onChange={handleFile}
               type="file"
               required
-              error={!formData.citizenshipfile}
-              helperText={!formData.citizenshipfile ? requiredText : ""}
+              error={!formData.optReceipt}
+              helperText={!formData.optReceipt ? requiredText : ""}
             />
           </Button>
         ) : (
@@ -541,12 +598,12 @@ edited) */}
               Upload File
               <TextField
                 //label="License Copy"
-                name="licensecopy"
-                onChange={handleChange}
+                name="licenseCopy"
+                onChange={handleFile}
                 type="file"
                 required
-                error={!formData.licensecopy}
-                helperText={!formData.licensecopy ? requiredText : ""}
+                error={!formData.licenseCopy}
+                helperText={!formData.licenseCopy ? requiredText : ""}
               />
             </Button>
           </Box>
@@ -563,9 +620,9 @@ edited) */}
           variant="outlined"
           sx={{ m: 1 }}
           onChange={handleChange}
-          name="eContactfirst"
-          error={!formData.eContactfirst}
-          helperText={!formData.eContactfirst ? requiredText : ""}
+          name="referencefirst"
+          error={!formData.referencefirst}
+          helperText={!formData.referencefirst ? requiredText : ""}
           required
         />
 
@@ -574,16 +631,16 @@ edited) */}
           variant="outlined"
           sx={{ m: 1 }}
           onChange={handleChange}
-          name="eContactmiddle"
+          name="referencemiddle"
         />
         <TextField
           label="Last name"
           variant="outlined"
           sx={{ m: 1 }}
           onChange={handleChange}
-          name="eContactlast"
-          error={!formData.eContactlast}
-          helperText={!formData.eContactlast ? requiredText : ""}
+          name="referencelast"
+          error={!formData.referencelast}
+          helperText={!formData.referencelast ? requiredText : ""}
           required
         />
         <TextField
@@ -591,9 +648,9 @@ edited) */}
           variant="outlined"
           sx={{ m: 1 }}
           onChange={handleChange}
-          name="eContacttel"
-          error={!formData.eContacttel}
-          helperText={!formData.eContacttel ? requiredText : ""}
+          name="referencetel"
+          error={!formData.referencetel}
+          helperText={!formData.referencetel ? requiredText : ""}
           required
         />
         <TextField
@@ -601,9 +658,9 @@ edited) */}
           variant="outlined"
           sx={{ m: 1 }}
           onChange={handleChange}
-          name="eContactemail"
-          error={!formData.eContactemail}
-          helperText={!formData.eContactemail ? requiredText : ""}
+          name="referenceemail"
+          error={!formData.referenceemail}
+          helperText={!formData.referenceemail ? requiredText : ""}
           required
         />
 
@@ -612,9 +669,9 @@ edited) */}
           variant="outlined"
           sx={{ m: 1 }}
           onChange={handleChange}
-          name="eContactrelationship"
-          error={!formData.eContactrelationship}
-          helperText={!formData.eContactrelationship ? requiredText : ""}
+          name="referencerelationship"
+          error={!formData.referencerelationship}
+          helperText={!formData.referencerelationship ? requiredText : ""}
           required
         />
         <br></br>
@@ -625,22 +682,69 @@ edited) */}
           {inputFields.map((input, index) => {
             return (
               <div key={index}>
-                <input
-                  name="name"
-                  placeholder="Name"
-                  value={input.name}
-                  onChange={(event) => handleFormChange(index, event)}
+                <TextField
+                  label="First name"
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  onChange={(event) => handleEContactsChange(index, event)}
+                  name="first"
+                  error={!inputFields[index].first}
+                  helperText={!inputFields[index].first ? requiredText : ""}
+                  required
                 />
-                <input
-                  name="age"
-                  placeholder="Age"
-                  value={input.age}
-                  onChange={(event) => handleFormChange(index, event)}
+
+                <TextField
+                  label="Middle name"
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  onChange={(event) => handleEContactsChange(index, event)}
+                  name="middle"
                 />
-                <button onClick={addFields}>Add More..</button>
+                <TextField
+                  label="Last name"
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  onChange={(event) => handleEContactsChange(index, event)}
+                  name="last"
+                  error={!inputFields[index].last}
+                  helperText={!inputFields[index].last ? requiredText : ""}
+                  required
+                />
+                <TextField
+                  label="Phone"
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  onChange={(event) => handleEContactsChange(index, event)}
+                  name="tel"
+                  error={!inputFields[index].tel}
+                  helperText={!inputFields[index].tel ? requiredText : ""}
+                  required
+                />
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  onChange={(event) => handleEContactsChange(index, event)}
+                  name="email"
+                  error={!inputFields[index].email}
+                  helperText={!inputFields[index].email ? requiredText : ""}
+                  required
+                />
+
+                <TextField
+                  label="Relationship"
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  onChange={(event) => handleEContactsChange(index, event)}
+                  name="relationship"
+                  error={!inputFields[index].relationship}
+                  helperText={!inputFields[index].relationship ? requiredText : ""}
+                  required
+                />
               </div>
             );
           })}
+          <button onClick={addFields}>Add More..</button>
         </form>
 
         <Button

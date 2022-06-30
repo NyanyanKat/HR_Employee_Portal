@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
+<<<<<<< HEAD
 import { Route, useRouteMatch, Switch } from 'react-router-dom';
+=======
+import { Route, useRouteMatch,Switch } from 'react-router-dom';
+>>>>>>> 508373231b4e822bb69a7a4c6a4d0d462202d0ed
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import auth from '../../utils/auth';
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
@@ -11,10 +15,18 @@ import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
 import Employee from '../../hrPages/Employee';
+<<<<<<< HEAD
 import OneEmployee from '../../hrPages/OneEmployee';
 import OnboardingReview from "../Hire/OnBoarding";
 import Housing from "../../hrPages/Housing";
 import OneHousing from "../../hrPages/OneHousing";
+=======
+import OnboardingReview from "../Hire/OnboardingReview"
+import ViewOnboarding from '../Hire/ViewOnboarding';
+import OnBoardingApp from '../../empPages/OnBoardingApp'
+
+
+>>>>>>> 508373231b4e822bb69a7a4c6a4d0d462202d0ed
 
 
 const Main = styled.main`
@@ -97,6 +109,7 @@ export default function Sidebar(props) {
         <Main expanded={expanded}>
           <TopNavigation />
           <div className="main-content-container">
+<<<<<<< HEAD
             <Switch>
               <Route path="/hire/register" component={props => <RegistrationToken />} />
               <Route path="/hire/onboarding" component={props => <OnboardingReview />} />
@@ -106,6 +119,15 @@ export default function Sidebar(props) {
               <Route path={'/housing/:id'} component={props => <OneHousing />} />
             </Switch>
 
+=======
+          <Switch>
+            <Route path="/hire/register" component={props => <RegistrationToken />} />
+            <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
+            <Route path={`/hire/onboarding/view${path}`}  component={props => <ViewOnboarding />} />
+            <Route path={'/employee'} component={props => <Employee />} />
+            <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
+            </Switch>
+>>>>>>> 508373231b4e822bb69a7a4c6a4d0d462202d0ed
           </div>
         </Main>
       </React.Fragment>

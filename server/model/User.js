@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require('bcrypt');
+const UserInfo = require('./UserInfo')
 
 const emailValidate = function validateEmail(email) {
     const re = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
@@ -30,6 +31,7 @@ const userSchema = new Schema({
         enum: ['hr','employee'],
         default: 'employee'
     },
+<<<<<<< HEAD
     infoID: {
         type: Schema.Types.ObjectId,
         ref: 'UserInfo',
@@ -40,6 +42,13 @@ const userSchema = new Schema({
         ref: 'Housing',
         required: true
     },
+=======
+    onboardingStatus:{
+        type:String,
+        enum: ['never submitted','pending', 'rejected', 'approved'],
+        default: 'never submitted'
+    }
+>>>>>>> 508373231b4e822bb69a7a4c6a4d0d462202d0ed
 });
 
 //middleware to encrypt password
@@ -56,9 +65,9 @@ const User = model("User", userSchema);
 
 
 // User.create({
-//     username:'test5',
-//     email:'test5@gmail.com',
-//     password:'test5',
+//     username:'user',
+//     email:'user@gmail.com',
+//     password:'user',
 //     role:'employee',
 // }).then(()=>{
 //     console.log('Successfully create a user')
