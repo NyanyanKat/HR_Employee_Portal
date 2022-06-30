@@ -15,11 +15,15 @@ app.use(cors())
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
+<<<<<<< HEAD
+const routes = require('./routes');
+=======
 //static file
 const path = require("path")
 app.use(express.static(path.join(__dirname, "public", "uploads")));
 
 const routes = require('./routes')
+>>>>>>> 508373231b4e822bb69a7a4c6a4d0d462202d0ed
 app.use(routes)
 
 

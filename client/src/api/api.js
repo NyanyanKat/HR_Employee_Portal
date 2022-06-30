@@ -10,6 +10,9 @@ const base = {
     login: "/login",
     onboarding: "/onboarding",
     employee: "/employee",
+    employeeInfo: "/employee/info/:id",
+    onboard: "/hire/onboarding",
+    housing: "/housing",
     allOnboardingReview: "/hire/onboarding",
     oneOnboardReview: "/hire/onboarding/", //:eid
     empHousingDetail: "/housing/get-detail",
@@ -26,11 +29,20 @@ const api = {
     login(params) {
         return axios.post(base.baseUrl + base.login, params)
     },
+//     onboarding(params) {
+//         return axios.post(base.baseUrl + base.onboard, params)
+//     },
+    getEmployee() {
+        return axios.get(base.baseUrl + base.employee)
+    },
+    getEmployeeInfo(){
+        return axios.get(base.baseUrl + base.employeeInfo)
+    },
+    getHousing(){
+        return axios.get(base.baseUrl + base.housing)
+    },
     onboarding(params) {
         return axios.post(base.baseUrl + base.onboarding, params, {headers: { "Content-Type": "multipart/form-data" }})
-    },
-    getEmployee(params) {
-        return axios.get(base.baseUrl + base.employee, params)
     },
     getAllOnboarding(){
         return axios.get(base.baseUrl + base.allOnboardingReview)

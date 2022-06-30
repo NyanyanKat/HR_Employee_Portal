@@ -34,7 +34,7 @@ const housingSchema = new Schema({
     },
     landlord: {
         name: {
-            type: String, 
+            type: String,
             required: true
         },
         tel: {
@@ -50,23 +50,47 @@ const housingSchema = new Schema({
     },
     tenants: [{
         userID: [{
-            type: Schema.Types.ObjectId, 
+            type: Schema.Types.ObjectId,
             ref: 'User',
             required: true
         }],
-        fullname: {
-            type: String,
-            required: true
-        },
-        tel: {
-            type: Number,
-            required: true,
-            min: 10
-        },
+        // fullname: {
+        //     type: String,
+        //     required: true
+        // },
+        // tel: {
+        //     type: Number,
+        //     required: true,
+        //     min: 10
+        // },
     }],
+    facilityInfo: {
+        numBeds: {
+            type: Number,
+        },
+        numMattress: {
+            type: Number,
+        },
+        numTables: {
+            type: Number,
+        },
+        numChairs: {
+            type: Number,
+        },
+        reports: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Report',
+        }],
+    },
+    employeeInfo: [{
+        userID: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    }]
 });
 
-const Housing = model('Housing',housingSchema);
+const Housing = model('Housing', housingSchema);
 
 // Housing.create({
 //     address: {
