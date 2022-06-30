@@ -6,7 +6,7 @@ const Comment = require("../../model/Comment");
 
 router.get("/get-detail", async function (req, resp) {
   try {
-    const userID = '';
+    const userID = req.get('userID');
     let user = await User.findOne({ _id: userID });
     let housing = await Housing.findOne({ _id: user.housingID});
     let respObj = {
@@ -16,13 +16,14 @@ router.get("/get-detail", async function (req, resp) {
     resp.status(201).send(JSON.stringify(respObj));
   }
   catch (e) {
+    console.log(e);
     resp.status(400).send(e.message);
   }
 });
 
 router.post("/add-report", async function (req, resp) {
   try {
-    const userID = '';
+    const userID = req.get('userID');
     let user = await User.findOne({ _id: userID });
     let report = req.body;
     report.createdBy = userID;
@@ -38,20 +39,21 @@ router.post("/add-report", async function (req, resp) {
 
 router.get("/get-reports", async function (req, resp) {
   try {
-    const userID = '';
+    const userID = req.get('userID');
     let user = await User.findOne({ _id: userID });
     let reports = await Report.find({ housingID: user.housingID});
 
     resp.status(201).send(JSON.stringify(reports));
   }
   catch (e) {
+    console.log(e);
     resp.status(400).send(e.message);
   }
 });
 
 router.post("/add-comment/:reportID", async function (req, resp) {
   try {
-    const userID = '';
+    const userID = req.get('userID');
     let comment = req.body;
     comment.reportID = req.params.reportID;
     comment.creatorID = userID;

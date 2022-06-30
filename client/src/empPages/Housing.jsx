@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../../api/api";
+import api from "../api/api";
 import {
   Box,
   Stack
@@ -8,15 +8,25 @@ import { DataGrid } from '@mui/x-data-grid';
 // import MenuItem from "@mui/material/MenuItem";
 // import Select, { SelectChangeEvent } from "@mui/material/Select";
 // import FormHelperText from "@mui/material/FormHelperText";
+import Report from "../components/Housing/Report";
+import Comment from "../components/Housing/Comment";
 
 export default function Onboarding() {
-  const [housingDetail, updateHousingDetail] = useState({});
+  const [housingDetail, updateHousingDetail] = useState({
+    address: {},
+    tenents: []
+  });
   const [housingReports, updateHousingReports] = useState([]);
 
   api.getEmpHousingDetail().then(res => {
+    console.log('detail')
+    console.log(res.data)
     updateHousingDetail(JSON.parse(res.data))
+    console.log(housingDetail)
   });
   api.getEmpHousingReports().then(res => {
+    console.log('reports')
+    console.log(res.data)
     updateHousingReports(JSON.parse(res.data))
   });
 
