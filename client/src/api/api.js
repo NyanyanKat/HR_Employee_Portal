@@ -10,6 +10,7 @@ const base = {
     employee: "/employee",
     employeeInfo: "/employee/info/:id",
     onboard: "/hire/onboarding",
+    housing: "/housing",
 }
 
 const api = {
@@ -30,6 +31,9 @@ const api = {
     },
     getEmployeeInfo(){
         return axios.get(base.baseUrl + base.employeeInfo)
+    },
+    getHousing(){
+        return axios.get(base.baseUrl + base.housing)
     }
 }
 export default api

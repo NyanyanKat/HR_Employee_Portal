@@ -9,7 +9,7 @@ import axios from 'axios';
 export default function OneEmployee() {
     // get user info data from backend
     const [userInfo, setUserInfo] = useState({});
-
+    const [loading, setLoading] = useState(true);
     const { id } = useParams();
     console.log('id', id);
 
@@ -19,6 +19,7 @@ export default function OneEmployee() {
             .then(res => console.log(res.body))
             .then(data => {
                 console.log(data);
+                setLoading(false);
                 setUserInfo(data);
             })
             .catch(err => console.log(err));

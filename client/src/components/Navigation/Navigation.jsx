@@ -12,7 +12,9 @@ import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
 import Employee from '../../hrPages/Employee';
 import OneEmployee from '../../hrPages/OneEmployee';
-import OnboardingReview from "../Hire/OnBoarding"
+import OnboardingReview from "../Hire/OnBoarding";
+import Housing from "../../hrPages/Housing";
+import OneHousing from "../../hrPages/OneHousing";
 
 
 const Main = styled.main`
@@ -100,6 +102,8 @@ export default function Sidebar(props) {
               <Route path="/hire/onboarding" component={props => <OnboardingReview />} />
               <Route path={'/employee'} exact component={props => <Employee />} />
               <Route path={'/employee/info/:id'} component={props => <OneEmployee />} />
+              <Route path={'/housing/summary'} components={props => <Housing />} />
+              <Route path={'/housing/:id'} component={props => <OneHousing />} />
             </Switch>
 
           </div>

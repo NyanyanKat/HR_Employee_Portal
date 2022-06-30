@@ -85,11 +85,12 @@ import { useHistory } from "react-router-dom";
 import api from '../api/api';
 import { Table } from 'react-bootstrap'
 
-export default function OnboardingReview() {
+export default function Employee() {
 
     const [data, setData] = useState([]);
     const [searchData, setSearchData] = useState([]);
     const [q, setQ] = useState("");
+    const [loading, setLoading] = useState(true);
 
 
     const [searchParam] = useState(["first", "last", "preferred"]);
@@ -104,6 +105,7 @@ export default function OnboardingReview() {
         api.getEmployee()
         .then(res => {
             console.log(res.data)
+            setLoading(false);
             setData(res.data);
         })
         .catch(err => console.log(err));
