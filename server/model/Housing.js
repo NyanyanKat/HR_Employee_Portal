@@ -92,4 +92,29 @@ const housingSchema = new Schema({
 
 const Housing = model('Housing', housingSchema);
 
+// Housing.create({
+//     address: {
+//         houseNumber: 11,
+//         streetName: 'Green',
+//         city: 'San Jose',
+//         state: 'CA',
+//         zip: 90000
+//     },
+//     landlord: {
+//         name: 'Alan A',
+//         tel: 2132132333,
+//         email: 'alan@123.com'
+//     },
+//     tenents: [{
+//         userID: '62bbff16e1c72482017c0a0a',
+//         fullname: 'user user',
+//         tel: 4084088888
+//     }]
+// }).then(() => {
+//     console.log('Successfully create a housing')
+// }).catch((e) => {
+//     console.log(e)
+//     console.log('Failed to create a housing')
+// })
+
 module.exports = Housing;

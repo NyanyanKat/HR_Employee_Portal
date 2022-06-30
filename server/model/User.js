@@ -47,6 +47,10 @@ const userSchema = new Schema({
         type:String,
         enum: ['never submitted','pending', 'rejected', 'approved'],
         default: 'never submitted'
+    },
+    housingID: {
+        type: Schema.Types.ObjectId,
+        ref: 'Housing',
     }
 >>>>>>> 508373231b4e822bb69a7a4c6a4d0d462202d0ed
 });

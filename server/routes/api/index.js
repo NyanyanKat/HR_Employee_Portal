@@ -5,13 +5,13 @@ const loginRoutes = require('./login');
 const hrOnboardingRoutes = require('./onboarding_hr')
 const empOnboardingRoutes = require('./onboarding_emp');
 const employeeRoutes = require('./employee');
-const housingRoutes = require('./housing');
+const empHousingRoutes = require('./housing_emp');
 const visaRoutes = require('./visa');
 
 
 router.use('/register', registerRoutes);
 router.use('/login', loginRoutes);
-router.use('/housing', housingRoutes);
+router.use('/housing', empHousingRoutes);
 router.use('/visa', visaRoutes);
 router.use('/employee', employeeRoutes);
 router.use('/hire/onboarding', hrOnboardingRoutes);
