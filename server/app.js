@@ -15,7 +15,13 @@ app.use(cors())
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
+//static file
+const path = require("path")
+app.use(express.static(path.join(__dirname, "public", "uploads")));
+
+const routes = require('./routes')
 app.use(routes)
+
 
 app.get("/", (res,resp)=>{
     resp.send("OK")

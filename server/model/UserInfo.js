@@ -10,16 +10,12 @@ const emailValidate = function validateEmail(email) {
 const userInfoSchema = new Schema({
     userID: {
         type: Schema.Types.ObjectId,
-        ref: User,
-        required: true
+        ref: 'User',
     },
     name: {
         first: {
             type: String,
             required: true
-        },
-        middle: {
-            type: String,
         },
         last: {
             type: String,
@@ -33,16 +29,16 @@ const userInfoSchema = new Schema({
         }
     },
     profile: {
-        data: Buffer,
-        contentType: String
+        type:String,
+        default:null
     },
     address: {
-        streetName: {
-            type: String,
-            required: true
-        },
         houseNumber: {
             type: Number,
+            required: true
+        },
+        streetName: {
+            type: String,
             required: true
         },
         city: {
@@ -83,12 +79,12 @@ const userInfoSchema = new Schema({
         required: true
     },
     dob: {
-        type: Date,
+        type: String,
         required: true
     },
     gender: {
         type: String,
-        enum: ['male', 'female', 'other', 'I do not wish to answer'],
+        enum: ['Male', 'Female', 'Other', 'I do not wish to answer'],
         default: 'I do not wish to answer'
     },
     citizenship: {
@@ -101,26 +97,26 @@ const userInfoSchema = new Schema({
             required: true
         },
         optReceipt: {
-            data: Buffer,
-            contentType: String
+            type:String,
+            default:null
         },
         start: {
-            type: Date
+            type: String
         },
         end: {
-            type: Date
+            type: String
         },
     },
     license: {
         number: {
-            type: Number,
+            type: String,
         },
         expiration: {
-            type: Date,
+            type: String
         },
         photo: {
-            data: Buffer,
-            contentType: String
+            type:String,
+            default:null
         },
     },
     reference: {
@@ -189,18 +185,20 @@ const userInfoSchema = new Schema({
 const UserInfo = model('UserInfo', userInfoSchema);
 
 // UserInfo.create({
-//     userID: '62bb871a6a5422feca047b23',
-//     name: { first: 'test4', last: 'test4', preferred: 'test4' },
+//     userID: '62bbff16e1c72482017c0a0a',
+//     name: { first: 'AA', last: 'BB', preferred: 'CC' },
 //     ssn: 1234567890,
-//     dob: 01 / 01 / 2022,
-//     license: { number: 123456789, expiration: 01 / 01 / 2022, photo: '' },
+//     dob: 01-01-2000,
+//     license: { number: "Lis1234567890", expiration: 09-01-2022, photo: '' },
 //     address: { streetName: '123 St', houseNumber: 45, city: 'Piscataway', state: 'NJ', zip: 08901 },
-//     tel: 9292572388,
+//     cellphone: 9292572388,
 //     carInfo: { make: "Jeep", model: 'Wrangler', color: 'red' },
 //     eContact: [
 //         { first: 'danling', last: 'sun', tel: 8483133830, email: 'danlingsun@gmail.com', relationship: "friend" },
 //         { first: 'dd', last: 'ss', tel: 8483133830, email: 'ds@gmail.com', relationship: "parent" }
 //     ],
+//     reference: {first:'lala',last: 'la', tel: 1234567890, email: 'email@gmail.com', relationship: 'friend'},
+//     citizenship:{citizen:false, status:'Green Card'},
 //     status: 'pending',
 //     profile_pic: ""
 // }).then(() => {
@@ -211,3 +209,4 @@ const UserInfo = model('UserInfo', userInfoSchema);
 // })
 
 module.exports = UserInfo;
+

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import api from "../../api/api";
 import {
   TextField,
@@ -15,7 +17,7 @@ import { VisibilityOff, Visibility } from "@mui/icons-material";
 import auth from '../../utils/auth'
 
 export default function Login() {
-
+  const history = useHistory()
   const [showPwd, updateShowPwd] = useState(false);
   const handleClickShowPassword = () => {
     updateShowPwd(!showPwd);
@@ -47,7 +49,14 @@ export default function Login() {
     api
       .login(formData)
       .then((res) => {
+        // console.log(res.data.token, res.data.user)
         auth.login(res.data.token,res.data.user)
+        if(auth.getUser().onboardingStatus === "never submitted"){
+          // history.push('/onboarding')
+          window.location.assign('/onboarding')
+        }else{
+          window.location.assign('/')
+        }
         updateErrMsg({username:"",password:""});
       })
       .catch((error) => {

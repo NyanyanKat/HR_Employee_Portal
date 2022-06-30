@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Route, useRouteMatch } from 'react-router-dom';
+import { Route, useRouteMatch,Switch } from 'react-router-dom';
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import auth from '../../utils/auth';
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
@@ -11,8 +11,10 @@ import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
 import Employee from '../../hrPages/Employee';
-import OnboardingReview from "../Hire/OnBoarding";
-import Housing from "../../employeePages/Housing/Housing";
+import OnboardingReview from "../Hire/OnboardingReview"
+import ViewOnboarding from '../Hire/ViewOnboarding';
+import OnBoardingApp from '../../empPages/OnBoardingApp'
+import Housing from "../../empPages/Housing/Housing";
 
 
 const Main = styled.main`
@@ -98,10 +100,14 @@ export default function Sidebar(props) {
         <Main expanded={expanded}>
           <TopNavigation />
           <div className="main-content-container">
+          <Switch>
             <Route path="/hire/register" component={props => <RegistrationToken />} />
-            <Route path="/hire/onboarding" component={props => <OnboardingReview />} />
+            <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
+            <Route path={`/hire/onboarding/view${path}`}  component={props => <ViewOnboarding />} />
             <Route path="/hire/housing" component={props => <Housing />} />
             <Route path={'/employee'} component={props => <Employee />} />
+            <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
+            </Switch>
           </div>
         </Main>
       </React.Fragment>

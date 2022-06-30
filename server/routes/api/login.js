@@ -22,7 +22,8 @@ router.post("/", async function (req, resp) {
               id: foundUser._id,
               email: foundUser.email,
               username: foundUser.username,
-              role:foundUser.role
+              role:foundUser.role,
+              onboardingStatus: foundUser.onboardingStatus
             }
             // resp.set({
             //   "Content-Type": "application/json",

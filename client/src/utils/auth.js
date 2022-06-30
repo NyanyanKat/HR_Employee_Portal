@@ -1,4 +1,6 @@
 const decode = require ("jwt-decode");
+
+
 const Auth = {
   getProfile() {
     return decode(this.getToken());
@@ -35,8 +37,6 @@ const Auth = {
     // Saves user token to localStorage
     localStorage.setItem("id_token", idToken);
     localStorage.setItem("user", JSON.stringify(user));
-
-    window.location.assign("/");
   },
 
   logout() {
