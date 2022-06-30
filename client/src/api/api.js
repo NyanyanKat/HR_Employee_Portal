@@ -7,8 +7,10 @@ const base = {
     register_token: "/register",
     register: "/register",
     login: "/login",
+    onboarding: "/onboarding",
     employee: "/employee",
-    onboard: "/hire/onboarding",
+    allOnboardingReview: "/hire/onboarding",
+    oneOnboardReview: "/hire/onboarding/", //:eid
 }
 
 const api = {
@@ -21,11 +23,17 @@ const api = {
     login(params) {
         return axios.post(base.baseUrl + base.login, params)
     },
-//     onboarding(params) {
-//         return axios.post(base.baseUrl + base.onboard, params)
-//     },
+    onboarding(params) {
+        return axios.post(base.baseUrl + base.onboarding, params, {headers: { "Content-Type": "multipart/form-data" }})
+    },
     getEmployee(params) {
         return axios.get(base.baseUrl + base.employee, params)
+    },
+    getAllOnboarding(){
+        return axios.get(base.baseUrl + base.allOnboardingReview)
+    },
+    getOneOnboarding(){
+        return axios.get(base.baseUrl + base.oneOnboardReview)
     }
 }
 export default api

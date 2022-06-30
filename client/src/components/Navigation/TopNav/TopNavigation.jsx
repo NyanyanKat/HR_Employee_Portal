@@ -12,7 +12,6 @@ export default function TopNavigation() {
   }
   const { path } = useRouteMatch();
 
-
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light" className='topNav'>
@@ -42,8 +41,6 @@ export default function TopNavigation() {
       <Switch>
         <Route path={'/login'} component={props => <Login />} />
         <Route path={`/register${path}`} component={props => <Registration />} />
-       
-        {/* for home */}
       </Switch>
     </>
   )
