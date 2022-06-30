@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const Report = require("./Report");
 
 const emailValidate = function validateEmail(email) {
     const re = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
@@ -6,6 +7,9 @@ const emailValidate = function validateEmail(email) {
 };
 
 const housingSchema = new Schema({
+    // userID: [{
+    //     type: Schema.Types.ObjectId, ref: 'User'
+    // }],
     address: {
         houseNumber: {
             type: Number,
@@ -44,12 +48,22 @@ const housingSchema = new Schema({
             validate: [emailValidate, 'invalid email']
         },
     },
-    numTenants: {
-        type: Number
-    },
-    userID: [{
-        type: Schema.Types.ObjectId, ref: 'User'
-    }]
+    tenants: [{
+        userID: [{
+            type: Schema.Types.ObjectId, 
+            ref: 'User',
+            required: true
+        }],
+        fullname: {
+            type: String,
+            required: true
+        },
+        tel: {
+            type: Number,
+            required: true,
+            min: 10
+        },
+    }],
 });
 
 const Housing = model('Housing',housingSchema);

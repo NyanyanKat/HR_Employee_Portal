@@ -29,7 +29,12 @@ const userSchema = new Schema({
         type: String,
         enum: ['hr','employee'],
         default: 'employee'
-    }
+    },
+    housingID: {
+        type: Schema.Types.ObjectId, 
+        ref: 'Housing',
+        required: true
+    },
 });
 
 //middleware to encrypt password

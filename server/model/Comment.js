@@ -1,33 +1,24 @@
 const { Schema, model } = require("mongoose");
 
 const reportSchema = new Schema({
-    creatorID: {
+    reportID: {
         type: Schema.Types.ObjectId, 
-        ref: 'User',
-        required: true
-    },
-    housingID: {
-        type: Schema.Types.ObjectId, 
-        ref: 'Housing',
-        required: true
-    },
-    title: {
-        type: String,
+        ref: 'Report',
         required: true
     },
     desc: {
         type: String,
         required: true
     },
+    creatorID: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User',
+        required: true
+    },
     timestamp: {
         type: Date,
-        default: Date.now
-    },
-    status: {
-        type: String,
-        enum: ['Open', 'Closed','In Progress'],
-        default: 'Open'
-    },
+        required: true
+    }
 
 });
 
