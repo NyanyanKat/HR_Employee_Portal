@@ -8,6 +8,7 @@ const base = {
     register: "/register",
     login: "/login",
     employee: "/employee",
+    employeeInfo: "/employee/info/:id",
     onboard: "/hire/onboarding",
 }
 
@@ -24,8 +25,11 @@ const api = {
 //     onboarding(params) {
 //         return axios.post(base.baseUrl + base.onboard, params)
 //     },
-    getEmployee(params) {
-        return axios.get(base.baseUrl + base.employee, params)
+    getEmployee() {
+        return axios.get(base.baseUrl + base.employee)
+    },
+    getEmployeeInfo(){
+        return axios.get(base.baseUrl + base.employeeInfo)
     }
 }
 export default api

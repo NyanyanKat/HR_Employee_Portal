@@ -29,6 +29,11 @@ const userSchema = new Schema({
         type: String,
         enum: ['hr','employee'],
         default: 'employee'
+    },
+    infoID: {
+        type: Schema.Types.ObjectId,
+        ref: 'UserInfo',
+        required: true
     }
 });
 
