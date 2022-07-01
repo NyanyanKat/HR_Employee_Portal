@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 //get all employees
 router.get('/', async (req, res) => {
-    const employees = await User.find({ role: 'employee' });
+    const employees = await User.find({ role: 'employee' }).sort({username: 1});
 
     return res.status(201).send(JSON.stringify(employees));
 })
