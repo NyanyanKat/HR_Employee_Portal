@@ -16,7 +16,8 @@ import Housing from "../../hrPages/Housing";
 import OneHousing from "../../hrPages/OneHousing";
 import OnboardingReview from "../Hire/OnboardingReview"
 import ViewOnboarding from '../Hire/ViewOnboarding';
-import OnBoardingApp from '../../empPages/OnBoardingApp';
+import OnBoardingApp from '../../empPages/OnBoardingApp'
+import HousingEmp from "../../empPages/Housing";
 import api from '../../api/api';
 
 
@@ -157,16 +158,16 @@ export default function Sidebar(props) {
         <Main expanded={expanded}>
           <TopNavigation />
           <div className="main-content-container">
-            <Switch>
-              <Route path="/hire/register" component={props => <RegistrationToken />} />
-              <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
-              <Route path={`/hire/onboarding/view${path}`} component={props => <ViewOnboarding />} />
-              <Route path="/housing" component={props => <Housing />} />
-              <Route path={'/housing/:id'} component={props => <OneHousing />} />
-              <Route path={'/employee'} component={props => <Employee />} />
-              <Route path={'/employee/info/:id'} component={props => <OneEmployee />} />
-              <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
-              <Route path={'/housing/summary'} components={props => <Housing />} />
+          <Switch>
+            <Route path="/hire/register" component={props => <RegistrationToken />} />
+            <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
+            <Route path={`/hire/onboarding/view${path}`}  component={props => <ViewOnboarding />} />
+            <Route path="/housing" component={props => <HousingEmp />} />
+            <Route path={'/housing/:id'} component={props => <OneHousing />} />
+            <Route path={'/employee'} component={props => <Employee />} />
+            <Route path={'/employee/info/:id'} component={props => <OneEmployee />} />
+            <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
+            <Route path={'/housing/summary'} components={props => <Housing />} />
             </Switch>
           </div>
         </Main>
