@@ -33,6 +33,13 @@ const Auth = {
     return JSON.parse(localStorage.getItem("user"));
   },
 
+  changeStatus(status){
+    let user = JSON.parse(localStorage.getItem("user"))
+    user.onboardingStatus = status
+    localStorage.setItem("user", JSON.stringify(user));
+    // console.log(user.status)
+  },
+
   login(idToken, user) {
     // Saves user token to localStorage
     localStorage.setItem("id_token", idToken);
