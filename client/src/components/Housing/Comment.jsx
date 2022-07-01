@@ -20,8 +20,13 @@ export default function Report(props) {
     updateCommentDesc(e.target.value);
   }
   const submitComment = (e) => {
+    e.preventDefault();
     api
       .updateEmpHousingComment({ desc: commentDesc }, comment._id)
+      .then(res => {
+        updateShowTextField(false);
+        // window.location.reload(true);
+      })
   };
   return (
     <Stack
@@ -38,7 +43,7 @@ export default function Report(props) {
           value={commentDesc}
           fullWidth
         /> :
-        <p>{comment.username + ': ' + comment.desc}</p>
+        <p>{comment.username + ': ' + commentDesc + ', created on ' + comment.timestamp.substring(0, 10)}</p>
       }
       {comment.self ?
         (showTextField ?
