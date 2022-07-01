@@ -183,6 +183,10 @@ const userInfoSchema = new Schema({
     creatationDate:{
         type:Date,
         default: Date.now
+    },
+    comments:{
+        type:String,
+        
     }
 })
 
