@@ -31,28 +31,19 @@ const userSchema = new Schema({
         enum: ['hr','employee'],
         default: 'employee'
     },
-<<<<<<< HEAD
-    infoID: {
-        type: Schema.Types.ObjectId,
-        ref: 'UserInfo',
-        required: true
-    },
-    housingID: {
-        type: Schema.Types.ObjectId, 
-        ref: 'Housing',
-        required: true
-    },
-=======
     onboardingStatus:{
         type:String,
         enum: ['never submitted','pending', 'rejected', 'approved'],
         default: 'never submitted'
     },
+    infoID: {
+        type: Schema.Types.ObjectId,
+        ref: 'UserInfo',
+    },
     housingID: {
         type: Schema.Types.ObjectId,
         ref: 'Housing',
     }
->>>>>>> 508373231b4e822bb69a7a4c6a4d0d462202d0ed
 });
 
 //middleware to encrypt password

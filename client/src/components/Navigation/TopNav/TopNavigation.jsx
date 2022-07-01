@@ -6,6 +6,7 @@ import auth from '../../../utils/auth';
 import Login from '../../Authentication/Login';
 import Registration from '../../Authentication/Registration';
 
+
 export default function TopNavigation() {
   const handleLogout = () => {
     auth.logout()

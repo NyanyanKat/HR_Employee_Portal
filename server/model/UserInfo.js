@@ -180,6 +180,10 @@ const userInfoSchema = new Schema({
         default: 'pending',
         required: true
     },
+    creatationDate:{
+        type:Date,
+        default: Date.now
+    }
 })
 
 const UserInfo = model('UserInfo', userInfoSchema);
