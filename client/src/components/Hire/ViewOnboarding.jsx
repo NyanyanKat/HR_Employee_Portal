@@ -2,9 +2,6 @@ import React, {useState, useEffect} from "react";
 import {useLocation, useHistory} from "react-router-dom";
 import queryString from "query-string";
 import Feedback from "./Feedback";
-import { useLocation, useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
-import queryString from "query-string";
 import { Box } from "@mui/material";
 import {
   Space,
