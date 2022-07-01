@@ -17,6 +17,7 @@ import {
 } from "antd";
 import api from "../../api/api";
 import auth from "../../utils/auth";
+import axios from 'axios';
 
 const { Panel } = Collapse;
 
@@ -57,7 +58,6 @@ export default function ViewOnboarding() {
   const onChange = (key) => {
     console.log(key);
   };
-  const { search } = useLocation();
   const queries = queryString.parse(search);
   console.log('queries', queries.eid);
 

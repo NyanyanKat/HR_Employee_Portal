@@ -18,6 +18,7 @@ import OnboardingReview from "../Hire/OnboardingReview"
 import ViewOnboarding from '../Hire/ViewOnboarding';
 import OnBoardingApp from '../../empPages/OnBoardingApp'
 import HousingEmp from "../../empPages/Housing";
+import AddHousing from '../../hrPages/AddHousing';
 import api from '../../api/api';
 
 
@@ -181,6 +182,7 @@ export default function Sidebar(props) {
             {/* <Route path='/employee/info/:id' element={<OneEmployee />} /> */}
             <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
             <Route path={'/housing/summary'} components={props => <Housing />} />
+            <Route path={'/housing/add'} components={props => <AddHousing />} />
             </Switch>
           </div>
         </Main>
