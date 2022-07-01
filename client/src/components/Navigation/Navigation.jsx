@@ -17,7 +17,6 @@ import OneHousing from "../../hrPages/OneHousing";
 import OnboardingReview from "../Hire/OnboardingReview"
 import ViewOnboarding from '../Hire/ViewOnboarding';
 import OnBoardingApp from '../../empPages/OnBoardingApp'
-import Housing from "../../empPages/Housing";
 
 
 const Main = styled.main`
@@ -66,7 +65,7 @@ export default function Sidebar(props) {
                 <NavText>Onboarding Application</NavText>
               </NavItem>
               <NavItem eventKey="hire/housing">
-                <NavText>Onboarding Application</NavText>
+                <NavText>Onboarding Housing</NavText>
               </NavItem>
             </NavItem>
 
@@ -110,8 +109,9 @@ export default function Sidebar(props) {
             <Route path={`/hire/onboarding/view${path}`}  component={props => <ViewOnboarding />} />
             <Route path="/housing" component={props => <Housing />} />
             <Route path={'/housing/:id'} component={props => <OneHousing />} />
-            <Route path={'/employee'} component={props => <Employee />} />
-            <Route path={'/employee/info/:id'} component={props => <OneEmployee />} />
+            <Route path={'/employee'} exact component={props => <Employee />} />
+            <Route path={`/employee/info/:eid`} component={props => <OneEmployee />} />
+            {/* <Route path='/employee/info/:id' element={<OneEmployee />} /> */}
             <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
             <Route path={'/housing/summary'} components={props => <Housing />} />
             </Switch>
