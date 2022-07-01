@@ -34,7 +34,7 @@ const housingSchema = new Schema({
     },
     landlord: {
         name: {
-            type: String, 
+            type: String,
             required: true
         },
         tel: {
@@ -50,22 +50,71 @@ const housingSchema = new Schema({
     },
     tenants: [{
         userID: [{
-            type: Schema.Types.ObjectId, 
+            type: Schema.Types.ObjectId,
             ref: 'User',
             required: true
         }],
-        fullname: {
-            type: String,
-            required: true
-        },
-        tel: {
-            type: Number,
-            required: true,
-            min: 10
-        },
+        // fullname: {
+        //     type: String,
+        //     required: true
+        // },
+        // tel: {
+        //     type: Number,
+        //     required: true,
+        //     min: 10
+        // },
     }],
+    facilityInfo: {
+        numBeds: {
+            type: Number,
+        },
+        numMattress: {
+            type: Number,
+        },
+        numTables: {
+            type: Number,
+        },
+        numChairs: {
+            type: Number,
+        },
+        reports: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Report',
+        }],
+    },
+    employeeInfo: [{
+        userID: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    }]
 });
 
-const Housing = model('Housing',housingSchema);
+const Housing = model('Housing', housingSchema);
+
+// Housing.create({
+//     address: {
+//         houseNumber: 11,
+//         streetName: 'Green',
+//         city: 'San Jose',
+//         state: 'CA',
+//         zip: 90000
+//     },
+//     landlord: {
+//         name: 'Alan A',
+//         tel: 2132132333,
+//         email: 'alan@123.com'
+//     },
+//     tenents: [{
+//         userID: '62bbff16e1c72482017c0a0a',
+//         fullname: 'user user',
+//         tel: 4084088888
+//     }]
+// }).then(() => {
+//     console.log('Successfully create a housing')
+// }).catch((e) => {
+//     console.log(e)
+//     console.log('Failed to create a housing')
+// })
 
 module.exports = Housing;

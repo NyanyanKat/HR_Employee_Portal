@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const reportSchema = new Schema({
+const commentSchema = new Schema({
     reportID: {
         type: Schema.Types.ObjectId, 
         ref: 'Report',
@@ -13,14 +13,15 @@ const reportSchema = new Schema({
     creatorID: {
         type: Schema.Types.ObjectId, 
         ref: 'User',
-        required: true
+        required: true,
     },
     timestamp: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now
     }
 
 });
 
-const Report = model("Report", reportSchema);
-module.exports = Report;
+const Comment = model("Comment", commentSchema);
+module.exports = Comment;

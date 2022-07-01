@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Route, useRouteMatch,Switch } from 'react-router-dom';
+import { Route, useRouteMatch, Switch } from 'react-router-dom';
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import auth from '../../utils/auth';
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
@@ -11,12 +11,13 @@ import TopNavigation from "./TopNav/TopNavigation";
 import styled from "styled-components";
 import RegistrationToken from '../Hire/RegistrationToken';
 import Employee from '../../hrPages/Employee';
+import OneEmployee from '../../hrPages/OneEmployee';
+import Housing from "../../hrPages/Housing";
+import OneHousing from "../../hrPages/OneHousing";
 import OnboardingReview from "../Hire/OnboardingReview"
 import ViewOnboarding from '../Hire/ViewOnboarding';
 import OnBoardingApp from '../../empPages/OnBoardingApp'
-import Housing from '../../empPages/Housing';
-
-
+import Housing from "../../empPages/Housing";
 
 
 const Main = styled.main`
@@ -30,7 +31,7 @@ export default function Sidebar(props) {
   const [expanded, setExpanded] = useState(false)
   const { path } = useRouteMatch();
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     auth.logout()
   }
 
@@ -62,6 +63,9 @@ export default function Sidebar(props) {
                 <NavText>Registration Token</NavText>
               </NavItem>
               <NavItem eventKey="hire/onboarding">
+                <NavText>Onboarding Application</NavText>
+              </NavItem>
+              <NavItem eventKey="hire/housing">
                 <NavText>Onboarding Application</NavText>
               </NavItem>
             </NavItem>
@@ -99,13 +103,17 @@ export default function Sidebar(props) {
         <Main expanded={expanded}>
           <TopNavigation />
           <div className="main-content-container">
+
           <Switch>
             <Route path="/hire/register" component={props => <RegistrationToken />} />
             <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
             <Route path={`/hire/onboarding/view${path}`}  component={props => <ViewOnboarding />} />
+            <Route path="/housing" component={props => <Housing />} />
+            <Route path={'/housing/:id'} component={props => <OneHousing />} />
             <Route path={'/employee'} component={props => <Employee />} />
+            <Route path={'/employee/info/:id'} component={props => <OneEmployee />} />
             <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
-            <Route path={`/housing/summary`} component={props => <Housing />} />
+            <Route path={'/housing/summary'} components={props => <Housing />} />
             </Switch>
           </div>
         </Main>

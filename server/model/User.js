@@ -40,6 +40,10 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'UserInfo',
     },
+    housingID: {
+        type: Schema.Types.ObjectId,
+        ref: 'Housing',
+    }
 });
 
 //middleware to encrypt password
@@ -60,6 +64,7 @@ const User = model("User", userSchema);
 //     email:'user@gmail.com',
 //     password:'user',
 //     role:'employee',
+//     housingID: '62be016048fb70ac74a3da2e'
 // }).then(()=>{
 //     console.log('Successfully create a user')
 // }).catch(()=>{
