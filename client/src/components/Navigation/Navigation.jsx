@@ -68,6 +68,19 @@ export default function Sidebar(props) {
 
           {/* Sidebar Menu */}
           <SideNav.Nav defaultSelected="home">
+            <NavItem eventKey="hire">
+              <NavIcon><FontAwesomeIcon icon={faRegistered} style={{ fontSize: "1.8em" }} /></NavIcon>
+              <NavText>Hiring Management</NavText>
+              <NavItem eventKey="hire/register">
+                <NavText>Registration Token</NavText>
+              </NavItem>
+              <NavItem eventKey="hire/onboarding">
+                <NavText>Onboarding Application</NavText>
+              </NavItem>
+              <NavItem eventKey="hire/housing">
+                <NavText>Onboarding Housing</NavText>
+              </NavItem>
+            </NavItem>
             {auth.getUser().role === "employee"
               ? ( //Employee Sidebar
                 <>
@@ -78,7 +91,6 @@ export default function Sidebar(props) {
                     </NavItem>
                   )
                   }
-
 
                   {!isCitizen  && (
                     <NavItem eventKey="/employee/visa">
@@ -164,8 +176,9 @@ export default function Sidebar(props) {
             <Route path={`/hire/onboarding/view${path}`}  component={props => <ViewOnboarding />} />
             <Route path="/housing" component={props => <HousingEmp />} />
             <Route path={'/housing/:id'} component={props => <OneHousing />} />
-            <Route path={'/employee'} component={props => <Employee />} />
-            <Route path={'/employee/info/:id'} component={props => <OneEmployee />} />
+            <Route path={'/employee'} exact component={props => <Employee />} />
+            <Route path={`/employee/info/:eid`} component={props => <OneEmployee />} />
+            {/* <Route path='/employee/info/:id' element={<OneEmployee />} /> */}
             <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
             <Route path={'/housing/summary'} components={props => <Housing />} />
             </Switch>
