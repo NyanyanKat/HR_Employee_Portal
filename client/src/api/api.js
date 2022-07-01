@@ -16,7 +16,11 @@ const base = {
     allOnboardingReview: "/hire/onboarding",
     oneOnboardReview: "/hire/onboarding/", //:eid
     empHousingDetail: "/housing/get-detail",
-    empHousingReports: "/housing/get-reports"
+    empHousingReports: "/housing/get-reports",
+    empAddHousingReport: "/housing/add-report",
+    empAddHousingComment: "/housing/add-comment",
+    empUpdHousingComment: "/housing/update-comment",
+    empHousingComments: "/housing/get-comments",
 }
 
 const api = {
@@ -51,10 +55,23 @@ const api = {
         return axios.get(base.baseUrl + base.oneOnboardReview)
     },
     getEmpHousingDetail(){
-        return axios.get(base.baseUrl + base.empHousingDetail, {headers: { "userID": auth.getUser().id}})
+        return axios.get(base.baseUrl + base.empHousingDetail, {params: { "userID": auth.getUser().id}})
     },
     getEmpHousingReports(){
-        return axios.get(base.baseUrl + base.empHousingReports, {headers: { "userID": auth.getUser().id}})
+        return axios.get(base.baseUrl + base.empHousingReports, {params: { "userID": auth.getUser().id}})
     },
+    addEmpHousingReport(params){
+        return axios.post(base.baseUrl + base.empAddHousingReport, params, {params: { "userID": auth.getUser().id}})
+    },
+    getEmpHousingComments(reportID){
+        return axios.get(base.baseUrl + base.empHousingComments + '/' + reportID, {params: { "userID": auth.getUser().id}})
+    },
+    addEmpHousingComment(params){
+        return axios.post(base.baseUrl + base.empAddHousingComment, params, {params: { "userID": auth.getUser().id}})
+    },
+    updateEmpHousingComment(params, commentID){
+        return axios.post(base.baseUrl + base.empUpdHousingComment + '/' + commentID, params, {params: { "userID": auth.getUser().id}})
+    },
+   
 }
 export default api
