@@ -2,9 +2,6 @@ import React, {useState, useEffect} from "react";
 import {useLocation, useHistory} from "react-router-dom";
 import queryString from "query-string";
 import Feedback from "./Feedback";
-import { useLocation, useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
-import queryString from "query-string";
 import { Box } from "@mui/material";
 import {
   Space,
@@ -20,6 +17,7 @@ import {
 } from "antd";
 import api from "../../api/api";
 import auth from "../../utils/auth";
+import axios from 'axios';
 
 const { Panel } = Collapse;
 
@@ -60,7 +58,6 @@ export default function ViewOnboarding() {
   const onChange = (key) => {
     console.log(key);
   };
-  const { search } = useLocation();
   const queries = queryString.parse(search);
   console.log('queries', queries.eid);
 

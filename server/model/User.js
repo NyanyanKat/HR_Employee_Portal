@@ -34,7 +34,6 @@ const userSchema = new Schema({
     infoID: {
         type: Schema.Types.ObjectId,
         ref: 'UserInfo',
-        required: true
     },
     housingID: {
         type: Schema.Types.ObjectId, 
