@@ -15,7 +15,7 @@ const base = {
     housing: "/housing",
     allOnboardingReview: "/hire/onboarding",
     oneOnboardingReview: "/hire/onboarding", //:eid
-    changeOboardingStatus:"/hire/onboarding"
+    changeOboardingStatus:"/hire/onboarding",
     empHousingDetail: "/housing/get-detail",
     empHousingReports: "/housing/get-reports",
     empAddHousingReport: "/housing/add-report",
@@ -57,7 +57,7 @@ const api = {
     },
     changeOboardingStatus(params){
         return axios.post(base.baseUrl + base.changeOboardingStatus, params)
-    }
+    },
     getEmpHousingDetail(){
         return axios.get(base.baseUrl + base.empHousingDetail, {params: { "userID": auth.getUser().id}})
     },
