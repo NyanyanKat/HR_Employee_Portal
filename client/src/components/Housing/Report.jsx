@@ -36,7 +36,8 @@ export default function Report(props) {
     // let tempComment = {
     //   ...newComment, 
     //   username: auth.getUser().username,
-    //   self: true
+    //   self: true,
+    //   timestamp: new Date().toISOString()
     // };
     // updateComments([
     //   ...comments,

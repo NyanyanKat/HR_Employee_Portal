@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import Report from "../components/Housing/Report";
+import auth from '../utils/auth';
 
 export default function Housing() {
   const [housingDetail, updateHousingDetail] = useState({
@@ -56,11 +57,12 @@ export default function Housing() {
     });
   };
   const submitNewReport = (e) => {
+    e.preventDefault();
     // let tempReport = {
     //   ...newReport,
-    //   username: user.username,
-    //   timestamp: report.timestamp,
-    //   status: report.status,
+    //   username: auth.getUser().username,
+    //   timestamp: new Date().toISOString(),
+    //   status: 'Open',
     //   _id: report._id
     // };
     // updateHousingReports({
