@@ -35,7 +35,11 @@ const userSchema = new Schema({
         type:String,
         enum: ['never submitted','pending', 'rejected', 'approved'],
         default: 'never submitted'
-    }
+    },
+    infoID: {
+        type: Schema.Types.ObjectId,
+        ref: 'UserInfo',
+    },
 });
 
 //middleware to encrypt password

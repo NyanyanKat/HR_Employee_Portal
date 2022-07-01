@@ -14,6 +14,7 @@ import Employee from '../../hrPages/Employee';
 import OnboardingReview from "../Hire/OnboardingReview"
 import ViewOnboarding from '../Hire/ViewOnboarding';
 import OnBoardingApp from '../../empPages/OnBoardingApp'
+import Housing from '../../empPages/Housing';
 
 
 
@@ -104,6 +105,7 @@ export default function Sidebar(props) {
             <Route path={`/hire/onboarding/view${path}`}  component={props => <ViewOnboarding />} />
             <Route path={'/employee'} component={props => <Employee />} />
             <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
+            <Route path={`/housing/summary`} component={props => <Housing />} />
             </Switch>
           </div>
         </Main>

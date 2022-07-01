@@ -1,24 +1,63 @@
 import React from "react";
 import Feedback from "./Feedback";
+import { useLocation, useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import queryString from "query-string";
 import { Box } from "@mui/material";
-import {Space,Tabs,PageHeader,Button,Descriptions,Divider,Tag,Checkbox,Collapse} from "antd";
+import {
+  Space,
+  Tabs,
+  PageHeader,
+  Button,
+  Descriptions,
+  Divider,
+  Tag,
+  Checkbox,
+  Collapse,
+  Avatar,
+} from "antd";
+import api from "../../api/api";
+import auth from "../../utils/auth";
+
 const { Panel } = Collapse;
 
+
 export default function ViewOnboarding() {
+  const { search } = useLocation(); //search:  ?eid=62bd645b6668e40cbd17aa40
+  const eid = queryString.parse(search).eid; //62bd645b6668e40cbd17aa40
+  const [userInfo, loadUserInfo] = useState({});
+  const [isLoading, updateLoading] = useState(true);
+  const history = useHistory()
+
+  //displaying user info
+  useEffect(() => {
+    api
+      .getOneOnboarding(eid)
+      .then((res) => {
+        // console.log(res.data)
+        updateLoading(false);
+        loadUserInfo(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+
+  const approvedHandler = () => {
+    api.changeOboardingStatus({
+      eid: eid,
+      status: "approved"
+    })
+      .then((res) => {
+        console.log(res.data)
+        history.push('/hire/onboarding')
+      })
+      .catch((err) => console.log(err))
+  }
+
   const { TabPane } = Tabs;
   const onChange = (key) => {
     console.log(key);
   };
-
-  const renderContent = (column = 2) => (
-    <Descriptions size="small" column={column}>
-      <Descriptions.Item label="Full Name">Danling Sun</Descriptions.Item>
-      <Descriptions.Item label="Association">421421</Descriptions.Item>
-      <Descriptions.Item label="Email">danlingsun@gmail.com</Descriptions.Item>
-      <Descriptions.Item label="Username">danlingsun</Descriptions.Item>
-      <Descriptions.Item label="Creation Time">2017-01-10</Descriptions.Item>
-    </Descriptions>
-  );
 
   const Content = ({ children, extra }) => (
     <div className="content">
@@ -39,119 +78,195 @@ export default function ViewOnboarding() {
 
   return (
     <>
-      <PageHeader
-        className="site-page-header-responsive"
-        onBack={() => window.history.back()}
-        title="Title"
-        tags={<Tag color="blue">Pending</Tag>}
-        extra={[
-          <Button key="1" type="primary">
-            Approve
-          </Button>,
-          <Button key="2">Reject</Button>,
-        ]}
-        footer={
-          <Tabs tabPosition="right">
-            <TabPane tab="About Employee" key="1">
-              <Divider>Personal Info</Divider>
-              <Descriptions
-                layout="vertical"
-                bordered
-                column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-              >
-                <Descriptions.Item label="First Name">
-                  Danling
-                </Descriptions.Item>
-                <Descriptions.Item label="Middle Name"></Descriptions.Item>
-                <Descriptions.Item label="Last Name">Sun</Descriptions.Item>
-                <Descriptions.Item label="Perferred Name">
-                  Danling
-                </Descriptions.Item>
-                <Descriptions.Item label="Date of Birth">
-                  01/01/2022
-                </Descriptions.Item>
-                <Descriptions.Item label="Gender">Female</Descriptions.Item>
-                <Descriptions.Item label="Cell Phone Number" span={1.5}>
-                  1238086490
-                </Descriptions.Item>
-                <Descriptions.Item label="Work Phone Number" span={1.5}>
-                  9292572388
-                </Descriptions.Item>
-                <Descriptions.Item label="Address" span={3}>
-                  45 abc St, New Brunswick, NJ08901
-                </Descriptions.Item>
-              </Descriptions>
-            </TabPane>
+      {isLoading ? (
+        <h1>Loading</h1>
+      ) : (
+        <>
+          <PageHeader
+            className="site-page-header-responsive"
+            // avatar={{ src: 'https://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
+            avatar={<Avatar style={{ backgroundColor: '#1890ff' }}>{userInfo.name.first[0]}</Avatar>}
+            onBack={() => window.history.back()}
+            title={`${userInfo.name.first} ${userInfo.name.middle} ${userInfo.name.last}`}
+            tags={<Tag color="blue">{userInfo.userID.onboardingStatus}</Tag>}
+            extra={[
+              <Button key="1" type="primary" onClick={approvedHandler}>
+                Approve
+              </Button>,
+              <Button key="2">Reject</Button>,
+            ]}
+            footer={
+              <Tabs tabPosition="right">
+                <TabPane tab="About Employee" key="1">
+                  <Divider>Personal Info</Divider>
+                  <Descriptions
+                    layout="vertical"
+                    bordered
+                    column={{ xxl: 4, xl: 4, lg: 4, md: 3, sm: 2, xs: 1 }}
+                  >
+                    <Descriptions.Item label="First Name" >{userInfo.name.first}</Descriptions.Item>
+                    <Descriptions.Item label="Middle Name">{userInfo.name.middle}</Descriptions.Item>
+                    <Descriptions.Item label="Last Name" >{userInfo.name.last}</Descriptions.Item>
+                    <Descriptions.Item label="Perferred Name">{userInfo.name.perferred}</Descriptions.Item>
+                    <Descriptions.Item label="Date of Birth">{userInfo.dob}</Descriptions.Item>
+                    <Descriptions.Item label="SSN">{userInfo.ssn}</Descriptions.Item>
+                    <Descriptions.Item label="Gender">{userInfo.gender}</Descriptions.Item>
+                    <Descriptions.Item label="Address">
+                      {`${userInfo.address.streetName}, ${userInfo.address.houseNumber}, ${userInfo.address.city},  ${userInfo.address.state},  ${userInfo.address.zip}`}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="License?">
+                      <Checkbox defaultChecked={userInfo.license ? true : false} disabled>
+                        Yes
+                      </Checkbox>
+                      <Checkbox defaultChecked={userInfo.license ? false : true} disabled>
+                        No
+                      </Checkbox>
+                    </Descriptions.Item>
+                    {userInfo.license &&
+                      <>
+                        <Descriptions.Item label="License Number">{userInfo.license.number}</Descriptions.Item>
+                        <Descriptions.Item label="License Expiration Date">{userInfo.license.expiration}</Descriptions.Item>
+                      </>
+                    }
+                  </Descriptions>
 
-            <TabPane tab="Employment" key="2">
-              <Divider>Work Authrization</Divider>
-              <Descriptions
-                layout="vertical"
-                bordered
-                column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-              >
-                <Descriptions.Item
-                  label="Are you a citizen or permanent resident of the U.S?"
-                  span={4}
-                >
-                  <Checkbox defaultChecked={false} disabled>
-                    Citizen
-                  </Checkbox>
-                  <Checkbox defaultChecked disabled>
-                    Green Card
-                  </Checkbox>
-                </Descriptions.Item>
-                <Descriptions.Item label="Visa Title">
-                  F1(CPT/OPT)
-                </Descriptions.Item>
-                <Descriptions.Item label="Start Date">
-                  02/15/2022
-                </Descriptions.Item>
-                <Descriptions.Item label="End Date">
-                  02/15/2025
-                </Descriptions.Item>
-              </Descriptions>
-              <Divider>Reference</Divider>
-              <Descriptions
-                layout="vertical"
-                bordered
-                column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-              >
-                <Descriptions.Item label="First Name">David</Descriptions.Item>
-                <Descriptions.Item label="Middle Name"></Descriptions.Item>
-                <Descriptions.Item label="Last Name">Chou</Descriptions.Item>
-                <Descriptions.Item label="Phone">1234567890</Descriptions.Item>
+                  <Divider style={{ marginTop: '50px' }}>Contact Info</Divider>
+                  <Descriptions
+                    layout="vertical"
+                    bordered
+                    column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}
+                  >
+                    <Descriptions.Item label="Cell Phone Number" span={1.5}>{userInfo.cellphone}</Descriptions.Item>
+                    <Descriptions.Item label="Work Phone Number" span={1.5}>{userInfo.workphone}</Descriptions.Item>
+                  </Descriptions>
+                  {userInfo.eContact.map((item) => {
+                    return (
+                      <>
+                        <Divider></Divider>
+                        <Descriptions
+                          layout="vertical"
+                          bordered
+                          column={{ xxl: 6, xl: 6, lg: 6, md: 2, sm: 2, xs: 1 }}
+                        >
+                          <Descriptions.Item label="First Name">{item.first}</Descriptions.Item>
+                          <Descriptions.Item label="Middle Name">{item.middle}</Descriptions.Item>
+                          <Descriptions.Item label="Last Name">{item.last}</Descriptions.Item>
+                          <Descriptions.Item label="Tel">{item.tel}</Descriptions.Item>
+                          <Descriptions.Item label="Email">{item.email}</Descriptions.Item>
+                          <Descriptions.Item label="Relationship">{item.relationship}</Descriptions.Item>
+                        </Descriptions>
+                      </>
+                    )
+                  })}
+
+                </TabPane>
+
+                <TabPane tab="Employment" key="2">
+                  <Divider>Work Authrization</Divider>
+                  <Descriptions
+                    layout="vertical"
+                    bordered
+                    column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+                  >
+
+                    {userInfo.citizenship.citizen ? (
+                      <Descriptions.Item
+                        label="Are you a citizen or permanent resident of the U.S?"
+                        span={4}
+                      >
+                        <Checkbox defaultChecked={userInfo.citizenship.status === "Citizen" ? true : false} disabled>
+                          Citizen
+                        </Checkbox>
+                        <Checkbox defaultChecked={userInfo.citizenship.status === "Green Card" ? true : false} disabled>
+                          Green Card
+                        </Checkbox>
+                      </Descriptions.Item>
+
+                    ) : (
+                      <>
+                        <Descriptions.Item label="Visa Title" span={4}>
+                          {userInfo.citizenship.status}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Start Date">
+                          {userInfo.citizenship.start}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="End Date">
+                          {userInfo.citizenship.end}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Number of Days Remaining">
+                          Remaining
+                        </Descriptions.Item>
+                      </>
+                    )}
+                  </Descriptions>
+
+                  <Divider style={{ marginTop: '50px' }}>Reference</Divider>
+                  <Descriptions
+                    layout="vertical"
+                    bordered
+                    column={{ xxl: 6, xl: 6, lg: 6, md: 2, sm: 2, xs: 1 }}
+                  >
+                    <Descriptions.Item label="First Name">
+                      {userInfo.reference.first}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Middle Name">{userInfo.reference.middle}</Descriptions.Item>
+                    <Descriptions.Item label="Last Name">
+                      {userInfo.reference.last}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Phone">
+                      {userInfo.reference.tel}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Email">
+                      {userInfo.reference.email}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Relationship">
+                      {userInfo.reference.relationship}
+                    </Descriptions.Item>
+                  </Descriptions>
+                </TabPane>
+
+                <TabPane tab="Documents" key="3">
+                  <Divider>Evidence</Divider>
+                  <Collapse defaultActiveKey={["1"]} onChange={onChange}>
+                    <Panel header="Profile Picture" key="1">
+                      <img src={`http://localhost:3001/${userInfo.profile}`} alt="employee profile pic" style={{height:300, width:300}}/>
+                    </Panel>
+                    <Panel header="Driver's License" key="2">
+                    <img src={`http://localhost:3001/${userInfo.license.photo}`} alt="license copy" style={{height:245, width:400}}/>
+                    </Panel>
+                    <Panel header="OPT Receipt" key="3">
+                    <img src={`http://localhost:3001/${userInfo.citizenship.optReceipt}`} alt="opt receipt" style={{height:400, width:500}}/>
+                    </Panel>
+                  </Collapse>
+                </TabPane>
+              </Tabs>
+            }
+          >
+            <Content extra={extraContent}>
+              <Descriptions size="small" column={2}>
                 <Descriptions.Item label="Email">
-                  david@gmail.com
+                  {userInfo.userID.email}
                 </Descriptions.Item>
-                <Descriptions.Item label="Relationship">
-                  Friend
+                <Descriptions.Item label="Username">
+                  {userInfo.userID.username}
+                </Descriptions.Item>
+                <Descriptions.Item label="Creation Time">
+                  {userInfo.creatationDate}
+                </Descriptions.Item>
+                <Descriptions.Item label="Association">
+                  {userInfo._id}
                 </Descriptions.Item>
               </Descriptions>
-            </TabPane>
+            </Content>
+          </PageHeader>
 
-            <TabPane tab="Documents" key="3">
-            <Divider>Evidence</Divider>
-              <Collapse defaultActiveKey={["1"]} onChange={onChange}>
-                <Panel header="Profile Picture" key="1">
-                </Panel>
-                <Panel header="Driver's License" key="2">
-                </Panel>
-                <Panel header="OPT Receipt" key="3">
-                </Panel>
-              </Collapse>
-            </TabPane>
-          </Tabs>
-        }
-      >
-        <Content extra={extraContent}>{renderContent()}</Content>
-      </PageHeader>
+          <Space style={{ marginBottom: 200 }}></Space>
 
-      <Space style={{ marginBottom: 200 }}></Space>
-
-      <Box sx={{ width: "65%", padding: "30px 30px" }}>
-        <Feedback />
-      </Box>
+          <Box sx={{ width: "65%", padding: "30px 30px" }}>
+            <Feedback />
+          </Box>
+        </>
+      )}
     </>
   );
 }

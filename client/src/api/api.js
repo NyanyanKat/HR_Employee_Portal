@@ -10,7 +10,8 @@ const base = {
     onboarding: "/onboarding",
     employee: "/employee",
     allOnboardingReview: "/hire/onboarding",
-    oneOnboardReview: "/hire/onboarding/", //:eid
+    oneOnboardingReview: "/hire/onboarding", //:eid
+    changeOboardingStatus:"/hire/onboarding"
 }
 
 const api = {
@@ -32,8 +33,12 @@ const api = {
     getAllOnboarding(){
         return axios.get(base.baseUrl + base.allOnboardingReview)
     },
-    getOneOnboarding(){
-        return axios.get(base.baseUrl + base.oneOnboardReview)
+    getOneOnboarding(params){
+        return axios.get(base.baseUrl + base.oneOnboardingReview + '/' + params)
+    },
+    changeOboardingStatus(params){
+        return axios.post(base.baseUrl + base.changeOboardingStatus, params)
     }
+
 }
 export default api
