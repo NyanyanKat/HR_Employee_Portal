@@ -16,7 +16,9 @@ import Housing from "../../hrPages/Housing";
 import OneHousing from "../../hrPages/OneHousing";
 import OnboardingReview from "../Hire/OnboardingReview"
 import ViewOnboarding from '../Hire/ViewOnboarding';
-import OnBoardingApp from '../../empPages/OnBoardingApp';
+import OnBoardingApp from '../../empPages/OnBoardingApp'
+import HousingEmp from "../../empPages/Housing";
+import AddHousing from '../../hrPages/AddHousing';
 import api from '../../api/api';
 
 
@@ -32,7 +34,6 @@ export default function Sidebar(props) {
   const [isCitizen, updateCitizen] = useState(false)
   const { path } = useRouteMatch();
 
-
   const handleLogout = () => {
     auth.logout()
   }
@@ -47,29 +48,29 @@ export default function Sidebar(props) {
   }, [])
 
   return (
-    <Route render={({ location, history }) => (
-      <React.Fragment>
-        <SideNav
-          onToggle={() => { setExpanded(!expanded) }}
-          onSelect={(selected) => {
-            const to = '/' + selected;
-            if (location.pathname !== to) {
-              history.push(to);
-            }
-          }}
-        >
-          <SideNav.Toggle />
+    <>
+      {auth.getUser().role === "employee"
+        ? (
+          <Route render={({ location, history }) => (
+            <React.Fragment>
+              <SideNav
+                onToggle={() => { setExpanded(!expanded) }}
+                onSelect={(selected) => {
+                  const to = '/' + selected;
+                  if (location.pathname !== to) {
+                    history.push(to);
+                  }
+                }}
+              >
+                <SideNav.Toggle />
 
-          {/* User Basic Info */}
-          <div className="sidebar-avatar-container">
-            <Avatar name="Danling Sun" round={true} size={38} className="avatar" />
-          </div>
+                {/* User Basic Info */}
+                <div className="sidebar-avatar-container">
+                  <Avatar name="Danling Sun" round={true} size={38} className="avatar" />
+                </div>
 
-          {/* Sidebar Menu */}
-          <SideNav.Nav defaultSelected="home">
-            {auth.getUser().role === "employee"
-              ? ( //Employee Sidebar
-                <>
+                {/* Sidebar Menu */}
+                <SideNav.Nav defaultSelected="home">
                   {auth.getUser().onboardingStatus !== "approved" && (
                     <NavItem eventKey="onboarding">
                       <NavIcon><FontAwesomeIcon icon={faClipboardList} style={{ fontSize: "1.8em" }} /></NavIcon>
@@ -78,14 +79,12 @@ export default function Sidebar(props) {
                   )
                   }
 
-
-                  {!isCitizen  && (
+                  {!isCitizen && (
                     <NavItem eventKey="/employee/visa">
                       <NavIcon><FontAwesomeIcon icon={faCcVisa} style={{ fontSize: "1.5em" }} /></NavIcon>
                       <NavText>Visa Status Management</NavText>
                     </NavItem>
                   )}
-
 
                   {auth.getUser().onboardingStatus === "approved" && (
                     <NavItem eventKey="housing">
@@ -103,10 +102,47 @@ export default function Sidebar(props) {
                     </NavItem>
                   )
                   }
-                </>
-              )
-              : ( //HR Siderbar
-                <>
+
+                  <NavItem eventKey="logout" className="sidebar-logout" onClick={handleLogout}>
+                    <NavIcon><FontAwesomeIcon icon={faPowerOff} style={{ fontSize: "1.5em" }} /></NavIcon>
+                    <NavText>Log Out</NavText>
+                  </NavItem>
+                </SideNav.Nav>
+              </SideNav>
+              <Main expanded={expanded}>
+                <TopNavigation />
+                <div className="main-content-container">
+                  <Switch>
+                    <Route path="/housing" component={props => <HousingEmp />} />
+                    <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
+                  </Switch>
+                </div>
+              </Main>
+            </React.Fragment>
+          )}
+          />
+          
+        ) : (  //hr Sidebar
+          <Route render={({ location, history }) => (
+            <React.Fragment>
+              <SideNav
+                onToggle={() => { setExpanded(!expanded) }}
+                onSelect={(selected) => {
+                  const to = '/' + selected;
+                  if (location.pathname !== to) {
+                    history.push(to);
+                  }
+                }}
+              >
+                <SideNav.Toggle />
+
+                {/* User Basic Info */}
+                <div className="sidebar-avatar-container">
+                  <Avatar name="Danling Sun" round={true} size={38} className="avatar" />
+                </div>
+
+                {/* Sidebar Menu */}
+                <SideNav.Nav defaultSelected="home">
                   <NavItem eventKey="hire">
                     <NavIcon><FontAwesomeIcon icon={faRegistered} style={{ fontSize: "1.8em" }} /></NavIcon>
                     <NavText>Hiring Management</NavText>
@@ -114,9 +150,6 @@ export default function Sidebar(props) {
                       <NavText>Registration Token</NavText>
                     </NavItem>
                     <NavItem eventKey="hire/onboarding">
-                      <NavText>Onboarding Application</NavText>
-                    </NavItem>
-                    <NavItem eventKey="hire/housing">
                       <NavText>Onboarding Application</NavText>
                     </NavItem>
                   </NavItem>
@@ -144,35 +177,33 @@ export default function Sidebar(props) {
                       <NavText>Inbox Message</NavText>
                     </NavItem>
                   </NavItem>
-                </>
-              )
-            }
 
-            <NavItem eventKey="logout" className="sidebar-logout" onClick={handleLogout}>
-              <NavIcon><FontAwesomeIcon icon={faPowerOff} style={{ fontSize: "1.5em" }} /></NavIcon>
-              <NavText>Log Out</NavText>
-            </NavItem>
-          </SideNav.Nav >
-        </SideNav >
-        <Main expanded={expanded}>
-          <TopNavigation />
-          <div className="main-content-container">
-            <Switch>
-              <Route path="/hire/register" component={props => <RegistrationToken />} />
-              <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
-              <Route path={`/hire/onboarding/view${path}`} component={props => <ViewOnboarding />} />
-              <Route path="/housing" component={props => <Housing />} />
-              <Route path={'/housing/:id'} component={props => <OneHousing />} />
-              <Route path={'/employee'} component={props => <Employee />} />
-              <Route path={'/employee/info/:id'} component={props => <OneEmployee />} />
-              <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
-              <Route path={'/housing/summary'} components={props => <Housing />} />
-            </Switch>
-          </div>
-        </Main>
-      </React.Fragment >
-    )
-    }
-    />
+                  <NavItem eventKey="logout" className="sidebar-logout" onClick={handleLogout}>
+                    <NavIcon><FontAwesomeIcon icon={faPowerOff} style={{ fontSize: "1.5em" }} /></NavIcon>
+                    <NavText>Log Out</NavText>
+                  </NavItem>
+                </SideNav.Nav>
+              </SideNav>
+              <Main expanded={expanded}>
+                <TopNavigation />
+                <div className="main-content-container">
+                  <Switch>
+                    <Route path="/hire/register" component={props => <RegistrationToken />} />
+                    <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
+                    <Route path={`/hire/onboarding/view${path}`} component={props => <ViewOnboarding />} />
+                    <Route path={'/employee'} exact component={props => <Employee />} />
+                    <Route path={`/employee/info/:eid`} component={props => <OneEmployee />} />
+                    <Route path={'/housing/summary'} components={props => <Housing />} />
+                    <Route path={'/housing/:id'} component={props => <OneHousing />} />
+                    <Route path={'/housing/add'} components={props => <AddHousing />} />
+                  </Switch>
+                </div>
+              </Main>
+            </React.Fragment>
+          )}
+          />
+        )
+      }
+    </>
   );
 }
