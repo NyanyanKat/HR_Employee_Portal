@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import api from '../api/api';
-import { Table, Button, Modal, Form, Input, Select, message } from "antd";
-import {useHistory} from "react-router-dom";
+import { Table, Modal, Form, Input, Select, message } from "antd";
+import {Button} from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
 export default function Housing() {
     //get all housing data from backend
     // const [data, setData] = useState([]);
@@ -20,11 +21,15 @@ export default function Housing() {
     // const viewHouse = (id) => {
     //     console.log(id);
     //     history.replace(`/housing/${id}`);
-        
+
     // }
 
     return (
-        <h1>Test</h1>
+        <div>
+            <h1>Test</h1>
+            {/* <Button type="primary" onClick={addHousing}>Add Housing</Button> */}
+        </div>
+
         // <div>
         //     <h1>Housing</h1>
         //     {/* <Button type="primary" onClick={() => }>Add Housing</Button>

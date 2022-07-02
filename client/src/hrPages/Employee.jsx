@@ -77,11 +77,11 @@
 
 import React from "react";
 import { useEffect, useState } from "react";
-import { Box, Tab } from '@mui/material';
+import { Box, Tab, TextField } from '@mui/material';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
 import { Avatar, List, Button } from "antd";
 import "antd/dist/antd.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import api from '../api/api';
 import { Table } from 'react-bootstrap'
 
@@ -103,12 +103,13 @@ export default function Employee() {
     const loadMoreData = () => {
 
         api.getEmployee()
-        .then(res => {
-            console.log(res.data)
-            setLoading(false);
-            setData(res.data);
-        })
-        .catch(err => console.log(err));
+            .then(res => {
+                console.log(res.data)
+                setLoading(false);
+                setData(res.data);
+                setSearchData(res.data);
+            })
+            .catch(err => console.log(err));
 
         //fetch from backend
         // api.getEmployee()
@@ -124,7 +125,7 @@ export default function Employee() {
         //         console.log("error");
         //     });
     };
-    
+
     useEffect(() => {
         loadMoreData();
         console.log(data);
@@ -134,58 +135,50 @@ export default function Employee() {
     let history = useHistory();
     const viewProfile = (eid) => {
         console.log(eid);
-        history.replace(`/employee/info/${eid}`);
+        history.push(`/employee/info/${eid}`);
     }
 
-
+    var searchArray = [];
     // filter data based on search query
     const filterData = (q) => {
         if (q === "") {
             setSearchData([data]);
         } else {
-            // const filteredData = data.filter(item => {
-            //     return searchParam.some(param => item[param].includes(q));
-            // }).slice(0, 10);
-            // setSearchData(filteredData);
+            searchArray = [];
+            data.forEach(item => {
+                if (item.username.includes(q)) {
+                    searchArray.push(item);
+                }
 
+            });
+            setSearchData(searchArray);
+            // filter data based on search query
+            // set searchData to be the filtered data
 
-            // const search = searchParam.map((param) => {
-            //     return `${param}:${q}`;
-            // }).join(" ");
-            // const searchData = data.filter((item) => {
-            //     return new RegExp(search, "i").test(item.name.first);
-            // }).slice(0, 10);
-            // console.log('searchData', searchData);
-            // setSearchData(searchData);
         }
 
     }
-console.log(data[0])
+    console.log(data[0])
     return (
         <Box sx={{ width: '100%', typography: 'body1', padding: "0 30px" }}>
 
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 {/* search box */}
-                <label htmlFor="search-form">
-                    <input
-                        type="search"
-                        name="search-form"
-                        id="search-form"
-                        className="search-input"
-                        placeholder="Search for..."
-                        value={q}
-                        /*
-                        // set the value of our useState q
-                        //  anytime the user types in the search box
-                        */
-                        onChange={(e) => {
-                            setQ(e.target.value);
-                            filterData(e.target.value);
-                            console.log(searchData);
-                        }}
-                    />
-                    <span className="sr-only">Search countries here</span>
-                </label>
+                <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    fullWidth
+                    label="Search"
+                    onChange={(e) => {
+                        setQ(e.target.value);
+                        filterData(q);
+                        console.log(searchData);
+                        console.log('data is array? ', Array.isArray(data));
+                    }}
+                    value={q}
+                />
+
+
                 {/* <Button type="primary" style={{marginBottom:"10px"}}>Search</Button> */}
             </Box>
 
@@ -199,11 +192,11 @@ console.log(data[0])
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((employee, index) => (
+                    {searchData.map((employee, index) => (
                         <tr key={index}>
                             <td>{employee.username}</td>
                             <td>{employee.email}</td>
-                            <td><Button type="primary" onClick={() => viewProfile(employee.email)}>View Profile</Button></td>
+                            <td><Button type="primary" onClick={() => viewProfile(employee._id)}>View Profile</Button></td>
                         </tr>
                     ))}
                 </tbody>
@@ -226,6 +219,6 @@ console.log(data[0])
             /> */}
 
 
-        </Box>
+        </Box >
     );
 }

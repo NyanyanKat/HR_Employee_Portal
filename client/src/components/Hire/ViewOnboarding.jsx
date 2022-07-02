@@ -1,8 +1,7 @@
-import React from "react";
-import Feedback from "./Feedback";
-import { useLocation, useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, {useState, useEffect} from "react";
+import {useLocation, useHistory} from "react-router-dom";
 import queryString from "query-string";
+import Feedback from "./Feedback";
 import { Box } from "@mui/material";
 import {
   Space,
@@ -18,6 +17,7 @@ import {
 } from "antd";
 import api from "../../api/api";
 import auth from "../../utils/auth";
+import axios from 'axios';
 
 const { Panel } = Collapse;
 
@@ -58,6 +58,39 @@ export default function ViewOnboarding() {
   const onChange = (key) => {
     console.log(key);
   };
+  const queries = queryString.parse(search);
+  console.log('queries', queries.eid);
+
+  //fetch employee based on eid
+  const [employee, setEmployee] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const getData = () => {
+
+    axios.get(`http://127.0.0.1:3001/api/employee/info/${queries.eid}`)
+      .then(res => {
+        console.log(res.data);
+        setEmployee(res.data);
+      })
+
+
+    // fetch(`/api/employee/${queries.eid}`)
+    //   // .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log('data', data);
+    //     setEmployee(data);
+    //     setLoading(false);
+    //   })
+    //   .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getData();
+    setLoading(false);
+    console.log('employee', employee);
+  },[]);
+
+
 
   const Content = ({ children, extra }) => (
     <div className="content">
