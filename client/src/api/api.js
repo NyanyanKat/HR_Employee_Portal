@@ -12,7 +12,9 @@ const base = {
     employee: "/employee",
     employeeInfo: "/employee/info/:id",
     onboard: "/hire/onboarding",
-    housing: "/housing",
+    housing: "/hr/housing/summary",
+    oneHousing: "/hr/housing/one/:id",
+    addHousing: "/hr/housing/add",
     allOnboardingReview: "/hire/onboarding",
     oneOnboardingReview: "/hire/onboarding", //:eid
     changeOboardingStatus:"/hire/onboarding",
@@ -76,5 +78,11 @@ const api = {
     updateEmpHousingComment(params, commentID){
         return axios.post(base.baseUrl + base.empUpdHousingComment + '/' + commentID, params, {params: { "userID": auth.getUser().id}})
     },
+    createHousing(params){
+        return axios.post(base.baseUrl + base.addHousing, params, {headers: { "Content-Type": "multipart/form-data" }})
+    },
+    getOneHousing(){
+        return axios.get(base.baseUrl + base.oneHousing)
+    }
    }
 export default api
