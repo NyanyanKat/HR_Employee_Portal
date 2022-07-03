@@ -38,7 +38,6 @@ const userSchema = new Schema({
     housingID: {
         type: Schema.Types.ObjectId, 
         ref: 'Housing',
-        required: true
     },
     onboardingStatus:{
         type:String,

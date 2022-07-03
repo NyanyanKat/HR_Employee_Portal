@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 //get all employees
 router.get('/', async (req, res) => {
-    const employees = await User.find({ role: 'employee' }).sort({username: 1});
+    const employees = await User.find({ role: 'employee' }).sort({ username: 1 });
 
     return res.status(201).send(JSON.stringify(employees));
 })
@@ -26,7 +26,7 @@ router.get('/info/:eid', (req, res) => {
     // console.log(typeof id);
     UserInfo.findOne({ userID: eid }).populate('userID')
         .then(user => {
-            console.log('user',user);
+            console.log('user', user);
             res.send(user);
         }).catch(err => console.log(err));
 })
@@ -51,5 +51,21 @@ router.get('/info/:eid', (req, res) => {
 //         employee: employee
 //     })
 // })
+
+router.put('/:id', async (req, res) => {
+    const id = req.params.id;
+    const employee = await User.findOneAndUpdate({ _id: id },
+        { $push: { housingID: req.body.housingID } }
+    );
+    if (!employee) {
+        return res.status(404).send({
+            message: 'Employee not found'
+        })
+    }
+    return res.status(201).send({
+        message: 'Employee added to housing successfully'
+    })
+
+})
 
 module.exports = router;
