@@ -252,6 +252,7 @@ export default function ViewOnboarding() {
                     </Panel>}
                     {!userInfo.citizenship.citizen && <Panel header="OPT Receipt" key="3">
                       <img src={`http://localhost:3001/${userInfo.citizenship.optReceipt}`} alt="opt receipt" style={{ height: 400, width: 500 }} />
+                      <object width="100%" height="400" data={`http://localhost:3001/${userInfo.citizenship.optReceipt}`} type="application/pdf">   </object>
                     </Panel>}
                   </Collapse>
                 </TabPane>

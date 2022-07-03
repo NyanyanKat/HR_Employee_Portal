@@ -215,13 +215,14 @@ export default function Onboarding() {
           style={{ width: "85%", margin:"20px 0 " }}
         />
       ):(
+        auth.getUser().onboardingStatus === "rejected" ?
         <Alert
           message="Onboarding Application Status: Rejected"
           description={`${alert}. Please make a resubmission as soon as possible.`}
           type="error"
           showIcon
           style={{ width: "85%", margin:"20px 0 " }}
-        />      )}
+        /> : ""  )}
       <hr></hr>
 
       <Tabs tabPosition="left">

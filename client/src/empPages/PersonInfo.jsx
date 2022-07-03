@@ -57,6 +57,41 @@ export default function PersonalInfo(props) {
     return (
         <div>
             <h1>Personal Info</h1>
+            {isEdit ? (
+                <Box m={2} pt={3}>
+                    <Button
+                        variant="outlined"
+                        onClick={() => {
+                            var proceed = window.confirm(
+                                "Are you sure you want to discard all changes?"
+                            );
+                            if (proceed) {
+                                //console.log("yes");
+                                changeButtons();
+                            } else console.log("No");
+                        }}
+                    >
+                        Cancel
+                    </Button>
+
+                    <Button variant="outlined" onClick={() => {
+                        var proceed = window.confirm(
+                            "Are you sure you want to save all changes?"
+                        );
+                        if (proceed) {
+                            console.log("yes");
+                        } else console.log("No");
+                    }}>
+                        Save
+                    </Button>
+                </Box>
+            ) : (
+                <Box m={2} pt={3}>
+                    <Button variant="outlined" onClick={changeButtons}>
+                        Edit
+                    </Button>
+                </Box>
+            )}
             <br></br>
             <hr></hr>
             {/* <h4>Name</h4>
@@ -122,6 +157,7 @@ export default function PersonalInfo(props) {
           disabled
         /> */}
                     <h4> Name </h4>
+
                     <TextField
                         label="First"
                         type="text"
@@ -499,42 +535,6 @@ export default function PersonalInfo(props) {
                     })}
 
                 </Box>
-
-                {isEdit ? (
-                    <Box m={2} pt={3}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => {
-                                var proceed = window.confirm(
-                                    "Are you sure you want to discard all changes?"
-                                );
-                                if (proceed) {
-                                    //console.log("yes");
-                                    changeButtons();
-                                } else console.log("No");
-                            }}
-                        >
-                            Cancel
-                        </Button>
-
-                        <Button variant="outlined" onClick={() => {
-                            var proceed = window.confirm(
-                                "Are you sure you want to save all changes?"
-                            );
-                            if (proceed) {
-                                console.log("yes");
-                            } else console.log("No");
-                        }}>
-                            Save
-                        </Button>
-                    </Box>
-                ) : (
-                    <Box m={2} pt={3}>
-                        <Button variant="outlined" onClick={changeButtons}>
-                            Edit
-                        </Button>
-                    </Box>
-                )}
             </form>
         </div>
     );
