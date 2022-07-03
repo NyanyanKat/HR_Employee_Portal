@@ -22,6 +22,8 @@ const base = {
     empAddHousingComment: "/housing/add-comment",
     empUpdHousingComment: "/housing/update-comment",
     empHousingComments: "/housing/get-comments",
+    profile: "/user",
+
 }
 
 const api = {
@@ -75,6 +77,9 @@ const api = {
     },
     updateEmpHousingComment(params, commentID){
         return axios.post(base.baseUrl + base.empUpdHousingComment + '/' + commentID, params, {params: { "userID": auth.getUser().id}})
+    },
+    getProfile(params) {
+        return axios.get(base.baseUrl + base.profile, params)
     },
    }
 export default api

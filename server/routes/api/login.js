@@ -31,7 +31,8 @@ router.post("/", async function (req, resp) {
             // });
             return resp.status(201).send({
               user: user,
-              token: jwt.sign(user, JWT_KEY)
+              token: jwt.sign(user, JWT_KEY),
+              message: "Login Successfully!"
             })
           } else {
             // password not match

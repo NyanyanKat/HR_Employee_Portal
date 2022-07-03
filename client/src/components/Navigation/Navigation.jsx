@@ -20,6 +20,7 @@ import OnBoardingApp from '../../empPages/OnBoardingApp'
 import HousingEmp from "../../empPages/Housing";
 import AddHousing from '../../hrPages/AddHousing';
 import api from '../../api/api';
+import PersonalInfo from '../../empPages/PersonInfo';
 
 
 const Main = styled.main`
@@ -115,6 +116,8 @@ export default function Sidebar(props) {
                   <Switch>
                     <Route path="/housing" component={props => <HousingEmp />} />
                     <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
+                    <Route path={`/profile`} component={props => < PersonalInfo/>} />
+
                   </Switch>
                 </div>
               </Main>
