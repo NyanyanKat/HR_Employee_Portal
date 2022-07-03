@@ -23,6 +23,7 @@ export default function AddTenants() {
     const [employee, setEmployee] = useState([]);
 
     useEffect(() => {
+        //find tenants with no housing
         api.getEmployee()
             .then(res => {
                 console.log(res.data)
@@ -36,23 +37,29 @@ export default function AddTenants() {
 
     }
 
-    const addTenants = (empID) => {
+    const addTenants = async (empID) => {
         // post to backend
         // add housing id to employee
+        // add employee id to housing
 
         console.log("add tenants");
-        axios.put(`http://127.0.0.1:3001/api/employee/${empID}`, {
+        await axios.put(`http://127.0.0.1:3001/api/employee/${empID}`, {
             housing_id: id
-            })
+        })
             .then(res => {
                 console.log(res);
-                history.push("/tenants");
+
             })
+
+        await axios.put(`http://127.0.0.1:3001/api/hr/housing/${id}`, {
+            employee_id: empID
+        })
+            .then(res => {
+                console.log(res);
+            })
+        await history.push("/hr/housing/summary");
     }
 
-    const handleChange = (e) => {
-
-    };
 
     return (
         <div>
