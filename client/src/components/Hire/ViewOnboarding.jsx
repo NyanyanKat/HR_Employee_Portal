@@ -1,26 +1,9 @@
-import React, {useState, useEffect} from "react";
-import {useLocation, useHistory} from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import queryString from "query-string";
-import Feedback from "./Feedback";
-import { Box } from "@mui/material";
-import {
-  Space,
-  Tabs,
-  PageHeader,
-  Button,
-  Descriptions,
-  Divider,
-  Tag,
-  Checkbox,
-  Collapse,
-  Avatar,
-} from "antd";
+import { Tabs, PageHeader, Button, Descriptions, Divider, Tag, Checkbox, Collapse, Avatar, Modal, Form, Input, Alert } from "antd";
 import api from "../../api/api";
-import auth from "../../utils/auth";
-import axios from 'axios';
-
 const { Panel } = Collapse;
-
 
 export default function ViewOnboarding() {
   const { search } = useLocation(); //search:  ?eid=62bd645b6668e40cbd17aa40
@@ -28,6 +11,11 @@ export default function ViewOnboarding() {
   const [userInfo, loadUserInfo] = useState({});
   const [isLoading, updateLoading] = useState(true);
   const history = useHistory()
+  const feedbackRef = useRef()
+  const [visible, setVisible] = useState(false);
+  const [err, updateErr] = useState("")
+  const [empty, updateEmpty] = useState("")
+
 
   //displaying user info
   useEffect(() => {
@@ -41,8 +29,7 @@ export default function ViewOnboarding() {
       .catch((err) => console.log(err));
   }, []);
 
-
-  const approvedHandler = () => {
+  const approvHandler = () => {
     api.changeOboardingStatus({
       eid: eid,
       status: "approved"
@@ -54,43 +41,41 @@ export default function ViewOnboarding() {
       .catch((err) => console.log(err))
   }
 
+  const rejectHandler = () => {
+    setVisible(true)
+  }
+  const comfirmHandler = () => {
+    const textAreaContent = feedbackRef.current.resizableTextArea.textArea.value;
+    if (textAreaContent.trim().length === 0) {
+      updateErr("error")
+      updateEmpty("Must provide a reason for rejection")
+      return
+    }
+    api.changeOboardingStatus({
+      eid: eid,
+      status: "rejected",
+      feedback: textAreaContent
+    })
+      .then((res) => {
+        console.log(res.data)
+        // history.push('/hire/onboarding')
+        history.push('/hire/onboarding')
+        setVisible(false)
+        updateErr("")
+        updateEmpty("")
+      })
+      .catch((err) => console.log(err))
+  }
+
+  const cancelHandler = () => {
+    setVisible(false)
+  }
+
+
   const { TabPane } = Tabs;
   const onChange = (key) => {
     console.log(key);
   };
-  const queries = queryString.parse(search);
-  console.log('queries', queries.eid);
-
-  //fetch employee based on eid
-  const [employee, setEmployee] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  const getData = () => {
-
-    axios.get(`http://127.0.0.1:3001/api/employee/info/${queries.eid}`)
-      .then(res => {
-        console.log(res.data);
-        setEmployee(res.data);
-      })
-
-
-    // fetch(`/api/employee/${queries.eid}`)
-    //   // .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log('data', data);
-    //     setEmployee(data);
-    //     setLoading(false);
-    //   })
-    //   .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
-    getData();
-    setLoading(false);
-    console.log('employee', employee);
-  },[]);
-
-
 
   const Content = ({ children, extra }) => (
     <div className="content">
@@ -121,13 +106,12 @@ export default function ViewOnboarding() {
             avatar={<Avatar style={{ backgroundColor: '#1890ff' }}>{userInfo.name.first[0]}</Avatar>}
             onBack={() => window.history.back()}
             title={`${userInfo.name.first} ${userInfo.name.middle} ${userInfo.name.last}`}
-            tags={<Tag color="blue">{userInfo.userID.onboardingStatus}</Tag>}
-            extra={[
-              <Button key="1" type="primary" onClick={approvedHandler}>
-                Approve
-              </Button>,
-              <Button key="2">Reject</Button>,
-            ]}
+            tags={<Tag color={userInfo.userID.onboardingStatus === "pending" ? "blue" : (userInfo.userID.onboardingStatus === "rejected" ? "red" : "green")}>{userInfo.userID.onboardingStatus}</Tag>}
+            extra={userInfo.userID.onboardingStatus === "pending" &&
+              [<Button key="1" type="primary" onClick={approvHandler}>Approve</Button>,
+              <Button key="2" onClick={rejectHandler}>Reject</Button>,
+              ]
+            }
             footer={
               <Tabs tabPosition="right">
                 <TabPane tab="About Employee" key="1">
@@ -167,14 +151,14 @@ export default function ViewOnboarding() {
                   <Descriptions
                     layout="vertical"
                     bordered
-                    column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}
+                    column={{ xxl: 4, xl: 4, lg: 4, md: 2, sm: 2, xs: 1 }}
                   >
-                    <Descriptions.Item label="Cell Phone Number" span={1.5}>{userInfo.cellphone}</Descriptions.Item>
-                    <Descriptions.Item label="Work Phone Number" span={1.5}>{userInfo.workphone}</Descriptions.Item>
+                    <Descriptions.Item label="Cell Phone Number" span="2">{userInfo.cellphone}</Descriptions.Item>
+                    <Descriptions.Item label="Work Phone Number" span="2">{userInfo.workphone}</Descriptions.Item>
                   </Descriptions>
-                  {userInfo.eContact.map((item) => {
+                  {userInfo.eContact.map((item, index) => {
                     return (
-                      <>
+                      <div key={index}>
                         <Divider></Divider>
                         <Descriptions
                           layout="vertical"
@@ -188,7 +172,7 @@ export default function ViewOnboarding() {
                           <Descriptions.Item label="Email">{item.email}</Descriptions.Item>
                           <Descriptions.Item label="Relationship">{item.relationship}</Descriptions.Item>
                         </Descriptions>
-                      </>
+                      </div>
                     )
                   })}
 
@@ -199,13 +183,12 @@ export default function ViewOnboarding() {
                   <Descriptions
                     layout="vertical"
                     bordered
-                    column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+                    column={{ xxl: 4, xl: 4, lg: 4, md: 4, sm: 2, xs: 1 }}
                   >
-
                     {userInfo.citizenship.citizen ? (
                       <Descriptions.Item
                         label="Are you a citizen or permanent resident of the U.S?"
-                        span={4}
+                        span="4"
                       >
                         <Checkbox defaultChecked={userInfo.citizenship.status === "Citizen" ? true : false} disabled>
                           Citizen
@@ -217,7 +200,7 @@ export default function ViewOnboarding() {
 
                     ) : (
                       <>
-                        <Descriptions.Item label="Visa Title" span={4}>
+                        <Descriptions.Item label="Visa Title" span="4">
                           {userInfo.citizenship.status}
                         </Descriptions.Item>
                         <Descriptions.Item label="Start Date">
@@ -262,13 +245,13 @@ export default function ViewOnboarding() {
                   <Divider>Evidence</Divider>
                   <Collapse defaultActiveKey={["1"]} onChange={onChange}>
                     <Panel header="Profile Picture" key="1">
-                      <img src={`http://localhost:3001/${userInfo.profile}`} alt="employee profile pic" style={{height:300, width:300}}/>
+                      <img src={`http://localhost:3001/${userInfo.profile}`} alt="employee profile pic" style={{ height: 300, width: 300 }} />
                     </Panel>
                     <Panel header="Driver's License" key="2">
-                    <img src={`http://localhost:3001/${userInfo.license.photo}`} alt="license copy" style={{height:245, width:400}}/>
+                      <img src={`http://localhost:3001/${userInfo.license.photo}`} alt="license copy" style={{ height: 245, width: 400 }} />
                     </Panel>
                     <Panel header="OPT Receipt" key="3">
-                    <img src={`http://localhost:3001/${userInfo.citizenship.optReceipt}`} alt="opt receipt" style={{height:400, width:500}}/>
+                      <img src={`http://localhost:3001/${userInfo.citizenship.optReceipt}`} alt="opt receipt" style={{ height: 400, width: 500 }} />
                     </Panel>
                   </Collapse>
                 </TabPane>
@@ -290,14 +273,29 @@ export default function ViewOnboarding() {
                   {userInfo._id}
                 </Descriptions.Item>
               </Descriptions>
+              {userInfo.rejFeedback &&
+                <Alert
+                  message="Feedback"
+                  description={userInfo.rejFeedback}
+                  type="error"
+                  style={{width:"85%"}}
+                />
+              }
             </Content>
           </PageHeader>
 
-          <Space style={{ marginBottom: 200 }}></Space>
-
-          <Box sx={{ width: "65%", padding: "30px 30px" }}>
-            <Feedback />
-          </Box>
+          <Modal
+            title="Please give a feedback for rejecting the employee's onboarding application"
+            centered
+            visible={visible}
+            onOk={comfirmHandler}
+            onCancel={cancelHandler}
+            width={1000}
+          >
+            <Form.Item label="Feeback" validateStatus={err} hasFeedback help={empty}>
+              <Input.TextArea allowClear showCount ref={feedbackRef} />
+            </Form.Item>
+          </Modal>
         </>
       )}
     </>

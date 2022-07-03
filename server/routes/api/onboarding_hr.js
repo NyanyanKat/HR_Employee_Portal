@@ -41,7 +41,13 @@ router.get('/:eid', async(req,resp)=>{
 //change the status of employee onboarding process
 router.post('/', async(req,resp)=>{
     try {
-        await User.updateOne({_id:req.body.eid},{onboardingStatus:req.body.status})
+        if(req.body.feedback){
+            console.log(req.body.feedback)
+            await User.updateOne({_id:req.body.eid},{onboardingStatus:req.body.status})
+            await UserInfo.updateOne({userID:req.body.eid},{rejFeedback: req.body.feedback})
+        }else{
+            await User.updateOne({_id:req.body.eid},{onboardingStatus:req.body.status})
+        }
         resp.status(200).send('update onboarding status successfully!')
     } catch (e) {
         console.log(e)

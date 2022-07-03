@@ -82,11 +82,11 @@ export default function OnboardingReview() {
               <List.Item key={item._id}>
                 <List.Item.Meta
                   // avatar={<Avatar src={item.profilePic} />}
-                  avatar = {<Avatar style={{ backgroundColor: '#1890ff' }}>{item.name.first[0]}</Avatar>}
-                  title={<a href={`/hire/onboarding/view?eid=${item.infoID}`}>{`${item.infoID.name.first}  ${item.infoID.name.last}`}</a>}
+                  avatar = {<Avatar style={{ backgroundColor: '#1890ff' }}>{item.infoID.name.first[0]}</Avatar>}
+                  title={<a href={`/hire/onboarding/view?eid=${item._id}`}>{`${item.infoID.name.first}  ${item.infoID.name.last}`}</a>}
                   description={item.email}
                 />
-                <Button shape="round" size="default" onClick={()=>handleView(item.userID._id)}>
+                <Button shape="round" size="default" onClick={()=>handleView(item._id)}>
                   View Application
                 </Button>
               </List.Item>

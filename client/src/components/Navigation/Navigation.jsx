@@ -79,7 +79,7 @@ export default function Sidebar(props) {
                   )
                   }
 
-                  {!isCitizen && (
+                  {auth.getUser().onboardingStatus === "approved" && (!isCitizen) && (
                     <NavItem eventKey="/employee/visa">
                       <NavIcon><FontAwesomeIcon icon={faCcVisa} style={{ fontSize: "1.5em" }} /></NavIcon>
                       <NavText>Visa Status Management</NavText>
