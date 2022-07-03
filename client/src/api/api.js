@@ -12,7 +12,9 @@ const base = {
     employee: "/employee",
     employeeInfo: "/employee/info/:id",
     onboard: "/hire/onboarding",
-    housing: "/housing",
+    housing: "/hr/housing/summary",
+    oneHousing: "/hr/housing/one/:id",
+    addHousing: "/hr/housing/add",
     allOnboardingReview: "/hire/onboarding",
     oneOnboardingReview: "/hire/onboarding", //:eid
     changeOboardingStatus:"/hire/onboarding",
@@ -23,7 +25,7 @@ const base = {
     empUpdHousingComment: "/housing/update-comment",
     empHousingComments: "/housing/get-comments",
     profile: "/user",
-
+    employeeNoHousing: "/employee/no-housing",
 }
 
 const api = {
@@ -36,9 +38,6 @@ const api = {
     login(params) {
         return axios.post(base.baseUrl + base.login, params)
     },
-//     onboarding(params) {
-//         return axios.post(base.baseUrl + base.onboard, params)
-//     },
     getEmployee() {
         return axios.get(base.baseUrl + base.employee)
     },
@@ -80,6 +79,15 @@ const api = {
     },
     getProfile(params) {
         return axios.get(base.baseUrl + base.profile, params)
+    },
+    createHousing(params){
+        return axios.post(base.baseUrl + base.addHousing, params, {headers: { "Content-Type": "multipart/form-data" }})
+    },
+    getOneHousing(){
+        return axios.get(base.baseUrl + base.oneHousing)
+    },
+    getEmployeeNoHousing(){
+        return axios.get(base.baseUrl + base.employeeNoHousing)
     },
    }
 export default api

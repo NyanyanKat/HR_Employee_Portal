@@ -17,8 +17,9 @@ import OneHousing from "../../hrPages/OneHousing";
 import OnboardingReview from "../Hire/OnboardingReview"
 import ViewOnboarding from '../Hire/ViewOnboarding';
 import OnBoardingApp from '../../empPages/OnBoardingApp'
-import HousingEmp from "../../empPages/Housing";
+import HousingEmp from "../../empPages/HousingEmp";
 import AddHousing from '../../hrPages/AddHousing';
+import AddTenant from '../../hrPages/AddTenant';
 import api from '../../api/api';
 import PersonalInfo from '../../empPages/PersonInfo';
 
@@ -124,7 +125,7 @@ export default function Sidebar(props) {
             </React.Fragment>
           )}
           />
-          
+
         ) : (  //hr Sidebar
           <Route render={({ location, history }) => (
             <React.Fragment>
@@ -170,13 +171,13 @@ export default function Sidebar(props) {
                   <NavItem eventKey="housing">
                     <NavIcon><FontAwesomeIcon icon={faBuildingUser} style={{ fontSize: "1.5em" }} /></NavIcon>
                     <NavText>Housing</NavText>
-                    <NavItem eventKey="housing/summary">
+                    <NavItem eventKey="hr/housing/summary">
                       <NavText>Summary View</NavText>
                     </NavItem>
-                    <NavItem eventKey="housing/add">
+                    <NavItem eventKey="hr/housing/add">
                       <NavText>Adding Houses</NavText>
                     </NavItem>
-                    <NavItem eventKey="housing/report">
+                    <NavItem eventKey="hr/housing/report">
                       <NavText>Inbox Message</NavText>
                     </NavItem>
                   </NavItem>
@@ -191,14 +192,19 @@ export default function Sidebar(props) {
                 <TopNavigation />
                 <div className="main-content-container">
                   <Switch>
+
                     <Route path="/hire/register" component={props => <RegistrationToken />} />
                     <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
                     <Route path={`/hire/onboarding/view${path}`} component={props => <ViewOnboarding />} />
+
                     <Route path={'/employee'} exact component={props => <Employee />} />
                     <Route path={`/employee/info/:eid`} component={props => <OneEmployee />} />
-                    <Route path={'/housing/summary'} components={props => <Housing />} />
-                    <Route path={'/housing/:id'} component={props => <OneHousing />} />
-                    <Route path={'/housing/add'} components={props => <AddHousing />} />
+
+                    <Route path={'/hr/housing/one/:id'} component={props => <OneHousing />} />
+                    <Route path={'/hr/housing/summary'} component={props => <Housing />} />
+                    <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
+                    <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />
+
                   </Switch>
                 </div>
               </Main>
