@@ -24,6 +24,7 @@ const base = {
     empAddHousingComment: "/housing/add-comment",
     empUpdHousingComment: "/housing/update-comment",
     empHousingComments: "/housing/get-comments",
+    employeeNoHousing: "/employee/no-housing",
 }
 
 const api = {
@@ -83,6 +84,9 @@ const api = {
     },
     getOneHousing(){
         return axios.get(base.baseUrl + base.oneHousing)
+    },
+    getEmployeeNoHousing(){
+        return axios.get(base.baseUrl + base.employeeNoHousing)
     }
    }
 export default api

@@ -11,7 +11,7 @@ router.get('/summary', async (req, res) => {
 router.get('/one/:id', async (req, res) => {
     const id = req.params.id;
     console.log('id', id)
-    const housing = await Housing.find({_id: id});
+    const housing = await Housing.findOne({_id: id});
     return res.status(201).send(JSON.stringify(housing));
 })
 router.post('/add', async (req, res) => {
@@ -54,5 +54,19 @@ router.post('/add', async (req, res) => {
     }
 })
 
+router.put('/:id', async (req, res) => {
+    const id = req.params.id;
+    const housing = await Housing.findOneAndUpdate({ _id: id },
+        { $push: { tenants: req.body.employee_id } }
+    );
+    if (!housing) {
+        return res.status(404).send({
+            message: 'Housing not found'
+        })
+    }
+    return res.status(201).send({
+        message: 'Housing added to tenant successfully'
+    })
+})
 
 module.exports = router;

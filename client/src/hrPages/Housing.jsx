@@ -25,6 +25,20 @@ export default function Housing() {
         console.log(id);
         history.replace(`/hr/housing/one/${id}`);
     }
+    const deleteHouse = (id) => {
+        console.log(id);
+        api.deleteHouse(id)
+            .then(res => {
+                console.log(res.data)
+                message.success("House deleted successfully");
+                setData(data.filter(item => item.id !== id));
+            }
+            ).catch(err => console.log(err));
+    }
+    const addTenant = (id) => {
+        history.push(`/hr/housing/addTenant/${id}`);
+    }
+
     // }
 
     return (
@@ -47,7 +61,7 @@ export default function Housing() {
                             <td>{item.address.houseNumber}  {item.address.streetName} {item.address.city} {item.address.state} {item.address.zip}</td>
                             <td>{item.tenants}</td>
                             <td>
-                                <Button type="primary" className="mx-1" onClick={() => viewHouse(item._id)}>Edit Tenants</Button>
+                                <Button type="primary" className="mx-1" onClick={() => addTenant(item._id)}>Edit Tenants</Button>
                                 <Button type="primary" className="mx-1" onClick={() => viewHouse(item._id)}>View Housing Details</Button>
                                 <Button type="danger" className="mx-1" onClick={() => viewHouse(item._id)}>Delete Housing </Button>
                             </td>

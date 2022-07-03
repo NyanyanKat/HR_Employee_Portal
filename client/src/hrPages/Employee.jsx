@@ -1,80 +1,3 @@
-// import React, { useRef, useEffect, useState } from "react";
-// import {Table} from "@mui/material";
-// //find all employees
-// export default function Employee() {
-//     // const employees = fetch('/api/employees')
-//     //     .then(res => res.json())
-//     //     .then(data => data)
-//     //     .catch(err => console.log(err));
-
-//     // const columns = [{
-//     //     dataField: 'id',
-//     //     text: 'Product ID',
-//     //     sort: true
-//     // }, {
-//     //     dataField: 'name',
-//     //     text: 'Product Name',
-//     //     sort: true
-//     // }, {
-//     //     dataField: 'price',
-//     //     text: 'Product Price'
-//     // }];
-
-//     return (
-//         <div>
-//             {/* <Table columns={columns} data={employees} />
-//             {employees.map(employee => (
-//                 <div>
-//                     <h1>{employee.name}</h1>
-//                     <p>{employee.email}</p>
-//                 </div>
-//             ))} */}
-//             <Table />
-
-//         </div>
-//     )
-// }
-
-
-
-
-
-
-// import * as React from 'react';
-// import { Box, Tab } from '@mui/material';
-// import { TabList, TabPanel, TabContext } from '@mui/lab';
-
-// export default function LabTabs() {
-// const [tabValue, setTabValue] = React.useState('1');
-
-// const handleChange = (event, newValue) => {
-//     setTabValue(newValue);
-// };
-
-//     return (
-// <Box sx={{ width: '100%', typography: 'body1' }}>
-//     <TabContext value={tabValue}>
-//         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-//             <TabList onChange={handleChange} aria-label="lab API tabs example">
-//                 <Tab label="Pending" value="1" style={{minWidth:"15%"}}/>
-//                 <Tab label="Rejected" value="2" style={{minWidth:"15%"}}/>
-//                 <Tab label="Approved" value="3" style={{minWidth:"15%"}}/>
-//             </TabList>
-//         </Box>
-//         <TabPanel value="1">
-
-//         </TabPanel>
-//         <TabPanel value="2">
-
-//         </TabPanel>
-//         <TabPanel value="3">
-
-//         </TabPanel>
-//     </TabContext>
-// </Box>
-//     );
-// }
-
 import React from "react";
 import { useEffect, useState } from "react";
 import { Box, Tab, TextField } from '@mui/material';
@@ -129,6 +52,7 @@ export default function Employee() {
     useEffect(() => {
         loadMoreData();
         console.log(data);
+        filterData(q);
     }, []);
 
 
@@ -141,8 +65,8 @@ export default function Employee() {
     var searchArray = [];
     // filter data based on search query
     const filterData = (q) => {
-        if (q === "") {
-            setSearchData([data]);
+        if (q === null || q === "") {
+            setSearchData(data);
         } else {
             searchArray = [];
             data.forEach(item => {
@@ -158,6 +82,14 @@ export default function Employee() {
         }
 
     }
+
+    // const handleChange = (e) => {
+    //     updateFormData({
+    //       ...formData,
+    //       [e.target.name]: e.target.value,
+    //     });
+    //   };
+
     console.log(data[0])
     return (
         <Box sx={{ width: '100%', typography: 'body1', padding: "0 30px" }}>
@@ -170,9 +102,10 @@ export default function Employee() {
                     fullWidth
                     label="Search"
                     onChange={(e) => {
+                        console.log(e.target.value)
                         setQ(e.target.value);
-                        filterData(q);
-                        console.log(searchData);
+                        filterData(e.target.value);
+                        console.log('q', q);
                         console.log('data is array? ', Array.isArray(data));
                     }}
                     value={q}

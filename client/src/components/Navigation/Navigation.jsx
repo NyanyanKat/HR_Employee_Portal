@@ -19,6 +19,7 @@ import ViewOnboarding from '../Hire/ViewOnboarding';
 import OnBoardingApp from '../../empPages/OnBoardingApp'
 import HousingEmp from "../../empPages/HousingEmp";
 import AddHousing from '../../hrPages/AddHousing';
+import AddTenant from '../../hrPages/AddTenant';
 import api from '../../api/api';
 
 
@@ -199,6 +200,7 @@ export default function Sidebar(props) {
                     <Route path={'/hr/housing/one/:id'} component={props => <OneHousing />} />
                     <Route path={'/hr/housing/summary'} component={props => <Housing />} />
                     <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
+                    <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />
 
                   </Switch>
                 </div>
