@@ -121,6 +121,14 @@ export default function Onboarding() {
   });
 
   const [formData, updateFormData] = useState(initialFormData);
+  const [formEdited, updateFormEdited] = useState(initialFormData);
+
+  const handleEdited = (e) => {
+    updateFormEdited({
+      ...formEdited,
+      [e.target.name]: true,
+    });
+  };
 
   const handleChange = (e) => {
     updateFormData({
@@ -210,10 +218,11 @@ export default function Onboarding() {
                 label="First name"
                 variant="outlined"
                 onChange={handleChange}
+                onClick={handleEdited}
                 name="firstname"
                 sx={{ m: 1 }}
                 size="small"
-                error={!formData.firstname}
+                error={!formData.firstname && formEdited.firstname}
                 helperText={!formData.firstname ? requiredText : ""}
                 required
               />
