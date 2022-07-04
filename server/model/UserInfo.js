@@ -174,19 +174,18 @@ const userInfoSchema = new Schema({
             required: true
         }
     }],
-    status: {
-        type: String,
-        enum: ['pending', 'approved', 'rejected'],
-        default: 'pending',
-        required: true
-    },
+    // status: {
+    //     type: String,
+    //     enum: ['pending', 'approved', 'rejected'],
+    //     default: 'pending',
+    //     required: true
+    // },
     creatationDate:{
         type:Date,
         default: Date.now
     },
-    comments:{
-        type:String,
-        
+    rejFeedback:{
+        type:String
     }
 })
 
