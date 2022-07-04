@@ -12,7 +12,9 @@ const base = {
     employee: "/employee",
     employeeInfo: "/employee/info/:id",
     onboard: "/hire/onboarding",
-    housing: "/housing",
+    housing: "/hr/housing/summary",
+    oneHousing: "/hr/housing/one/:id",
+    addHousing: "/hr/housing/add",
     allOnboardingReview: "/hire/onboarding",
     oneOnboardingReview: "/hire/onboarding", //:eid
     changeOboardingStatus:"/hire/onboarding",
@@ -25,6 +27,7 @@ const base = {
     profile: "/user",
     empVisaStatus: "/visa",
     empVisa: "/visa",
+    employeeNoHousing: "/employee/no-housing",
 }
 
 const api = {
@@ -84,6 +87,15 @@ const api = {
     },
     sendEmpVisaFile(params){
         return axios.post(base.baseUrl + base.empVisa, params, {headers: { "Content-Type": "multipart/form-data" }})
+    },
+    createHousing(params){
+        return axios.post(base.baseUrl + base.addHousing, params, {headers: { "Content-Type": "multipart/form-data" }})
+    },
+    getOneHousing(){
+        return axios.get(base.baseUrl + base.oneHousing)
+    },
+    getEmployeeNoHousing(){
+        return axios.get(base.baseUrl + base.employeeNoHousing)
     },
    }
 export default api

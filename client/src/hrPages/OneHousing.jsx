@@ -1,23 +1,26 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-
+import api from "../api/api";
+import axios from 'axios';
 export default function OneHousing() {
     // get user info data from backend
     const [housing, setHousing] = useState({});
+    const [loading, setLoading] = useState(true);
 
     const { id } = useParams();
     console.log('id', id);
 
-    const loadData = () => {
+    const loadData = async () => {
         try {
-            fetch('/api/housing/' + id)
-                .then(res => console.log(res.body))
-                .then(data => {
-                    console.log(data);
-                    setHousing(data);
+            await axios.get(`http://127.0.0.1:3001/api/hr/housing/one/${id}`)
+                .then(res => {
+                    console.log(res.data);
+                    setLoading(false);
+                    setHousing(res.data);
+                    console.log(housing)
                 })
-                .catch(err => console.log(err));
+
         }
         catch (err) {
             console.log(err);
@@ -26,38 +29,36 @@ export default function OneHousing() {
 
     useEffect(() => {
         loadData();
-        console.log(housing);
+
+        // axios.get(`http://127.0.0.1:3001/api/hr/housing/one/${id}`)
+        //     .then(res => {
+        //         setLoading(false);
+        //         console.log(res.data);
+
+        //         setHousing(res.data);
+        //         console.log(housing)
+        //     })
     }, []);
 
     return (
         <div>
-            <div>
-                <h2>Facility Info</h2>
 
-                <h4>Number of Beds: {housing.facilityInfo.numBeds}</h4>
-                <h4>Number of Mattresses: {housing.facilityInfo.numMattress}</h4>
-                <h4>Number of Tables: {housing.facilityInfo.numTables}</h4>
-                <h4>Number of Chairs: {housing.facilityInfo.numChairs}</h4>
-                {housing.facilityInfo.reports.map(report => {
-                    return (
-                        <div>
-                            <h4>Report: {report.title}</h4>
-                            <h4>Date: {report.timestamp}</h4>
-                            <h4>Status: {report.status}</h4>
-                            <h4>Created By: {report.creatorID.username}</h4>
-                            <h4>Description: {report.desc}</h4>
+            {loading ? <div>Loading...</div> :
+                <div>
+                    <h2>Facility Info</h2>
+                    <p>Beds: {housing.facilityInfo.numBeds}</p>
+                    <p>Mattresses: {housing.facilityInfo.numMattress}</p>
+                    <p>Tables: {housing.facilityInfo.numTables}</p>
+                    <p>Chairs: {housing.facilityInfo.numChairs}</p>
+                    <br>
+                    </br>
+                    <h2> Landlord </h2>
+                    <p>Name: {housing.landlord.name}</p>
+                    <p>Phone: {housing.landlord.tel}</p>
+                    <p>Email: {housing.landlord.email}</p>
+                </div>
+            }
 
-                        </div>
-                    )
-                })}
-            </div>
-            <div>
-                <h2>Employee Info</h2>
-                <h4><a href='/'>{housing.employeeInfo.infoID.name.first} {housing.employeeInfo.infoID.name.last}</a></h4>
-                <h4>{housing.employeeInfo.infoID.email}</h4>
-                <h4>{housing.employeeInfo.infoID.cellphone}</h4>
-                <h4>{housing.employeeInfo.infoID.car}</h4>
-            </div>
         </div>
     )
 }

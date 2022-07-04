@@ -5,8 +5,13 @@ const mongoose = require('mongoose');
 
 //get all employees
 router.get('/', async (req, res) => {
-    const employees = await User.find({ role: 'employee' }).sort({username: 1});
+    const employees = await User.find({ role: 'employee' }).sort({ username: 1 });
 
+    return res.status(201).send(JSON.stringify(employees));
+})
+
+router.get('/no-housing', async (req, res) => {
+    const employees = await User.find({ role: 'employee', housing: null }).sort({ username: 1 });
     return res.status(201).send(JSON.stringify(employees));
 })
 
@@ -26,30 +31,25 @@ router.get('/info/:eid', (req, res) => {
     // console.log(typeof id);
     UserInfo.findOne({ userID: eid }).populate('userID')
         .then(user => {
-            console.log('user',user);
+            console.log('user', user);
             res.send(user);
         }).catch(err => console.log(err));
 })
-// const User = require('../../model/User');
-// //get all employees
-// router.get('/', (req, res) => {
-//     const employees = User.find({ role: 'employee' })
-//         .then(employees => res.json(employees))
-//         .catch(err => res.status(404).json({ notfound: 'No employees found' }));
-//     return res.status(201).send({
-//         employees: employees
-//     })
-// })
 
-// //get single employee
-// router.get('/:id', (req, res) => {
-//     User.findById(req.params.id)
+router.put('/:id', async (req, res) => {
+    const id = req.params.id;
+    const employee = await User.findOneAndUpdate({ _id: id },
+        {housingID: req.body.housing_id}
+    );
+    if (!employee) {
+        return res.status(404).send({
+            message: 'Employee not found'
+        })
+    }
+    return res.status(201).send({
+        message: 'Employee added to housing successfully'
+    })
 
-//         .then(employee => res.json(employee))
-//         .catch(err => res.status(404).json({ notfound: 'No employee found' }));
-//     return res.status(201).send({
-//         employee: employee
-//     })
-// })
+})
 
 module.exports = router;
