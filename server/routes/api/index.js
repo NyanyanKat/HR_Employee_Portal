@@ -14,7 +14,7 @@ router.use('/register', registerRoutes);
 router.use('/login', loginRoutes);
 router.use('/housing', empHousingRoutes);
 router.use('/hr/housing', hrHousingRoutes);
-router.use('/visa', visaRoutes);
+//router.use('/visa', visaRoutes);
 router.use('/employee', employeeRoutes);
 router.use('/hire/onboarding', hrOnboardingRoutes);
 router.use('/onboarding', empOnboardingRoutes);
