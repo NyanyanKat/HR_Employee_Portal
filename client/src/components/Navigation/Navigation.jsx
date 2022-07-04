@@ -21,6 +21,7 @@ import HousingEmp from "../../empPages/Housing";
 import AddHousing from '../../hrPages/AddHousing';
 import api from '../../api/api';
 import PersonalInfo from '../../empPages/PersonInfo';
+import Visa from '../../empPages/Visa';
 
 
 const Main = styled.main`
@@ -81,7 +82,7 @@ export default function Sidebar(props) {
                   }
 
                   {auth.getUser().onboardingStatus === "approved" && (!isCitizen) && (
-                    <NavItem eventKey="/employee/visa">
+                    <NavItem eventKey="employee/visa">
                       <NavIcon><FontAwesomeIcon icon={faCcVisa} style={{ fontSize: "1.5em" }} /></NavIcon>
                       <NavText>Visa Status Management</NavText>
                     </NavItem>
@@ -117,6 +118,7 @@ export default function Sidebar(props) {
                     <Route path="/housing" component={props => <HousingEmp />} />
                     <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
                     <Route path={`/profile`} component={props => < PersonalInfo/>} />
+                    <Route path={`/employee/visa`} component={props => < Visa/>} />
 
                   </Switch>
                 </div>

@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 //Insert a initial db data for testing
-// require('./model/User')
+// require('./model/Visa')
 
 require('dotenv').config()
 
