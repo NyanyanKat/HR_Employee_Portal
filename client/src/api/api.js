@@ -24,6 +24,9 @@ const base = {
     empAddHousingComment: "/housing/add-comment",
     empUpdHousingComment: "/housing/update-comment",
     empHousingComments: "/housing/get-comments",
+    profile: "/user",
+    empVisaStatus: "/visa",
+    empVisa: "/visa",
     employeeNoHousing: "/employee/no-housing",
 }
 
@@ -37,9 +40,6 @@ const api = {
     login(params) {
         return axios.post(base.baseUrl + base.login, params)
     },
-//     onboarding(params) {
-//         return axios.post(base.baseUrl + base.onboard, params)
-//     },
     getEmployee() {
         return axios.get(base.baseUrl + base.employee)
     },
@@ -79,6 +79,15 @@ const api = {
     updateEmpHousingComment(params, commentID){
         return axios.post(base.baseUrl + base.empUpdHousingComment + '/' + commentID, params, {params: { "userID": auth.getUser().id}})
     },
+    getProfile(params) {
+        return axios.get(base.baseUrl + base.profile, params)
+    },
+    getVisaStatus(params){
+        return axios.get(base.baseUrl + base.empVisaStatus + '/' + params)
+    },
+    sendEmpVisaFile(params){
+        return axios.post(base.baseUrl + base.empVisa, params, {headers: { "Content-Type": "multipart/form-data" }})
+    },
     createHousing(params){
         return axios.post(base.baseUrl + base.addHousing, params, {headers: { "Content-Type": "multipart/form-data" }})
     },
@@ -87,6 +96,6 @@ const api = {
     },
     getEmployeeNoHousing(){
         return axios.get(base.baseUrl + base.employeeNoHousing)
-    }
+    },
    }
 export default api

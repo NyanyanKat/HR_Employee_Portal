@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import auth from '../../../utils/auth';
 import Login from '../../Authentication/Login';
 import Registration from '../../Authentication/Registration';
+import AlertMsg from "../../AlertMsg/AlertMsg";
+
 
 
 export default function TopNavigation() {
@@ -30,7 +32,7 @@ export default function TopNavigation() {
                 <Nav.Link href="/login"><Button variant="outline-success">Login</Button></Nav.Link>
               ) : (
                 <NavDropdown title={`welcome, ${auth.getUser().username}`} id="collasible-nav-dropdown">
-                  <NavDropdown.Item href="/profile">Personal Profile</NavDropdown.Item>
+                  {auth.getUser().onboardingStatus === "approved" && <NavDropdown.Item href="/profile">Personal Profile</NavDropdown.Item>} 
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
                 </NavDropdown>
@@ -39,6 +41,7 @@ export default function TopNavigation() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <AlertMsg></AlertMsg>
       <Switch>
         <Route path={'/login'} component={props => <Login />} />
         <Route path={`/register${path}`} component={props => <Registration />} />
