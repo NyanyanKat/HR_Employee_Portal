@@ -1,17 +1,37 @@
 const router = require('express').Router();
 const formidable = require("formidable")
 const Housing = require('../../model/Housing');
-
+const User = require('../../model/User');
+const Report = require('../../model/Report');
+const Comment = require('../../model/Comment');
 
 router.get('/summary', async (req, res) => {
-    const housing = await Housing.find({});
+    const housing = await Housing.find({}).populate('tenants');
     return res.status(201).send(JSON.stringify(housing));
 })
+
+router.get('/report/:id', async (req, res) => {
+    const id = req.params.id; // report id
+    const report = Report.findOne({ _id: id });
+    return res.status(201).send(JSON.stringify(report));
+})
+
+//Create comment
+
+router.post('/report/:id/comment', async (req, res) => {
+    const id = req.params.id; // report id
+    const newComment = Comment.create(req.body);
+    const report = await Report.findOneAndUpdate({ _id: id }, {
+        $push: { comments: newComment }
+    });
+    return res.status(201).send(JSON.stringify(report));
+})
+
 
 router.get('/one/:id', async (req, res) => {
     const id = req.params.id;
     console.log('id', id)
-    const housing = await Housing.findOne({_id: id});
+    const housing = await Housing.findOne({ _id: id });
     return res.status(201).send(JSON.stringify(housing));
 })
 router.post('/add', async (req, res) => {
@@ -58,7 +78,7 @@ router.put('/:id', async (req, res) => {
     const id = req.params.id;
     const housing = await Housing.findOneAndUpdate({ _id: id },
         { $push: { tenants: req.body.employee_id } }
-    );
+    ).populate('tenants');
     if (!housing) {
         return res.status(404).send({
             message: 'Housing not found'
@@ -66,6 +86,36 @@ router.put('/:id', async (req, res) => {
     }
     return res.status(201).send({
         message: 'Housing added to tenant successfully'
+    })
+})
+
+router.post('/delete/:id', async (req, res) => {
+    const id = req.params.id; //housing id
+
+    const employees = User.find({ housingID: id }, (err, users) => {
+        if (err) {
+            return res.status(400).send({
+                message: err
+            })
+        }
+        for (let i = 0; i < users.length; i++) {
+            User.findOneAndUpdate({ _id: users[i]._id },
+                { housingID: '' }
+            )
+        }
+    });
+
+
+    const housing = await Housing.findOneAndDelete({ _id: id });
+    if (!housing) {
+        return res.status(404).send({
+            message: 'Housing not found'
+        })
+    }
+
+    return res.status(201).send({
+        housing,
+        message: 'Housing deleted successfully'
     })
 })
 

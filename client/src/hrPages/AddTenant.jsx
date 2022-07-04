@@ -47,48 +47,48 @@ export default function AddTenants() {
             housing_id: id
         })
             .then(res => {
-                console.log(res);
+                axios.put(`http://127.0.0.1:3001/api/hr/housing/${id}`, {
+                    employee_id: empID
+                })
+                    .then(res => {
+                        console.log(res);
 
+                        history.push("/hr/housing/summary");
+                    })
             })
-
-        await axios.put(`http://127.0.0.1:3001/api/hr/housing/${id}`, {
-            employee_id: empID
-        })
-            .then(res => {
-                console.log(res);
-            })
-        await history.push("/hr/housing/summary");
+            .catch(err => console.log(err));
     }
 
 
     return (
-        <div>
-            <h3>Add Housing</h3>
-            <form>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
+            <div>
+                <h3>Add Housing</h3>
+                <Button onClick={() => history.push("/hr/housing/summary")}>Back</Button>
+                <form>
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
 
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {employee.map((employee, index) => (
-                                <tr key={index}>
-                                    <td>{employee.username}</td>
-                                    <td>{employee.email}</td>
-                                    <td><Button type="primary" onClick={() => addTenants(employee._id)}>Add to housing</Button></td>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th></th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                    {/* <Button onClick={handleSubmit}>Submit</Button> */}
-                </Box>
-            </form>
+                            </thead>
+                            <tbody>
+                                {employee.map((employee, index) => (
+                                    <tr key={index}>
+                                        <td>{employee.username}</td>
+                                        <td>{employee.email}</td>
+                                        <td><Button type="primary" onClick={() => addTenants(employee._id)}>Add to housing</Button></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                        {/* <Button onClick={handleSubmit}>Submit</Button> */}
+                    </Box>
+                </form>
 
-        </div>
-    )
-}
+            </div>
+        )
+    }

@@ -20,6 +20,7 @@ import OnBoardingApp from '../../empPages/OnBoardingApp'
 import HousingEmp from "../../empPages/HousingEmp";
 import AddHousing from '../../hrPages/AddHousing';
 import AddTenant from '../../hrPages/AddTenant';
+import HousingReport from '../../hrPages/HousingReport';
 import api from '../../api/api';
 
 
@@ -174,9 +175,9 @@ export default function Sidebar(props) {
                     <NavItem eventKey="hr/housing/add">
                       <NavText>Adding Houses</NavText>
                     </NavItem>
-                    <NavItem eventKey="hr/housing/report">
+                    {/* <NavItem eventKey="hr/housing/report">
                       <NavText>Inbox Message</NavText>
-                    </NavItem>
+                    </NavItem> */}
                   </NavItem>
 
                   <NavItem eventKey="logout" className="sidebar-logout" onClick={handleLogout}>
@@ -201,6 +202,7 @@ export default function Sidebar(props) {
                     <Route path={'/hr/housing/summary'} component={props => <Housing />} />
                     <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
                     <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />
+                    <Route path={'/hr/housing/report/:id'} component={props => <HousingReport />} />
 
                   </Switch>
                 </div>

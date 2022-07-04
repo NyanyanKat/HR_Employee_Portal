@@ -11,7 +11,10 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/no-housing', async (req, res) => {
-    const employees = await User.find({ role: 'employee', housing: null }).sort({ username: 1 });
+    const employees = await User.find({ role: 'employee', housingID: null })
+    .sort({ username: 1 })
+    .populate('infoID')
+    .populate('housingID');
     return res.status(201).send(JSON.stringify(employees));
 })
 

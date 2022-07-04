@@ -25,6 +25,8 @@ const base = {
     empUpdHousingComment: "/housing/update-comment",
     empHousingComments: "/housing/get-comments",
     employeeNoHousing: "/employee/no-housing",
+    deleteHousing: "/hr/housing/delete",
+    addComment: "/hr/housing/report/:id/comment",
 }
 
 const api = {
@@ -87,6 +89,12 @@ const api = {
     },
     getEmployeeNoHousing(){
         return axios.get(base.baseUrl + base.employeeNoHousing)
+    },
+    deleteHousing(params){
+        return axios.post(base.baseUrl + base.deleteHousing, params)
+    },
+    createComment(params){
+        return axios.post(base.baseUrl + base.addComment, params,  {headers: { "Content-Type": "multipart/form-data" }})
     }
    }
 export default api
