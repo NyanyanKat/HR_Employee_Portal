@@ -1,20 +1,38 @@
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 import auth from "../utils/auth";
 import api from "../api/api";
 import { TextField, FormControl, InputLabel, Box, Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormHelperText from "@mui/material/FormHelperText";
-import { Divider, Radio, Space, Tabs, } from "antd";
-import { display } from "@mui/system";
+import { Divider, Tabs, Alert } from "antd";
+
 
 const { TabPane } = Tabs;
 
 export default function Onboarding() {
-  const history = useHistory();
+  const[alert, setAlert] = useState("")
+
+  useEffect(() => {
+    if (auth.getUser().onboardingStatus === "pending") {
+      setDisabled(true)
+      setAlert("Please wait for HR to review your application.")
+    }
+    if(auth.getUser().onboardingStatus === "rejected"){
+      api.getOneOnboarding(auth.getUser().id)
+      .then(res=>{
+        console.log(res.data)
+        setDisabled(false)
+        setAlert(res.data.rejFeedback)
+      })
+      .catch(err=> console.log(err))
+    }
+  }, [])
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     let formattedFormData = {
       name: {
         first: formData.firstname,
@@ -70,12 +88,11 @@ export default function Onboarding() {
     api
       .onboarding(formattedFormData)
       .then((res) => {
-        console.log("ResponseMsg", res.data);
+        setDisabled(true)
+        // console.log("ResponseMsg", res.data);
+        setAlert("Please wait for HR to review your application.")
         // changing onboarding state in local storage
-        auth.changeStatus("pending");
-        //redirect to home
-        // history.push('/')
-        // updateErrMsg({});
+        auth.changeStatus("pending")
       })
       .catch((error) => {
         console.log("Error", error.response.data);
@@ -121,6 +138,7 @@ export default function Onboarding() {
   });
 
   const [formData, updateFormData] = useState(initialFormData);
+  const [isdisabled, setDisabled] = useState(false)
 
   const handleChange = (e) => {
     updateFormData({
@@ -170,24 +188,41 @@ export default function Onboarding() {
 
   return (
     <>
-      <div style={{display:"flex", flexDirection:"row", justifyContent:'space-between'}}>
-      <h1>New Employee Onboarding Form</h1>
-      <Button
-          variant="outlined"
-          onClick={handleSubmit}
-          sx={{ m: 1}}
-          size="large"
-        >
-          Submit Application
-        </Button>
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between' }}>
+        <h1>New Employee Onboarding Form</h1>
+        {auth.getUser().onboardingStatus !== "pending" &&
+          <Button
+            variant="outlined"
+            onClick={handleSubmit}
+            sx={{ m: 1 }}
+            size="large"
+          >
+            Submit Application
+          </Button>
+        }
       </div>
       <h5>
-        Hello! We are excited for your first day. Please fill in the questions
+        Hello! We are excited for your first day. Please fill in the form
         below.
       </h5>
-      <br></br>
-      <span>* denotes required field</span>
-      <br></br>
+      <span>Note: * denotes required field</span>
+      {isdisabled ? (
+        <Alert
+          message="Onboarding Application Status: Pending"
+          description={alert}
+          type="info"
+          showIcon
+          style={{ width: "85%", margin:"20px 0 " }}
+        />
+      ):(
+        auth.getUser().onboardingStatus === "rejected" ?
+        <Alert
+          message="Onboarding Application Status: Rejected"
+          description={`${alert}. Please make a resubmission as soon as possible.`}
+          type="error"
+          showIcon
+          style={{ width: "85%", margin:"20px 0 " }}
+        /> : ""  )}
       <hr></hr>
 
       <Tabs tabPosition="left">
@@ -216,6 +251,7 @@ export default function Onboarding() {
                 error={!formData.firstname}
                 helperText={!formData.firstname ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
 
               <TextField
@@ -225,6 +261,7 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="middlename"
+                disabled={isdisabled}
               />
 
               <TextField
@@ -236,6 +273,7 @@ export default function Onboarding() {
                 name="lastname"
                 error={!formData.lastname}
                 helperText={!formData.lastname ? requiredText : ""}
+                disabled={isdisabled}
                 required
               />
 
@@ -246,6 +284,7 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="preferredname"
+                disabled={isdisabled}
               />
             </div>
 
@@ -261,9 +300,8 @@ export default function Onboarding() {
                 error={!formData.ssn}
                 helperText={!formData.ssn ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
-
-
 
               <TextField
                 name="dob"
@@ -279,6 +317,7 @@ export default function Onboarding() {
                 error={!formData.dob}
                 helperText={!formData.dob ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
 
               <FormControl style={{ width: 250 }}>
@@ -290,6 +329,7 @@ export default function Onboarding() {
                   label="Gender"
                   onChange={handleChange}
                   size="small"
+                  disabled={isdisabled}
                 >
                   <MenuItem value={"Male"}>Male</MenuItem>
                   <MenuItem value={"Female"}>Female</MenuItem>
@@ -315,6 +355,7 @@ export default function Onboarding() {
                 error={!formData.street}
                 helperText={!formData.street ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
 
               <TextField
@@ -327,6 +368,7 @@ export default function Onboarding() {
                 error={!formData.building}
                 helperText={!formData.building ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
 
               <TextField
@@ -339,6 +381,7 @@ export default function Onboarding() {
                 error={!formData.state}
                 helperText={!formData.state ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
               <TextField
                 label="City"
@@ -350,6 +393,7 @@ export default function Onboarding() {
                 error={!formData.city}
                 helperText={!formData.city ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
 
               <TextField
@@ -362,6 +406,7 @@ export default function Onboarding() {
                 error={!formData.zip}
                 helperText={!formData.zip ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
             </div>
 
@@ -378,6 +423,7 @@ export default function Onboarding() {
                 error={!formData.cellphone}
                 helperText={!formData.cellphone ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
 
               <TextField
@@ -387,6 +433,7 @@ export default function Onboarding() {
                 sx={{ m: 1 }}
                 onChange={handleChange}
                 name="workphone"
+                disabled={isdisabled}
               />
 
             </div>
@@ -405,6 +452,7 @@ export default function Onboarding() {
                       error={!inputFields[index].first}
                       helperText={!inputFields[index].first ? requiredText : ""}
                       required
+                      disabled={isdisabled}
                     />
 
                     <TextField
@@ -414,6 +462,7 @@ export default function Onboarding() {
                       size="small"
                       onChange={(event) => handleEContactsChange(index, event)}
                       name="middle"
+                      disabled={isdisabled}
                     />
                     <TextField
                       label="Last name"
@@ -425,6 +474,7 @@ export default function Onboarding() {
                       error={!inputFields[index].last}
                       helperText={!inputFields[index].last ? requiredText : ""}
                       required
+                      disabled={isdisabled}
                     />
                     <TextField
                       label="Phone"
@@ -436,6 +486,7 @@ export default function Onboarding() {
                       error={!inputFields[index].tel}
                       helperText={!inputFields[index].tel ? requiredText : ""}
                       required
+                      disabled={isdisabled}
                     />
                     <TextField
                       label="Email"
@@ -447,6 +498,7 @@ export default function Onboarding() {
                       error={!inputFields[index].email}
                       helperText={!inputFields[index].email ? requiredText : ""}
                       required
+                      disabled={isdisabled}
                     />
 
                     <TextField
@@ -459,6 +511,7 @@ export default function Onboarding() {
                       error={!inputFields[index].relationship}
                       helperText={!inputFields[index].relationship ? requiredText : ""}
                       required
+                      disabled={isdisabled}
                     />
                   </div>
                 );
@@ -478,6 +531,7 @@ export default function Onboarding() {
                 error={!formData.referencefirst}
                 helperText={!formData.referencefirst ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
 
               <TextField
@@ -487,6 +541,7 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="referencemiddle"
+                disabled={isdisabled}
               />
               <TextField
                 label="Last name"
@@ -498,6 +553,7 @@ export default function Onboarding() {
                 error={!formData.referencelast}
                 helperText={!formData.referencelast ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
               <TextField
                 label="Phone"
@@ -509,6 +565,7 @@ export default function Onboarding() {
                 error={!formData.referencetel}
                 helperText={!formData.referencetel ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
               <TextField
                 label="Email"
@@ -520,6 +577,7 @@ export default function Onboarding() {
                 error={!formData.referenceemail}
                 helperText={!formData.referenceemail ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
 
               <TextField
@@ -532,12 +590,9 @@ export default function Onboarding() {
                 error={!formData.referencerelationship}
                 helperText={!formData.referencerelationship ? requiredText : ""}
                 required
+                disabled={isdisabled}
               />
-
             </div>
-
-
-
 
             <Divider orientation="left" orientationMargin="0">
               Car Info
@@ -550,6 +605,7 @@ export default function Onboarding() {
                 sx={{ m: 1 }}
                 onChange={handleChange}
                 name="carmake"
+                disabled={isdisabled}
               />
 
               <TextField
@@ -559,6 +615,7 @@ export default function Onboarding() {
                 sx={{ m: 1 }}
                 onChange={handleChange}
                 name="carmodel"
+                disabled={isdisabled}
               />
 
               <TextField
@@ -568,6 +625,7 @@ export default function Onboarding() {
                 sx={{ m: 1 }}
                 onChange={handleChange}
                 name="carcolor"
+                disabled={isdisabled}
               />
             </div>
 
@@ -590,6 +648,7 @@ export default function Onboarding() {
                   sx={{ mt: 1 }}
                   error={!formData.license}
                   required
+                  disabled={isdisabled}
                 >
                   <option value=""></option>
                   <option value="Yes">Yes</option>
@@ -611,6 +670,7 @@ export default function Onboarding() {
                     error={!formData.licensenumber}
                     helperText={!formData.licensenumber ? requiredText : ""}
                     required
+                    disabled={isdisabled}
                   />
                   <TextField
                     name="expirationdate"
@@ -626,6 +686,7 @@ export default function Onboarding() {
                     error={!formData.expirationdate}
                     helperText={!formData.expirationdate ? requiredText : ""}
                     required
+                    disabled={isdisabled}
                   />
                   <br></br>
                   <p>Upload Copy of License Here</p>
@@ -635,8 +696,10 @@ export default function Onboarding() {
                       onChange={handleFile}
                       type="file"
                       required
+                      disabled={isdisabled}
                       error={!formData.licenseCopy}
-                      helperText={!formData.licenseCopy ? requiredText : ""}
+                      helperText={!formData.licenseCopy ? requiredText : ""
+                      }
                     />
                   </Button>
 
@@ -654,6 +717,7 @@ export default function Onboarding() {
                   name="profilePic"
                   onChange={handleFile}
                   type="file"
+                  disabled={isdisabled}
                 />
               </Button>
             </div>
@@ -676,6 +740,7 @@ export default function Onboarding() {
                   // InputLabelProps={{shrink: false}}
                   error={!formData.citizen}
                   required
+                  disabled={isdisabled}
                 >
                   <option value=""></option>
                   <option value="Yes">Yes</option>
@@ -700,6 +765,7 @@ export default function Onboarding() {
                     onChange={handleChange}
                     error={!formData.citizenship}
                     required
+                    disabled={isdisabled}
                   >
                     <MenuItem value=""></MenuItem>
                     <MenuItem value={"Green Card"}>Green Card</MenuItem>
@@ -726,6 +792,7 @@ export default function Onboarding() {
                     onChange={handleChange}
                     error={!formData.citizenship}
                     required
+                    disabled={isdisabled}
                   >
                     <MenuItem value=""></MenuItem>
                     <MenuItem value={"H1-B,L2,F1(CPT/OPT),H4,Other"}>
@@ -753,6 +820,7 @@ export default function Onboarding() {
                       error={!formData.citizenshipstart}
                       helperText={!formData.citizenshipstart ? requiredText : ""}
                       required
+                      disabled={isdisabled}
                     />
 
                     <TextField
@@ -767,6 +835,7 @@ export default function Onboarding() {
                       error={!formData.citizenshipend}
                       helperText={!formData.citizenshipend ? requiredText : ""}
                       required
+                      disabled={isdisabled}
                     />
                   </Box>
                 </FormControl>
@@ -783,6 +852,7 @@ export default function Onboarding() {
                     onChange={handleFile}
                     type="file"
                     required
+                    disabled={isdisabled}
                     error={!formData.optReceipt}
                     helperText={!formData.optReceipt ? requiredText : ""}
                   />
@@ -800,6 +870,7 @@ export default function Onboarding() {
                   variant="outlined"
                   onChange={handleChange}
                   name="visatitle"
+                  disabled={isdisabled}
                   error={!formData.visatitle}
                   helperText={!formData.visatitle ? requiredText : ""}
                   required
@@ -809,9 +880,6 @@ export default function Onboarding() {
               ""
             )}
           </div>
-        </TabPane>
-        <TabPane tab="Review" key="3">
-            
         </TabPane>
       </Tabs>
     </>

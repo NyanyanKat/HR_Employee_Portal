@@ -16,7 +16,7 @@ router.get('/', async (req, resp) => {
 
 // Jimmy - Registration 
 router.post("/", body('email').isEmail(), async (req, resp) => {
-    // console.log(req.body)
+    console.log(req.body)
     const errors = validationResult(req);
 
     // username and email should be case insensitive when checking
@@ -50,7 +50,7 @@ router.post("/", body('email').isEmail(), async (req, resp) => {
         resp.status(201).send('Successfully registered. Please log in.');
     }
     catch (e) {
-        // console.log(e)
+        console.log(e)
         resp.status(400).send(e.message);
     }
 });

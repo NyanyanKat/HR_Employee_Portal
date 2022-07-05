@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, useRouteMatch, Switch } from 'react-router-dom';
+import { Route, useRouteMatch, Switch, Redirect } from 'react-router-dom';
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import auth from '../../utils/auth';
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
@@ -22,7 +22,9 @@ import AddHousing from '../../hrPages/AddHousing';
 import AddTenant from '../../hrPages/AddTenant';
 import HousingReport from '../../hrPages/HousingReport';
 import api from '../../api/api';
-
+import PersonalInfo from '../../empPages/PersonInfo';
+import Visa from '../../empPages/Visa';
+import ContentNotFound from "../ContentNotFound/ContentNotFound"
 
 const Main = styled.main`
   position: relative;
@@ -82,7 +84,7 @@ export default function Sidebar(props) {
                   }
 
                   {auth.getUser().onboardingStatus === "approved" && (!isCitizen) && (
-                    <NavItem eventKey="/employee/visa">
+                    <NavItem eventKey="employee/visa">
                       <NavIcon><FontAwesomeIcon icon={faCcVisa} style={{ fontSize: "1.5em" }} /></NavIcon>
                       <NavText>Visa Status Management</NavText>
                     </NavItem>
@@ -117,6 +119,11 @@ export default function Sidebar(props) {
                   <Switch>
                     <Route path="/housing" component={props => <HousingEmp />} />
                     <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
+                    <Route path={`/profile`} component={props => < PersonalInfo/>} />
+                    <Route path={`/employee/visa`} component={props => < Visa/>} />
+                    <Route path={'/ContentNotFound/:any'} component={props => <ContentNotFound />} />
+
+                    <Redirect to='/ContentNotFound/2' />
                   </Switch>
                 </div>
               </Main>
@@ -203,7 +210,9 @@ export default function Sidebar(props) {
                     <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
                     <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />
                     <Route path={'/hr/housing/report/:id'} component={props => <HousingReport />} />
+                    <Route path={'/ContentNotFound/:any'} component={props => <ContentNotFound />} />
 
+                    <Redirect to='/ContentNotFound/2' />
                   </Switch>
                 </div>
               </Main>

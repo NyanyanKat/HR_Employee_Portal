@@ -60,11 +60,10 @@ const User = model("User", userSchema);
 
 
 // User.create({
-//     username:'user',
-//     email:'user@gmail.com',
-//     password:'user',
+//     username:'jimmy',
+//     email:'jimmy@gmail.com',
+//     password:'jimmy',
 //     role:'employee',
-//     housingID: '62be016048fb70ac74a3da2e'
 // }).then(()=>{
 //     console.log('Successfully create a user')
 // }).catch(()=>{

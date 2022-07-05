@@ -14,8 +14,11 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
+import {useDispatch} from 'react-redux'
+import {addAlertMsg} from "../../redux/action/alertMsg";
 
 export default function Registration() {
+  const dispatch = useDispatch()
   //handle Input Validation
   const [errMsg, updateErrMsg] = useState({
     email: "",
@@ -60,6 +63,7 @@ export default function Registration() {
       .register(formData)
       .then((res) => {
         // console.log('Response',res.data)
+        dispatch(addAlertMsg({indicator:"register", message:res.data, type:"success"}))
         updateErrMsg({});
         history.push('/login')
       })

@@ -47,6 +47,10 @@ router.post('/', async(req,resp)=>{
             await UserInfo.updateOne({userID:req.body.eid},{rejFeedback: req.body.feedback})
         }else{
             await User.updateOne({_id:req.body.eid},{onboardingStatus:req.body.status})
+            await Visa.create({
+                userID:req.body.eid,
+                status: 1
+            })
         }
         resp.status(200).send('update onboarding status successfully!')
     } catch (e) {
