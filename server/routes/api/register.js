@@ -16,7 +16,7 @@ router.get('/', async (req, resp) => {
 
 // Jimmy - Registration 
 router.post("/", body('email').isEmail(), async (req, resp) => {
-    // console.log(req.body)
+   // console.log(req.body)
     const errors = validationResult(req);
 
     // username and email should be case insensitive when checking

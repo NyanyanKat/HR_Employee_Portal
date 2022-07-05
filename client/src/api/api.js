@@ -24,6 +24,15 @@ const base = {
     empAddHousingComment: "/housing/add-comment",
     empUpdHousingComment: "/housing/update-comment",
     empHousingComments: "/housing/get-comments",
+    employeeNoHousing: "/employee/no-housing",
+    profile: "/user",
+    empVisaStatus: "/visa",
+    empVisa: "/visa",
+    hrAllVisa:"/hr/visa/all",
+    hrVisaInfo: "/hr/visa/one",
+    hrVisaStatus: "/hr/visa/status",
+    deleteHousing: "/hr/housing/delete",
+    addComment: "/hr/housing/report/:id/comment",
 }
 
 const api = {
@@ -36,9 +45,6 @@ const api = {
     login(params) {
         return axios.post(base.baseUrl + base.login, params)
     },
-//     onboarding(params) {
-//         return axios.post(base.baseUrl + base.onboard, params)
-//     },
     getEmployee() {
         return axios.get(base.baseUrl + base.employee)
     },
@@ -78,11 +84,38 @@ const api = {
     updateEmpHousingComment(params, commentID){
         return axios.post(base.baseUrl + base.empUpdHousingComment + '/' + commentID, params, {params: { "userID": auth.getUser().id}})
     },
+    getProfile(params) {
+        return axios.get(base.baseUrl + base.profile, params)
+    },
+    getVisaStatus(params){
+        return axios.get(base.baseUrl + base.empVisaStatus + '/' + params)
+    },
+    sendEmpVisaFile(params){
+        return axios.post(base.baseUrl + base.empVisa, params, {headers: { "Content-Type": "multipart/form-data" }})
+    },
+    getAllVisaEmp(){
+        return axios.get(base.baseUrl + base.hrAllVisa)
+    },
+    getOneEmpVisaInfo(params){
+        return axios.post(base.baseUrl + base.hrVisaInfo, params)
+    },
+    changeEmpVisaStatus(params){
+        return axios.post(base.baseUrl + base.hrVisaStatus, params)
+    },
     createHousing(params){
         return axios.post(base.baseUrl + base.addHousing, params, {headers: { "Content-Type": "multipart/form-data" }})
     },
     getOneHousing(){
         return axios.get(base.baseUrl + base.oneHousing)
+    },
+    getEmployeeNoHousing(){
+        return axios.get(base.baseUrl + base.employeeNoHousing)
+    },
+    deleteHousing(params){
+        return axios.post(base.baseUrl + base.deleteHousing, params)
+    },
+    createComment(params){
+        return axios.post(base.baseUrl + base.addComment, params,  {headers: { "Content-Type": "multipart/form-data" }})
     }
    }
 export default api

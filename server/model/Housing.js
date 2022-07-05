@@ -49,11 +49,9 @@ const housingSchema = new Schema({
         },
     },
     tenants: [{
-        userID: [{
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        }],
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+
         // fullname: {
         //     type: String,
         //     required: true
@@ -82,12 +80,6 @@ const housingSchema = new Schema({
             ref: 'Report',
         }],
     },
-    employeeInfo: [{
-        userID: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-        },
-    }]
 });
 
 const Housing = model('Housing', housingSchema);

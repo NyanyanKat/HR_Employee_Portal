@@ -102,8 +102,8 @@ export default function ViewOnboarding() {
         <>
           <PageHeader
             className="site-page-header-responsive"
-            // avatar={{ src: 'https://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
-            avatar={<Avatar style={{ backgroundColor: '#1890ff' }}>{userInfo.name.first[0]}</Avatar>}
+            avatar={{ src: `http://127.0.0.1:3001/${userInfo.profile}` }}
+            // : (<>avatar={<Avatar style={{ backgroundColor: '#1890ff' }}>{userInfo.name.first[0]}</Avatar>}</>)
             onBack={() => window.history.back()}
             title={`${userInfo.name.first} ${userInfo.name.middle} ${userInfo.name.last}`}
             tags={<Tag color={userInfo.userID.onboardingStatus === "pending" ? "blue" : (userInfo.userID.onboardingStatus === "rejected" ? "red" : "green")}>{userInfo.userID.onboardingStatus}</Tag>}
@@ -247,12 +247,13 @@ export default function ViewOnboarding() {
                     <Panel header="Profile Picture" key="1">
                       <img src={`http://localhost:3001/${userInfo.profile}`} alt="employee profile pic" style={{ height: 300, width: 300 }} />
                     </Panel>
-                    <Panel header="Driver's License" key="2">
+                    {userInfo.license && <Panel header="Driver's License" key="2">
                       <img src={`http://localhost:3001/${userInfo.license.photo}`} alt="license copy" style={{ height: 245, width: 400 }} />
-                    </Panel>
-                    <Panel header="OPT Receipt" key="3">
-                      <img src={`http://localhost:3001/${userInfo.citizenship.optReceipt}`} alt="opt receipt" style={{ height: 400, width: 500 }} />
-                    </Panel>
+                    </Panel>}
+                    {!userInfo.citizenship.citizen && <Panel header="OPT Receipt" key="3">
+                      {/* <img src={`http://localhost:3001/${userInfo.citizenship.optReceipt}`} alt="opt receipt" style={{ height: 400, width: 500 }} /> */}
+                      <object width="80%" height="400" data={`http://localhost:3001/${userInfo.citizenship.optReceipt}`} type="application/pdf">   </object>
+                    </Panel>}
                   </Collapse>
                 </TabPane>
               </Tabs>
@@ -278,7 +279,7 @@ export default function ViewOnboarding() {
                   message="Feedback"
                   description={userInfo.rejFeedback}
                   type="error"
-                  style={{width:"85%"}}
+                  style={{ width: "85%" }}
                 />
               }
             </Content>

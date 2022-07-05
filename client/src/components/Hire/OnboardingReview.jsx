@@ -16,11 +16,11 @@ export default function OnboardingReview() {
   const [nosubmissionApp, updateNoSubmissionApp] = useState([]);
 
 
-
   useEffect(() => {
     api.getAllOnboarding()
       .then(res => {
         // console.log(res.data.approvedReview[0].infoID.name.first[0])
+        // console.log(res.data)
         updateLoading(false);
         updatePendingApp(res.data.pendingReview)
         updateApprovedApp(res.data.approvedReview)

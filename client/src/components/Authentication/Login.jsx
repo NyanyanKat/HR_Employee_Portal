@@ -15,9 +15,12 @@ import {
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import auth from '../../utils/auth'
+import {useDispatch} from 'react-redux'
+import {addAlertMsg} from "../../redux/action/alertMsg";
 
 export default function Login() {
   const history = useHistory()
+  const dispatch = useDispatch()
   const [showPwd, updateShowPwd] = useState(false);
   const handleClickShowPassword = () => {
     updateShowPwd(!showPwd);
@@ -49,7 +52,7 @@ export default function Login() {
     api
       .login(formData)
       .then((res) => {
-        // console.log(res.data.token, res.data.user)
+        // console.log(res.data)
         auth.login(res.data.token,res.data.user)
         if(auth.getUser().onboardingStatus === "never submitted"){
           // history.push('/onboarding')

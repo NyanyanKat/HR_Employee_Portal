@@ -108,7 +108,7 @@ router.post('/', async function (req, res) {
           relationship:fields[`eContact.${i}.relationship`]
         })
       }
-      console.log('contactInfo:',contactInfo)
+      //console.log('contactInfo:',contactInfo)
 
 
       await UserInfo.create({
@@ -133,7 +133,7 @@ router.post('/', async function (req, res) {
       res.status(200).send('Sucessfully inserting the user info to Mongodb.')
     })
   } catch (e) {
-    console.log('error: ' + e.message)
+    // console.log('error: ' + e.message)
     res.status(400).send(e.message);
   }
 });

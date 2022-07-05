@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, useRouteMatch, Switch } from 'react-router-dom';
+import { Route, useRouteMatch, Switch, Redirect } from 'react-router-dom';
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import auth from '../../utils/auth';
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
@@ -19,8 +19,14 @@ import ViewOnboarding from '../Hire/ViewOnboarding';
 import OnBoardingApp from '../../empPages/OnBoardingApp'
 import HousingEmp from "../../empPages/HousingEmp";
 import AddHousing from '../../hrPages/AddHousing';
+import AddTenant from '../../hrPages/AddTenant';
+import HousingReport from '../../hrPages/HousingReport';
 import api from '../../api/api';
-
+import PersonalInfo from '../../empPages/PersonInfo';
+import Visa from '../../empPages/EmpVisa';
+import HrVisa from '../HrVisa'
+import ContentNotFound from "../ContentNotFound/ContentNotFound"
+import Home from "../Home"
 
 const Main = styled.main`
   position: relative;
@@ -66,7 +72,7 @@ export default function Sidebar(props) {
 
                 {/* User Basic Info */}
                 <div className="sidebar-avatar-container">
-                  <Avatar name="Danling Sun" round={true} size={38} className="avatar" />
+                  <Avatar name={auth.getUser().username} round={true} size={38} className="avatar"  color={Avatar.getRandomColor('sitebase', ['#d4dee1', '#d9efd7', '#ffe4e0'])}/>
                 </div>
 
                 {/* Sidebar Menu */}
@@ -80,25 +86,25 @@ export default function Sidebar(props) {
                   }
 
                   {auth.getUser().onboardingStatus === "approved" && (!isCitizen) && (
-                    <NavItem eventKey="/employee/visa">
+                    <NavItem eventKey="employee/visa">
                       <NavIcon><FontAwesomeIcon icon={faCcVisa} style={{ fontSize: "1.5em" }} /></NavIcon>
                       <NavText>Visa Status Management</NavText>
                     </NavItem>
                   )}
 
                   {auth.getUser().onboardingStatus === "approved" && (
-                    <NavItem eventKey="housing">
+                    <NavItem eventKey="employee/housing">
                       <NavIcon><FontAwesomeIcon icon={faBuildingUser} style={{ fontSize: "1.5em" }} /></NavIcon>
-                      <NavText>Housing</NavText>
-                      <NavItem eventKey="employee/housing">
-                        <NavText>abc</NavText>
+                      <NavText>My Housing</NavText>
+                      {/* <NavItem eventKey="employee/housing">
+                        <NavText>My Housing</NavText>
                       </NavItem>
                       <NavItem eventKey="employee/housing/detail">
                         <NavText>abc</NavText>
                       </NavItem>
                       <NavItem eventKey="employee/housing/report">
                         <NavText>abc</NavText>
-                      </NavItem>
+                      </NavItem> */}
                     </NavItem>
                   )
                   }
@@ -112,10 +118,17 @@ export default function Sidebar(props) {
               <Main expanded={expanded}>
                 <TopNavigation />
                 <div className="main-content-container">
-                  <Switch>
-                    <Route path="/housing" component={props => <HousingEmp />} />
-                    <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
-                  </Switch>
+                  {auth.loggedIn() &&
+                    <Switch>
+                      <Route path="/" exact component={props => <Home />} />
+                      <Route path="/employee/housing" component={props => <HousingEmp />} />
+                      <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
+                      <Route path={`/profile`} component={props => < PersonalInfo />} />
+                      <Route path={`/employee/visa`} component={props => < Visa />} />
+                      <Route path={`/login`} component={props => <Home />} />
+                      <Route path={'*'} component={props => <ContentNotFound />} />
+                    </Switch>
+                  }
                 </div>
               </Main>
             </React.Fragment>
@@ -138,7 +151,7 @@ export default function Sidebar(props) {
 
                 {/* User Basic Info */}
                 <div className="sidebar-avatar-container">
-                  <Avatar name="Danling Sun" round={true} size={38} className="avatar" />
+                  <Avatar name={auth.getUser().username} round={true} size={38} className="avatar" color={Avatar.getRandomColor('sitebase', ['lightpink', 'lightgreen', 'lightblue'])}/>
                 </div>
 
                 {/* Sidebar Menu */}
@@ -159,7 +172,7 @@ export default function Sidebar(props) {
                     <NavText>Employee Profiles</NavText>
                   </NavItem>
 
-                  <NavItem eventKey="visa">
+                  <NavItem eventKey="hr/visa">
                     <NavIcon><FontAwesomeIcon icon={faCcVisa} style={{ fontSize: "1.5em" }} /></NavIcon>
                     <NavText>Visa Status Management</NavText>
                   </NavItem>
@@ -173,9 +186,9 @@ export default function Sidebar(props) {
                     <NavItem eventKey="hr/housing/add">
                       <NavText>Adding Houses</NavText>
                     </NavItem>
-                    <NavItem eventKey="hr/housing/report">
+                    {/* <NavItem eventKey="hr/housing/report">
                       <NavText>Inbox Message</NavText>
-                    </NavItem>
+                    </NavItem> */}
                   </NavItem>
 
                   <NavItem eventKey="logout" className="sidebar-logout" onClick={handleLogout}>
@@ -187,20 +200,29 @@ export default function Sidebar(props) {
               <Main expanded={expanded}>
                 <TopNavigation />
                 <div className="main-content-container">
-                  <Switch>
 
-                    <Route path="/hire/register" component={props => <RegistrationToken />} />
-                    <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
-                    <Route path={`/hire/onboarding/view${path}`} component={props => <ViewOnboarding />} />
+                  {auth.loggedIn() &&
+                    <Switch>
+                      <Route path="/" exact component={props => <Home />} />
+                      <Route path="/hire/register" component={props => <RegistrationToken />} />
+                      <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
+                      <Route path={`/hire/onboarding/view${path}`} component={props => <ViewOnboarding />} />
 
-                    <Route path={'/employee'} exact component={props => <Employee />} />
-                    <Route path={`/employee/info/:eid`} component={props => <OneEmployee />} />
+                      <Route path="/hr/visa" component={props => <HrVisa />} />
 
-                    <Route path={'/hr/housing/one/:id'} component={props => <OneHousing />} />
-                    <Route path={'/hr/housing/summary'} component={props => <Housing />} />
-                    <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
+                      <Route path={'/employee'} exact component={props => <Employee />} />
+                      <Route path={`/employee/info/:eid`} component={props => <OneEmployee />} />
 
-                  </Switch>
+                      <Route path={'/hr/housing/one/:id'} component={props => <OneHousing />} />
+                      <Route path={'/hr/housing/summary'} component={props => <Housing />} />
+                      <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
+                      <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />
+                      <Route path={'/hr/housing/report/:id'} component={props => <HousingReport />} />
+
+                      <Route path={`/login`} component={props => <Home />} />
+                      <Route path={'*'} component={props => <ContentNotFound />} />
+                    </Switch>
+                  }
                 </div>
               </Main>
             </React.Fragment>
