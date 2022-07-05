@@ -92,10 +92,10 @@ export default function Sidebar(props) {
                   )}
 
                   {auth.getUser().onboardingStatus === "approved" && (
-                    <NavItem eventKey="housing">
+                    <NavItem eventKey="employee/housing">
                       <NavIcon><FontAwesomeIcon icon={faBuildingUser} style={{ fontSize: "1.5em" }} /></NavIcon>
-                      <NavText>Housing</NavText>
-                      <NavItem eventKey="employee/housing">
+                      <NavText>My Housing</NavText>
+                      {/* <NavItem eventKey="employee/housing">
                         <NavText>My Housing</NavText>
                       </NavItem>
                       <NavItem eventKey="employee/housing/detail">
@@ -103,7 +103,7 @@ export default function Sidebar(props) {
                       </NavItem>
                       <NavItem eventKey="employee/housing/report">
                         <NavText>abc</NavText>
-                      </NavItem>
+                      </NavItem> */}
                     </NavItem>
                   )
                   }
