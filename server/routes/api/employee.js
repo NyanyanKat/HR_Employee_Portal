@@ -10,6 +10,12 @@ router.get('/', async (req, res) => {
     return res.status(201).send(JSON.stringify(employees));
 })
 
+//get hr employee
+router.get('/hr', async (req, res) => {
+    const hr = await User.findOne({ role: 'hr' });
+    return res.status(201).send(JSON.stringify(hr));
+})
+
 router.get('/no-housing', async (req, res) => {
     const employees = await User.find({ role: 'employee', housingID: null })
     .sort({ username: 1 })

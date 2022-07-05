@@ -4,6 +4,8 @@ const Housing = require('../../model/Housing');
 const User = require('../../model/User');
 const Report = require('../../model/Report');
 const Comment = require('../../model/Comment');
+const mongoose = require('mongoose');
+const { collection } = require('../../model/Report');
 
 router.get('/summary', async (req, res) => {
     const housing = await Housing.find({}).populate('tenants');
@@ -20,11 +22,19 @@ router.get('/report/:id', async (req, res) => {
 
 router.post('/report/:id/comment', async (req, res) => {
     const id = req.params.id; // report id
-    const newComment = Comment.create(req.body);
+    const desc = req.body.desc;
+    const creatorID = req.body.creatorID;
+    const reportID = req.body.reportID;
+    console.log('data', desc, creatorID, reportID);
+    const newComment = Comment.create({
+        desc,
+        creatorID,
+        reportID});
     const report = await Report.findOneAndUpdate({ _id: id }, {
-        $push: { comments: newComment }
-    });
-    return res.status(201).send(JSON.stringify(report));
+        $push: { comments: newComment._id }
+    }, { new: true });
+    console.log('new comment',newComment);
+    return res.status(201).send(JSON.stringify(newComment));
 })
 
 
@@ -77,7 +87,7 @@ router.post('/add', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const id = req.params.id;
     const housing = await Housing.findOneAndUpdate({ _id: id },
-        { $push: { tenants: req.body.employee_id } }
+        { $addToSet: { tenants: req.body.employee_id } }
     ).populate('tenants');
     if (!housing) {
         return res.status(404).send({

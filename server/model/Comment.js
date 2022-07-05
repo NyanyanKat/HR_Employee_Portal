@@ -10,11 +10,10 @@ const commentSchema = new Schema({
         type: String,
         required: true
     },
-    // creatorID: {
-    //     type: Schema.Types.ObjectId, 
-    //     ref: 'User',
-    //     required: true,
-    // },
+    creatorID: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User',
+    },
     timestamp: {
         type: Date,
         required: true,
