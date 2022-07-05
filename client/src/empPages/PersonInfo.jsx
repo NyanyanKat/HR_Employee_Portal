@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import auth from "../utils/auth";
 import api from "../api/api";
 //import { connect, useDispatch, useSelector } from "react-redux";

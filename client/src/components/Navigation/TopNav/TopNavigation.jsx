@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,10 +6,17 @@ import auth from '../../../utils/auth';
 import Login from '../../Authentication/Login';
 import Registration from '../../Authentication/Registration';
 import AlertMsg from "../../AlertMsg/AlertMsg";
-
+import ContentNotFound from "../../ContentNotFound/ContentNotFound"
+import Home from '../../Home'
 
 
 export default function TopNavigation() {
+  const [token, setToken] = useState("")
+  useEffect(()=>{
+    const urlParams = new URLSearchParams(window.location.search)
+    setToken(urlParams.get('token'))
+  },[])
+
   const handleLogout = () => {
     auth.logout()
   }
@@ -42,10 +49,14 @@ export default function TopNavigation() {
         </Container>
       </Navbar>
       <AlertMsg></AlertMsg>
-      <Switch>
-        <Route path={'/login'} component={props => <Login />} />
-        <Route path={`/register${path}`} component={props => <Registration />} />
-      </Switch>
+        {!auth.loggedIn() &&
+          <Switch>
+          <Route path={'/login'} component={props => <Login />} />
+          {token ? <Route exact path={`/register${path}`}  component={props => <Registration />} />
+          : <Route exact path={`/register`}  component={props => <ContentNotFound />} />}
+          <Route path={'/:any'} component={props => <ContentNotFound />} />
+          </Switch>
+        }
     </>
   )
 }

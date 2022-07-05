@@ -31,7 +31,7 @@ const visaStatus = {
         switch (status) {
             case 1:
                 if(visaInfo.EAD.status === "pending"){
-                    return " waiting for HR approval"
+                    return " waiting for HR approval - EAD"
                 }else if(visaInfo.EAD.status === "rejected"){
                     return " waiting for the EMP to RESUBMIT a copy of EAD card"
                 }else if(visaInfo.EAD.status === "never submitted"){
@@ -40,7 +40,7 @@ const visaStatus = {
                 break;
             case 2:
                 if(visaInfo.I983.status === "pending"){
-                    return " waiting for HR approval"
+                    return " waiting for HR approval - I-983"
                 }else if(visaInfo.I983.status === "rejected"){
                     return " waiting for the EMP to RESUBMIT a copy of I-983 Form"
                 }else if(visaInfo.I983.status === "never submitted"){
@@ -49,11 +49,11 @@ const visaStatus = {
                 break;            
             case 3:
                 if(visaInfo.I20.status === "pending"){
-                    return " waiting for HR approval"
+                    return " waiting for HR approval - I-20"
                 }else if(visaInfo.I20.status === "rejected"){
                     return " waiting for the EMP to RESUBMIT a copy of I-20"
                 }else if(visaInfo.I20.status === "never submitted"){
-                    return "waiting for a a copy of I-20 "
+                    return "waiting for a copy of I-20 "
                 }
                 break;
             default:
