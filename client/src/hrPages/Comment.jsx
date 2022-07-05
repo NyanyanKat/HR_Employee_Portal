@@ -37,7 +37,7 @@ export default function Comment(props) {
                                 <Button onClick={()=>editComment(comment._id)}> Edit </Button>
                                 : <></>}
                             </p>
-                            <p>{comment.timestamp}</p>
+                            <p>{comment.timestamp.substring(0, 10)}</p>
                             {/* <p>Submitted by {comment.creatorID.infoID.name.first} {comment.creatorID.infoID.name.last}</p> */}
                         </Box>
                     )

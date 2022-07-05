@@ -190,7 +190,7 @@ export default function HousingReport() {
                 <div>
                     <h3>{report.title}</h3>
                     <p>{report.desc}</p>
-                    <p>{report.timestamp}</p>
+                    <p>{report.timestamp.substring(0, 10)}</p>
                     {/* <p>Submitted by {report.creatorID.infoID.name.first} {report.creatorID.infoID.name.last}</p> */}
 
                     {/* comment box */}
@@ -203,7 +203,7 @@ export default function HousingReport() {
                                 return (
                                     <Box key={i}>
                                         <p>{comment.desc} </p>
-                                        <p>{comment.timestamp}</p>
+                                        <p>{comment.timestamp.substring(0, 10)}</p>
                                         {edit && comment.creatorID === auth.getUser().id ?
                                             <>
                                                 <TextField

@@ -56,7 +56,8 @@ export default function Report(props) {
     <Box>
       <h5>{report.title}</h5>
       <p>{report.desc}</p>
-      <p>Created by: {report.username}, Timestamp: {report.timestamp.substring(0, 10)}, Status: {report.status}</p> 
+      <p>Created by: {report.username}</p>
+      <p> Timestamp: {report.timestamp.substring(0, 10)}, Status: {report.status}</p> 
       <div>
         <h6>Add comment: </h6>
         <form>

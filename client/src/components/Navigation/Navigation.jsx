@@ -96,7 +96,7 @@ export default function Sidebar(props) {
                       <NavIcon><FontAwesomeIcon icon={faBuildingUser} style={{ fontSize: "1.5em" }} /></NavIcon>
                       <NavText>Housing</NavText>
                       <NavItem eventKey="employee/housing">
-                        <NavText>abc</NavText>
+                        <NavText>My Housing</NavText>
                       </NavItem>
                       <NavItem eventKey="employee/housing/detail">
                         <NavText>abc</NavText>
@@ -118,7 +118,7 @@ export default function Sidebar(props) {
                 <TopNavigation />
                 <div className="main-content-container">
                   <Switch>
-                    <Route path="/housing" component={props => <HousingEmp />} />
+                    <Route path="/employee/housing" component={props => <HousingEmp />} />
                     <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
                     <Route path={`/profile`} component={props => < PersonalInfo/>} />
                     <Route path={`/employee/visa`} component={props => < Visa/>} />
