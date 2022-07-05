@@ -121,7 +121,7 @@ export default function Sidebar(props) {
                   {auth.loggedIn() &&
                     <Switch>
                       <Route path="/" exact component={props => <Home />} />
-                      <Route path="/housing" component={props => <HousingEmp />} />
+                      <Route path="/employee/housing" component={props => <HousingEmp />} />
                       <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
                       <Route path={`/profile`} component={props => < PersonalInfo />} />
                       <Route path={`/employee/visa`} component={props => < Visa />} />
