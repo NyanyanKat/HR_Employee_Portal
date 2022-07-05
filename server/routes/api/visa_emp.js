@@ -11,10 +11,10 @@ router.get('/:eid', async (req, res) => {
             status: visa.status,
             userID: visa.userID
         }
-        console.log(visaInfo)
+        // console.log(visaInfo)
         res.status(200).send(visaInfo)
     } catch (error) {
-        console.log(err)
+        // console.log(err)
     }
 })
 
@@ -22,12 +22,10 @@ router.post('/', async (req, res) => {
     try {
         const form = new formidable.IncomingForm()
         form.parse(req, async (errs, fields, files) => {
-            console.log('fields', fields)
-            // const fileName = JSON.stringify(fields['fileInfo.name'])
-            // const fileType = JSON.stringify(fields['fileInfo.type'])
+            // console.log('fields', fields)
 
             const phaseNum = fields.status
-            console.log("phaseNum", phaseNum)
+            // console.log("phaseNum", phaseNum)
             switch (phaseNum) {
                 case "1":
                     await Visa.updateOne({ userID: fields.eid }, {
@@ -77,8 +75,8 @@ router.post('/', async (req, res) => {
 
         })
     } catch (error) {
-        console.log(error)
-
+        // console.log(error)
+        res.status(500).send(err)
     }
 })
 

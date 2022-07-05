@@ -23,7 +23,8 @@ import AddTenant from '../../hrPages/AddTenant';
 import HousingReport from '../../hrPages/HousingReport';
 import api from '../../api/api';
 import PersonalInfo from '../../empPages/PersonInfo';
-import Visa from '../../empPages/Visa';
+import Visa from '../../empPages/EmpVisa';
+import HrVisa from '../HrVisa'
 import ContentNotFound from "../ContentNotFound/ContentNotFound"
 
 const Main = styled.main`
@@ -121,9 +122,9 @@ export default function Sidebar(props) {
                     <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
                     <Route path={`/profile`} component={props => < PersonalInfo/>} />
                     <Route path={`/employee/visa`} component={props => < Visa/>} />
-                    <Route path={'/ContentNotFound/:any'} component={props => <ContentNotFound />} />
-
-                    <Redirect to='/ContentNotFound/2' />
+                   
+                    <Route path={'/ContentNotFound'} component={props => <ContentNotFound />} />
+                    <Redirect to='/ContentNotFound/' />
                   </Switch>
                 </div>
               </Main>
@@ -168,7 +169,7 @@ export default function Sidebar(props) {
                     <NavText>Employee Profiles</NavText>
                   </NavItem>
 
-                  <NavItem eventKey="visa">
+                  <NavItem eventKey="hr/visa">
                     <NavIcon><FontAwesomeIcon icon={faCcVisa} style={{ fontSize: "1.5em" }} /></NavIcon>
                     <NavText>Visa Status Management</NavText>
                   </NavItem>
@@ -197,10 +198,12 @@ export default function Sidebar(props) {
                 <TopNavigation />
                 <div className="main-content-container">
                   <Switch>
-
                     <Route path="/hire/register" component={props => <RegistrationToken />} />
                     <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
                     <Route path={`/hire/onboarding/view${path}`} component={props => <ViewOnboarding />} />
+
+                    <Route path="/hr/visa" component={props => <HrVisa />} />
+
 
                     <Route path={'/employee'} exact component={props => <Employee />} />
                     <Route path={`/employee/info/:eid`} component={props => <OneEmployee />} />
@@ -208,11 +211,12 @@ export default function Sidebar(props) {
                     <Route path={'/hr/housing/one/:id'} component={props => <OneHousing />} />
                     <Route path={'/hr/housing/summary'} component={props => <Housing />} />
                     <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
-                    <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />
+                    <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />                  
                     <Route path={'/hr/housing/report/:id'} component={props => <HousingReport />} />
-                    <Route path={'/ContentNotFound/:any'} component={props => <ContentNotFound />} />
 
-                    <Redirect to='/ContentNotFound/2' />
+                    <Route path={'/ContentNotFound'} component={props => <ContentNotFound />} />
+                    <Redirect to='/ContentNotFound/' />
+                    
                   </Switch>
                 </div>
               </Main>

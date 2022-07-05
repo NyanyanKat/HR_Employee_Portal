@@ -62,3 +62,27 @@
 .steps-action {
   margin-top: 24px;
 }
+
+/* hr visa table */
+
+.custom-table{
+  text-align: center;
+}
+
+.custom-table thead{
+  color:#4B6587;
+  background-color:#f2f5f6;
+  border-color: #e3eaec;
+}
+
+.custom-table tbody{
+  color:#70889b;
+}
+
+.custom-table > :not(:first-child) {
+  border-top-color: #d4dee1;
+}
+
+.custom-table tbody tr:hover{
+  background-color: #f4f4f4 !important;
+}

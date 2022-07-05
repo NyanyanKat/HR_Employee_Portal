@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const UserInfo = require('../../model/UserInfo')
 const User = require('../../model/User')
+const Visa = require('../../model/Visa')
 
 // list all the employees' onboarding application
 router.get('/', async(req,resp)=>{
@@ -16,10 +17,10 @@ router.get('/', async(req,resp)=>{
             approvedReview:approved,
             nosubmissionReview:nothing
         }
-        console.log(allApps)
+        // console.log(allApps)
         resp.status(200).send(allApps)
     }catch(e){
-        console.log(e)
+        // console.log(e)
         resp.status(500).send(e)
     }
 })
@@ -29,10 +30,10 @@ router.get('/:eid', async(req,resp)=>{
     try {
         const eid = req.params.eid
         const userInfo = await UserInfo.findOne({userID:eid}).populate('userID')
-        console.log(userInfo)
+        // console.log(userInfo)
         resp.status(200).send(userInfo)
     } catch (e) {
-        console.log(e)
+        // console.log(e)
         resp.status(500).send(e.message)
     }
 
@@ -42,15 +43,22 @@ router.get('/:eid', async(req,resp)=>{
 router.post('/', async(req,resp)=>{
     try {
         if(req.body.feedback){
-            console.log(req.body.feedback)
+            // console.log(req.body.feedback)
             await User.updateOne({_id:req.body.eid},{onboardingStatus:req.body.status})
             await UserInfo.updateOne({userID:req.body.eid},{rejFeedback: req.body.feedback})
         }else{
             await User.updateOne({_id:req.body.eid},{onboardingStatus:req.body.status})
-            await Visa.create({
-                userID:req.body.eid,
-                status: 1
-            })
+            const visaEmp = await UserInfo.findOne({userID:req.body.eid}).populate("userID")
+            // console.log(visaEmp.userID.onboardingStatus)
+            // console.log(visaEmp.citizenship.citizen)
+            if(visaEmp.userID.onboardingStatus === "approved" && (!visaEmp.citizenship.citizen)){
+                // console.log('ok')
+                await Visa.create({
+                    userID:req.body.eid,
+                    userInfoID: visaEmp._id,
+                    status:1
+                })
+            }
         }
         resp.status(200).send('update onboarding status successfully!')
     } catch (e) {

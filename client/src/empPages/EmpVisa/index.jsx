@@ -1,4 +1,4 @@
-import { Button, message, Steps } from 'antd';
+import { Button, Steps } from 'antd';
 import React, { useState } from 'react';
 import Upload from './Upload';
 import api from '../../api/api';

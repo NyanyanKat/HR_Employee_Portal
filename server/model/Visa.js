@@ -1,9 +1,13 @@
 const { Schema, model, default: mongoose } = require("mongoose");
 
 const visaSchema = new Schema({
-    userID: {
+    userID:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
+    },
+    userInfoID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserInfo"
     },
     status: Number, //[1: optreceipt 2: eda 3:i983 4:i20]
     EAD: {

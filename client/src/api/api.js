@@ -24,9 +24,13 @@ const base = {
     empAddHousingComment: "/housing/add-comment",
     empUpdHousingComment: "/housing/update-comment",
     empHousingComments: "/housing/get-comments",
+    employeeNoHousing: "/employee/no-housing",
     profile: "/user",
     empVisaStatus: "/visa",
     empVisa: "/visa",
+    hrAllVisa:"/hr/visa/all",
+    hrVisaInfo: "/hr/visa/one",
+    hrVisaStatus: "/hr/visa/status"
     employeeNoHousing: "/employee/no-housing",
     deleteHousing: "/hr/housing/delete",
     addComment: "/hr/housing/report/:id/comment",
@@ -89,6 +93,15 @@ const api = {
     },
     sendEmpVisaFile(params){
         return axios.post(base.baseUrl + base.empVisa, params, {headers: { "Content-Type": "multipart/form-data" }})
+    },
+    getAllVisaEmp(){
+        return axios.get(base.baseUrl + base.hrAllVisa)
+    },
+    getOneEmpVisaInfo(params){
+        return axios.post(base.baseUrl + base.hrVisaInfo, params)
+    },
+    changeEmpVisaStatus(params){
+        return axios.post(base.baseUrl + base.hrVisaStatus, params)
     },
     createHousing(params){
         return axios.post(base.baseUrl + base.addHousing, params, {headers: { "Content-Type": "multipart/form-data" }})

@@ -83,7 +83,7 @@ router.post("/add-comment", async function (req, resp) {
     const userID = req.query.userID;
     let comment = req.body;
     comment.creatorID = userID;
-    console.log(comment)
+    // console.log(comment)
     let user = await User.findOne({_id: userID});
     if (user == undefined) 
       resp.status(400).send('no user found');
@@ -93,7 +93,7 @@ router.post("/add-comment", async function (req, resp) {
     resp.status(201).send('Comment added');
   }
   catch (e) {
-    console.log(e);
+    // console.log(e);
     resp.status(400).send(e.message);
   }
 });
