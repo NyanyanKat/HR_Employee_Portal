@@ -93,10 +93,10 @@ export default function Sidebar(props) {
                   )}
 
                   {auth.getUser().onboardingStatus === "approved" && (
-                    <NavItem eventKey="housing">
+                    <NavItem eventKey="employee/housing">
                       <NavIcon><FontAwesomeIcon icon={faBuildingUser} style={{ fontSize: "1.5em" }} /></NavIcon>
-                      <NavText>Housing</NavText>
-                      <NavItem eventKey="employee/housing">
+                      <NavText>My Housing</NavText>
+                      {/* <NavItem eventKey="employee/housing">
                         <NavText>My Housing</NavText>
                       </NavItem>
                       <NavItem eventKey="employee/housing/detail">
@@ -104,7 +104,7 @@ export default function Sidebar(props) {
                       </NavItem>
                       <NavItem eventKey="employee/housing/report">
                         <NavText>abc</NavText>
-                      </NavItem>
+                      </NavItem> */}
                     </NavItem>
                   )
                   }
@@ -121,7 +121,7 @@ export default function Sidebar(props) {
                   {auth.loggedIn() &&
                     <Switch>
                       <Route path="/" exact component={props => <Home />} />
-                      <Route path="/housing" component={props => <HousingEmp />} />
+                      <Route path="/employee/housing" component={props => <HousingEmp />} />
                       <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
                       <Route path={`/profile`} component={props => < PersonalInfo />} />
                       <Route path={`/employee/visa`} component={props => < Visa />} />
