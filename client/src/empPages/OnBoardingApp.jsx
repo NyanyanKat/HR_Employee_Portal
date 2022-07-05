@@ -138,7 +138,6 @@ export default function Onboarding() {
   });
 
   const [formData, updateFormData] = useState(initialFormData);
-  const [formEdited, updateFormEdited] = useState(initialFormData);
   const [isdisabled, setDisabled] = useState(false)
 
   const handleChange = (e) => {
@@ -147,13 +146,6 @@ export default function Onboarding() {
       [e.target.name]: e.target.value,
     });
   };
-
-  const handleClick = (e) => {
-    updateFormEdited({
-      ...formEdited,
-      [e.target.name]: true,
-    })
-  }
 
   const handleFile = (e) => {
     updateFormData({
@@ -172,26 +164,11 @@ export default function Onboarding() {
       relationship: "",
     },
   ]);
-  const [inputFieldsEdited, setInputFieldsEdited] = useState([
-    {
-      first: false,
-      last: false,
-      middle: false,
-      tel: false,
-      email: false,
-      relationship: false,
-    },
-  ]);
 
   const handleEContactsChange = (index, event) => {
     let data = [...inputFields];
     data[index][event.target.name] = event.target.value;
     setInputFields(data);
-  };
-  const handleEContactsClick = (index, event) => {
-    let data = [...inputFieldsEdited];
-    data[index][event.target.name] = true;
-    setInputFieldsEdited(data);
   };
 
   const addFields = (event) => {
@@ -271,11 +248,10 @@ export default function Onboarding() {
                 name="firstname"
                 sx={{ m: 1 }}
                 size="small"
-                error={formEdited.firstname && !formData.firstname}
+                error={!formData.firstname}
                 helperText={!formData.firstname ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <TextField
@@ -295,11 +271,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="lastname"
-                error={formEdited.lastname && !formData.lastname}
+                error={!formData.lastname}
                 helperText={!formData.lastname ? requiredText : ""}
                 disabled={isdisabled}
                 required
-                onClick={handleClick}
               />
 
               <TextField
@@ -322,11 +297,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="ssn"
-                error={formEdited.ssn && !formData.ssn}
+                error={!formData.ssn}
                 helperText={!formData.ssn ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <TextField
@@ -340,11 +314,10 @@ export default function Onboarding() {
                 }}
                 onChange={handleChange}
                 size="small"
-                error={formEdited.dob && !formData.dob}
+                error={!formData.dob}
                 helperText={!formData.dob ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <FormControl style={{ width: 250 }}>
@@ -379,11 +352,10 @@ export default function Onboarding() {
                 style={{ width: 700 }}
                 onChange={handleChange}
                 name="street"
-                error={formEdited.street && !formData.street}
+                error={!formData.street}
                 helperText={!formData.street ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <TextField
@@ -393,11 +365,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="building"
-                error={formEdited.building && !formData.building}
+                error={!formData.building}
                 helperText={!formData.building ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <TextField
@@ -407,11 +378,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="state"
-                error={formEdited.state && !formData.state}
+                error={!formData.state}
                 helperText={!formData.state ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
               <TextField
                 label="City"
@@ -420,11 +390,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="city"
-                error={formEdited.city && !formData.city}
+                error={!formData.city}
                 helperText={!formData.city ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <TextField
@@ -434,11 +403,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="zip"
-                error={formEdited.zip && !formData.zip}
+                error={!formData.zip}
                 helperText={!formData.zip ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
             </div>
 
@@ -452,11 +420,10 @@ export default function Onboarding() {
                 sx={{ m: 1 }}
                 onChange={handleChange}
                 name="cellphone"
-                error={formEdited.cellphone && !formData.cellphone}
+                error={!formData.cellphone}
                 helperText={!formData.cellphone ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <TextField
@@ -482,11 +449,10 @@ export default function Onboarding() {
                       size="small"
                       onChange={(event) => handleEContactsChange(index, event)}
                       name="first"
-                      error={inputFieldsEdited[index].first && !inputFields[index].first}
+                      error={!inputFields[index].first}
                       helperText={!inputFields[index].first ? requiredText : ""}
                       required
                       disabled={isdisabled}
-                      onClick={handleEContactsClick}
                     />
 
                     <TextField
@@ -505,11 +471,10 @@ export default function Onboarding() {
                       size="small"
                       onChange={(event) => handleEContactsChange(index, event)}
                       name="last"
-                      error={inputFieldsEdited[index].last && !inputFields[index].last}
+                      error={!inputFields[index].last}
                       helperText={!inputFields[index].last ? requiredText : ""}
                       required
                       disabled={isdisabled}
-                      onClick={handleEContactsClick}
                     />
                     <TextField
                       label="Phone"
@@ -518,11 +483,10 @@ export default function Onboarding() {
                       size="small"
                       onChange={(event) => handleEContactsChange(index, event)}
                       name="tel"
-                      error={inputFieldsEdited[index].tel && !inputFields[index].tel}
+                      error={!inputFields[index].tel}
                       helperText={!inputFields[index].tel ? requiredText : ""}
                       required
                       disabled={isdisabled}
-                      onClick={handleEContactsClick}
                     />
                     <TextField
                       label="Email"
@@ -531,11 +495,10 @@ export default function Onboarding() {
                       size="small"
                       onChange={(event) => handleEContactsChange(index, event)}
                       name="email"
-                      error={inputFieldsEdited[index].email && !inputFields[index].email}
+                      error={!inputFields[index].email}
                       helperText={!inputFields[index].email ? requiredText : ""}
                       required
                       disabled={isdisabled}
-                      onClick={handleEContactsClick}
                     />
 
                     <TextField
@@ -545,11 +508,10 @@ export default function Onboarding() {
                       size="small"
                       onChange={(event) => handleEContactsChange(index, event)}
                       name="relationship"
-                      error={inputFieldsEdited[index].relationship && !inputFields[index].relationship}
+                      error={!inputFields[index].relationship}
                       helperText={!inputFields[index].relationship ? requiredText : ""}
                       required
                       disabled={isdisabled}
-                      onClick={handleEContactsClick}
                     />
                   </div>
                 );
@@ -566,11 +528,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="referencefirst"
-                error={formEdited.referencefirst && !formData.referencefirst}
+                error={!formData.referencefirst}
                 helperText={!formData.referencefirst ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <TextField
@@ -589,11 +550,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="referencelast"
-                error={formEdited.referencelast && !formData.referencelast}
+                error={!formData.referencelast}
                 helperText={!formData.referencelast ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
               <TextField
                 label="Phone"
@@ -602,11 +562,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="referencetel"
-                error={formEdited.referencetel && !formData.referencetel}
+                error={!formData.referencetel}
                 helperText={!formData.referencetel ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
               <TextField
                 label="Email"
@@ -615,11 +574,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="referenceemail"
-                error={formEdited.referenceemail && !formData.referenceemail}
+                error={!formData.referenceemail}
                 helperText={!formData.referenceemail ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
 
               <TextField
@@ -629,11 +587,10 @@ export default function Onboarding() {
                 size="small"
                 onChange={handleChange}
                 name="referencerelationship"
-                error={formEdited.referencerelationship && !formData.referencerelationship}
+                error={!formData.referencerelationship}
                 helperText={!formData.referencerelationship ? requiredText : ""}
                 required
                 disabled={isdisabled}
-                onClick={handleClick}
               />
             </div>
 
@@ -689,10 +646,9 @@ export default function Onboarding() {
                   label="license"
                   size="small"
                   sx={{ mt: 1 }}
-                  error={formEdited.license && !formData.license}
+                  error={!formData.license}
                   required
                   disabled={isdisabled}
-                  onClick={handleClick}
                 >
                   <option value=""></option>
                   <option value="Yes">Yes</option>
@@ -711,11 +667,10 @@ export default function Onboarding() {
                     size="small"
                     onChange={handleChange}
                     name="licensenumber"
-                    error={formEdited.licensenumber && !formData.licensenumber}
+                    error={!formData.licensenumber}
                     helperText={!formData.licensenumber ? requiredText : ""}
                     required
                     disabled={isdisabled}
-                    onClick={handleClick}
                   />
                   <TextField
                     name="expirationdate"
@@ -728,11 +683,10 @@ export default function Onboarding() {
                       shrink: true,
                     }}
                     onChange={handleChange}
-                    error={formEdited.expirationdate && !formData.expirationdate}
+                    error={!formData.expirationdate}
                     helperText={!formData.expirationdate ? requiredText : ""}
                     required
                     disabled={isdisabled}
-                    onClick={handleClick}
                   />
                   <br></br>
                   <p>Upload Copy of License Here</p>
@@ -743,10 +697,9 @@ export default function Onboarding() {
                       type="file"
                       required
                       disabled={isdisabled}
-                      error={formEdited.licenseCopy && !formData.licenseCopy}
+                      error={!formData.licenseCopy}
                       helperText={!formData.licenseCopy ? requiredText : ""
                       }
-                      onClick={handleClick}
                     />
                   </Button>
 
@@ -785,10 +738,9 @@ export default function Onboarding() {
                   name="citizen"
                   onChange={handleChange}
                   // InputLabelProps={{shrink: false}}
-                  error={formEdited.citizen && !formData.citizen}
+                  error={!formData.citizen}
                   required
                   disabled={isdisabled}
-                  onClick={handleClick}
                 >
                   <option value=""></option>
                   <option value="Yes">Yes</option>
@@ -811,10 +763,9 @@ export default function Onboarding() {
                     value={formData.citizenship}
                     name="citizenship"
                     onChange={handleChange}
-                    error={formEdited.citizenship && !formData.citizenship}
+                    error={!formData.citizenship}
                     required
                     disabled={isdisabled}
-                    onClick={handleClick}
                   >
                     <MenuItem value=""></MenuItem>
                     <MenuItem value={"Green Card"}>Green Card</MenuItem>
@@ -839,10 +790,9 @@ export default function Onboarding() {
                     value={formData.citizenship}
                     name="citizenship"
                     onChange={handleChange}
-                    error={formEdited.citizenship && !formData.citizenship}
+                    error={!formData.citizenship}
                     required
                     disabled={isdisabled}
-                    onClick={handleClick}
                   >
                     <MenuItem value=""></MenuItem>
                     <MenuItem value={"H1-B,L2,F1(CPT/OPT),H4,Other"}>
@@ -859,7 +809,7 @@ export default function Onboarding() {
                   <Box>
                     <TextField
                       style={{ width: 150 }}
-                      name="citizenshipStart"
+                      name="citizenshipstart"
                       label="Start Date"
                       type="date"
                       defaultValue=""
@@ -867,15 +817,14 @@ export default function Onboarding() {
                         shrink: true,
                       }}
                       onChange={handleChange}
-                      error={formEdited.citizenshipStart && !formData.citizenshipStart}
-                      helperText={!formData.citizenshipStart ? requiredText : ""}
+                      error={!formData.citizenshipstart}
+                      helperText={!formData.citizenshipstart ? requiredText : ""}
                       required
                       disabled={isdisabled}
-                      onClick={handleClick}
                     />
 
                     <TextField
-                      name="citizenshipEnd"
+                      name="citizenshipend"
                       label="End Date"
                       type="date"
                       defaultValue=""
@@ -883,11 +832,10 @@ export default function Onboarding() {
                         shrink: true,
                       }}
                       onChange={handleChange}
-                      error={formEdited.citizenshipEnd && !formData.citizenshipEnd}
-                      helperText={!formData.citizenshipEnd ? requiredText : ""}
+                      error={!formData.citizenshipend}
+                      helperText={!formData.citizenshipend ? requiredText : ""}
                       required
                       disabled={isdisabled}
-                      onClick={handleClick}
                     />
                   </Box>
                 </FormControl>
@@ -905,9 +853,8 @@ export default function Onboarding() {
                     type="file"
                     required
                     disabled={isdisabled}
-                    error={formEdited.optReceipt && !formData.optReceipt}
+                    error={!formData.optReceipt}
                     helperText={!formData.optReceipt ? requiredText : ""}
-                    onClick={handleClick}
                   />
                 </Button>
               </div>
@@ -924,10 +871,9 @@ export default function Onboarding() {
                   onChange={handleChange}
                   name="visatitle"
                   disabled={isdisabled}
-                  error={formEdited.visatitle && !formData.visatitle}
+                  error={!formData.visatitle}
                   helperText={!formData.visatitle ? requiredText : ""}
                   required
-                  onClick={handleClick}
                 />
               </>
             ) : (
