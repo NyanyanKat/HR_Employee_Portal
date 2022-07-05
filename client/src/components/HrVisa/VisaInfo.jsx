@@ -35,7 +35,6 @@ export default function VisaInfo(props) {
 
     const rejectHandler=()=>{
         setVisible(true)
-        message.error('Please provide a feedback for the rejection')
         if(feedbackRef.current.resizableTextArea.textArea.value){
             const textAreaContent = feedbackRef.current.resizableTextArea.textArea.value
             api.changeEmpVisaStatus({
@@ -51,6 +50,8 @@ export default function VisaInfo(props) {
                 history.push('/hr/visa')
             })
             .catch(err=>console.log(err))
+        }else{
+            message.error('Please provide a feedback for the rejection')
         }
     }
 
@@ -155,7 +156,6 @@ export default function VisaInfo(props) {
                         }
                     </div>
                 </Panel>
-
             </Collapse>
         </Drawer>
     )

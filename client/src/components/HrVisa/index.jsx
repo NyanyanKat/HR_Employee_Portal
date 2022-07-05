@@ -14,7 +14,7 @@ export default function OnboardingReview() {
     const [tabValue, setTabValue] = React.useState('1');
     const [visible, setVisible] = useState(false);
     const [flag, setFlag] = useState(false)
-    const [actionBtn, setActionBtn] = useState(true)
+    const [actionBtn, setActionBtn] = useState(false)
     const [allVisaEmps, updateAllVisaEmps] = useState([])
     const [incompVisaEmps, updateIncompVisaEmps] = useState([])
     const [empVisaInfo, updateEmpVisaInfo] = useState({})
@@ -25,7 +25,8 @@ export default function OnboardingReview() {
 
     const updataVisible = (visible) => {
         setVisible(visible)
-        setFlag(false)
+        setFlag(visible)
+        setActionBtn(visible)
     }
 
     const updateActionBtn = (visible) => {
@@ -47,7 +48,7 @@ export default function OnboardingReview() {
 
     const viewHandler = (userInfoID, visaID, trigger) => {
         if(trigger){
-            updateActionBtn(true)
+            setActionBtn(true)
         }
         // console.log(userInfoID,visaID)
         api.getOneEmpVisaInfo({ userInfoID, visaID })

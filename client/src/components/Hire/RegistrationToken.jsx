@@ -12,7 +12,10 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import api from "../../api/api";
+import { message} from 'antd';
+
 
 export default function RegistrationToken() {
   const form = useRef(); //for emailJS
@@ -46,6 +49,7 @@ export default function RegistrationToken() {
       )
       .then(
         (result) => {
+          message.success("Registration Link Sent")
           console.log(result.text);
         },
         (error) => {
@@ -67,15 +71,13 @@ export default function RegistrationToken() {
     {
       label: "Send a registration link to the employee via email",
       description: (
-        <form ref={form} onSubmit={sendEmail}>
-          <label>Employee Name</label>
-          <input type="text" name="to_name" />
-          <label>Employee Email</label>
-          <input type="email" name="user_email" value={email} onChange={handleEmail} />
-          <div>
-            <input type="hidden" value={`http://127.0.0.1:3000/register?token=${hr_token}&email=${email}`} name="registration_link" />
-          </div>
-          <input type="submit" value="Send Email" />
+        <form ref={form} onSubmit={sendEmail} style={{display:"flex", flexDirection:"column", width:"50%"}}>
+          <label>Employee Name:</label>
+          <input className="form-control" type="text" name="to_name" />
+          <label style={{marginTop:"15px"}}>Employee Email:</label>
+          <input className="form-control" type="email" name="user_email" value={email} onChange={handleEmail} />
+          <input type="hidden" value={`http://127.0.0.1:3000/register?token=${hr_token}&email=${email}`} name="registration_link" />
+          <input style={{margin:"15px 0"}} className="form-control" type="submit" value="Send Email" ></input>
         </form>
       ),
     },
@@ -90,8 +92,8 @@ export default function RegistrationToken() {
   };
 
   const handleReset = () => {
-    setActiveStep(0);
     setToken("");
+    window.location.assign('/hire/register')
   };
 
   return (
