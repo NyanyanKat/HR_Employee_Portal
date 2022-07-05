@@ -10,11 +10,12 @@ import {
 import { DataGrid } from '@mui/x-data-grid';
 import Report from "../components/Housing/Report";
 import auth from '../utils/auth';
+import { Table } from 'react-bootstrap';
 
 export default function Housing() {
   const [housingDetail, updateHousingDetail] = useState({
     address: {},
-    tenents: []
+    tenants: []
   });
   const [housingReports, updateHousingReports] = useState([]);
 
@@ -22,24 +23,24 @@ export default function Housing() {
     api
       .getEmpHousingDetail()
       .then(res => {
-        for (let i in res.data.tenents) {
-          res.data.tenents[i].id = parseInt(i) + 1;
+        for (let i in res.data.tenants) {
+          res.data.tenants[i].id = parseInt(i) + 1;
         }
+        console.log(res.data)
         return res.data
       })
       .then(data => {
         console.log(data)
         updateHousingDetail(data)
       });
-  }, []);
 
-  useEffect(() => {
     api.getEmpHousingReports().then(res => {
       console.log('reports')
       updateHousingReports(res.data)
       console.log(housingReports)
     });
   }, []);
+
 
   const columns = [
     { field: 'fullname', headerName: 'Full Name', width: 200 },
@@ -91,11 +92,26 @@ export default function Housing() {
           <p>{housingDetail.address.city + ', ' + housingDetail.address.state + ' ' + housingDetail.address.zip}</p>
         </div>
         <div style={{ height: 280, width: '100%' }}>
-          <DataGrid
-            rows={housingDetail.tenents}
-            columns={columns}
-          />
+
+          <Table hover striped bordered>
+            <thead>
+              <tr>
+                <th>Tenant Name</th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              {housingDetail.tenants.map(tenant => (
+                <tr key={tenant.id}>
+                  <td>{tenant.infoID.name.first} {tenant.infoID.name.last}</td>
+                  <td>{tenant.infoID.cellphone}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+
         </div>
+
       </Box>
       <Box sx={{ flexWrap: "wrap" }}>
         <h1>Facility Reports</h1>
@@ -135,7 +151,7 @@ export default function Housing() {
         <div>
           <h4>Existing Reports: </h4>
           {housingReports.map((report, index) => (
-            <Report report={report} key={index}/>
+            <Report report={report} key={index} />
           ))}
         </div>
       </Box>

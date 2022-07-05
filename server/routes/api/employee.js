@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 
 //get hr employee
 router.get('/hr', async (req, res) => {
-    const hr = await User.findOne({ role: 'hr' });
+    const hr = await User.find({ role: 'hr' });
     return res.status(201).send(JSON.stringify(hr));
 })
 
@@ -34,13 +34,13 @@ router.get('/info', async (req, res) => {
 router.get('/info/:eid', (req, res) => {
 
     const eid = req.params.eid;
-    // console.log(eid)
+    console.log(eid)
     // const id = mongoose.Types.ObjectId(eid);
 
     // console.log(typeof id);
     UserInfo.findOne({ userID: eid }).populate('userID')
         .then(user => {
-            // console.log('user', user);
+            console.log('user', user);
             res.send(user);
         }).catch(err => console.log(err));
 })

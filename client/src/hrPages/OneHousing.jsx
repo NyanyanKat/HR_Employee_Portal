@@ -86,7 +86,7 @@ export default function OneHousing() {
                                     {reportData.map((report, index) => (
                                         <tr key={index}>
                                             <td>{report.title}</td>
-                                            <td>{report.timestamp}</td>
+                                            <td>{report.timestamp.substring(0, 10)}</td>
                                             <td><Button type="primary" onClick={() => viewReport(report._id)}>View Report</Button></td>
                                         </tr>
                                     ))}
