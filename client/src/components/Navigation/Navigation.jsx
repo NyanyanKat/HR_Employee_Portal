@@ -20,6 +20,7 @@ import OnBoardingApp from '../../empPages/OnBoardingApp'
 import HousingEmp from "../../empPages/HousingEmp";
 import AddHousing from '../../hrPages/AddHousing';
 import AddTenant from '../../hrPages/AddTenant';
+import HousingReport from '../../hrPages/HousingReport';
 import api from '../../api/api';
 import PersonalInfo from '../../empPages/PersonInfo';
 import Visa from '../../empPages/EmpVisa';
@@ -121,8 +122,8 @@ export default function Sidebar(props) {
                     <Route path={`/onboarding`} component={props => <OnBoardingApp />} />
                     <Route path={`/profile`} component={props => < PersonalInfo/>} />
                     <Route path={`/employee/visa`} component={props => < Visa/>} />
-                    
-                    <Route path={'/ContentNotFound/:any'} component={props => <ContentNotFound />} />
+                   
+                    <Route path={'/ContentNotFound'} component={props => <ContentNotFound />} />
                     <Redirect to='/ContentNotFound/' />
                   </Switch>
                 </div>
@@ -182,9 +183,9 @@ export default function Sidebar(props) {
                     <NavItem eventKey="hr/housing/add">
                       <NavText>Adding Houses</NavText>
                     </NavItem>
-                    <NavItem eventKey="hr/housing/report">
+                    {/* <NavItem eventKey="hr/housing/report">
                       <NavText>Inbox Message</NavText>
-                    </NavItem>
+                    </NavItem> */}
                   </NavItem>
 
                   <NavItem eventKey="logout" className="sidebar-logout" onClick={handleLogout}>
@@ -210,9 +211,10 @@ export default function Sidebar(props) {
                     <Route path={'/hr/housing/one/:id'} component={props => <OneHousing />} />
                     <Route path={'/hr/housing/summary'} component={props => <Housing />} />
                     <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
-                    <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />
-                  
-                    <Route path={'/ContentNotFound/:any'} component={props => <ContentNotFound />} />
+                    <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />                  
+                    <Route path={'/hr/housing/report/:id'} component={props => <HousingReport />} />
+
+                    <Route path={'/ContentNotFound'} component={props => <ContentNotFound />} />
                     <Redirect to='/ContentNotFound/' />
                     
                   </Switch>
