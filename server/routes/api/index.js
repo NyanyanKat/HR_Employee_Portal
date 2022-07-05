@@ -8,19 +8,20 @@ const employeeRoutes = require('./employee');
 const empHousingRoutes = require('./housing_emp');
 const profileRoutes = require('./profile')
 const empVisaRoutes = require('./visa_emp')
+const hrVisaRoutes = require('./visa_hr')
+
 const hrHousingRoutes = require('./housing');
 
 router.use('/register', registerRoutes);
 router.use('/login', loginRoutes);
 router.use('/housing', empHousingRoutes);
 router.use('/hr/housing', hrHousingRoutes);
-router.use('/visa', visaRoutes);
+router.use('/visa', empVisaRoutes);
 router.use('/employee', employeeRoutes);
 router.use('/hire/onboarding', hrOnboardingRoutes);
 router.use('/onboarding', empOnboardingRoutes);
 router.use('/user', profileRoutes);
-router.use('/visa', empVisaRoutes);
-
+router.use('/hr/visa', hrVisaRoutes);
 
 
 

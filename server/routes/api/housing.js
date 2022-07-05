@@ -10,7 +10,7 @@ router.get('/summary', async (req, res) => {
 
 router.get('/one/:id', async (req, res) => {
     const id = req.params.id;
-    console.log('id', id)
+    //console.log('id', id)
     const housing = await Housing.findOne({_id: id});
     return res.status(201).send(JSON.stringify(housing));
 })

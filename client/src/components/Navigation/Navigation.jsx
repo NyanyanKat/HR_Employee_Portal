@@ -22,7 +22,8 @@ import AddHousing from '../../hrPages/AddHousing';
 import AddTenant from '../../hrPages/AddTenant';
 import api from '../../api/api';
 import PersonalInfo from '../../empPages/PersonInfo';
-import Visa from '../../empPages/Visa';
+import Visa from '../../empPages/EmpVisa';
+import HrVisa from '../HrVisa'
 
 
 const Main = styled.main`
@@ -165,7 +166,7 @@ export default function Sidebar(props) {
                     <NavText>Employee Profiles</NavText>
                   </NavItem>
 
-                  <NavItem eventKey="visa">
+                  <NavItem eventKey="hr/visa">
                     <NavIcon><FontAwesomeIcon icon={faCcVisa} style={{ fontSize: "1.5em" }} /></NavIcon>
                     <NavText>Visa Status Management</NavText>
                   </NavItem>
@@ -194,10 +195,12 @@ export default function Sidebar(props) {
                 <TopNavigation />
                 <div className="main-content-container">
                   <Switch>
-
                     <Route path="/hire/register" component={props => <RegistrationToken />} />
                     <Route path="/hire/onboarding" exact component={props => <OnboardingReview />} />
                     <Route path={`/hire/onboarding/view${path}`} component={props => <ViewOnboarding />} />
+
+                    <Route path="/hr/visa" component={props => <HrVisa />} />
+
 
                     <Route path={'/employee'} exact component={props => <Employee />} />
                     <Route path={`/employee/info/:eid`} component={props => <OneEmployee />} />
@@ -206,7 +209,6 @@ export default function Sidebar(props) {
                     <Route path={'/hr/housing/summary'} component={props => <Housing />} />
                     <Route path={'/hr/housing/add'} component={props => <AddHousing />} />
                     <Route path={'/hr/housing/addTenant/:id'} component={props => <AddTenant />} />
-
                   </Switch>
                 </div>
               </Main>
