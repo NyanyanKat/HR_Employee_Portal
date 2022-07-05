@@ -13,7 +13,6 @@ const commentSchema = new Schema({
     creatorID: {
         type: Schema.Types.ObjectId, 
         ref: 'User',
-        required: true,
     },
     timestamp: {
         type: Date,
