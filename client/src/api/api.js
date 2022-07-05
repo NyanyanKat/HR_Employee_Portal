@@ -30,8 +30,7 @@ const base = {
     empVisa: "/visa",
     hrAllVisa:"/hr/visa/all",
     hrVisaInfo: "/hr/visa/one",
-    hrVisaStatus: "/hr/visa/status"
-    employeeNoHousing: "/employee/no-housing",
+    hrVisaStatus: "/hr/visa/status",
     deleteHousing: "/hr/housing/delete",
     addComment: "/hr/housing/report/:id/comment",
 }

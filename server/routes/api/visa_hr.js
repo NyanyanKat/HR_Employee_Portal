@@ -4,7 +4,7 @@ const Visa = require('../../model/Visa')
 router.get('/all',async(req,res)=>{
     try {
         const allVisaEmps = await Visa.find({}).populate("userInfoID")
-        const incompVisaEmps = await Visa.find({status:{$ne:3}, 'I20.status':{$ne: "approved"}}).populate("userInfoID")
+        const incompVisaEmps = await Visa.find({'I20.status':{$ne: "approved"}}).populate("userInfoID")
         const hrVisa = {
             all:allVisaEmps,
             incomp:incompVisaEmps
