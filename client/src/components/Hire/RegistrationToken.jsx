@@ -40,10 +40,10 @@ export default function RegistrationToken() {
     e.preventDefault();
     emailjs
       .sendForm(
-        "service_df9zmxy",
-        "jimmyfire_onboarding",
+        process.env.REACT_APP_SERVICE_ID,
+        process.env.REACT_APP_TEMPLATE_ID,
         form.current,
-        "Z_2yk4B8Z8Sa-A9Zp"
+        process.env.REACT_APP_USER_ID
       )
       .then(
         (result) => {
