@@ -12,44 +12,42 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import api from "../../api/api";
-import { message} from 'antd';
-
+import { message } from "antd";
 
 export default function RegistrationToken() {
   const form = useRef(); //for emailJS
   const [activeStep, setActiveStep] = useState(0); //for MUI
-  const [hr_token, setToken] = useState("")
-  const [email, setEmail] = useState("")
-
+  const [hr_token, setToken] = useState("");
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     api
       .registerToken()
       .then((res) => {
         // console.log(res.data.token);
-        setToken(res.data.token)
+        setToken(res.data.token);
       })
       .catch((error) => console.log(error));
   }, []);
 
   const handleEmail = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
 
   const sendEmail = (e) => {
     e.preventDefault();
     emailjs
       .sendForm(
-        "service_s9umqie",
-        "hr_project_registration",
+        "service_df9zmxy",
+        "jimmyfire_onboarding",
         form.current,
-        "y6eVffB_UUgCQaKbr"
+        "Z_2yk4B8Z8Sa-A9Zp"
       )
       .then(
         (result) => {
-          message.success("Registration Link Sent")
+          message.success("Registration Link Sent");
           console.log(result.text);
         },
         (error) => {
@@ -71,13 +69,32 @@ export default function RegistrationToken() {
     {
       label: "Send a registration link to the employee via email",
       description: (
-        <form ref={form} onSubmit={sendEmail} style={{display:"flex", flexDirection:"column", width:"50%"}}>
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          style={{ display: "flex", flexDirection: "column", width: "50%" }}
+        >
           <label>Employee Name:</label>
           <input className="form-control" type="text" name="to_name" />
-          <label style={{marginTop:"15px"}}>Employee Email:</label>
-          <input className="form-control" type="email" name="user_email" value={email} onChange={handleEmail} />
-          <input type="hidden" value={`http://127.0.0.1:3000/register?token=${hr_token}&email=${email}`} name="registration_link" />
-          <input style={{margin:"15px 0"}} className="form-control" type="submit" value="Send Email" ></input>
+          <label style={{ marginTop: "15px" }}>Employee Email:</label>
+          <input
+            className="form-control"
+            type="email"
+            name="user_email"
+            value={email}
+            onChange={handleEmail}
+          />
+          <input
+            type="hidden"
+            value={`http://127.0.0.1:3000/register?token=${hr_token}&email=${email}`}
+            name="registration_link"
+          />
+          <input
+            style={{ margin: "15px 0" }}
+            className="form-control"
+            type="submit"
+            value="Send Email"
+          ></input>
         </form>
       ),
     },
@@ -93,7 +110,7 @@ export default function RegistrationToken() {
 
   const handleReset = () => {
     setToken("");
-    window.location.assign('/hire/register')
+    window.location.assign("/hire/register");
   };
 
   return (
@@ -108,7 +125,7 @@ export default function RegistrationToken() {
                 ) : null
               }
             >
-            {step.label}
+              {step.label}
             </StepLabel>
             <StepContent>
               <Typography>{step.description}</Typography>
